@@ -47,7 +47,7 @@ export default tseslint.config({
     reactDom.configs.recommended,
   ],
   languageOptions: {
-    // other options...
+    // other options
     parserOptions: {
       project: ['./tsconfig.node.json', './tsconfig.app.json'],
       tsconfigRootDir: import.meta.dirname,
