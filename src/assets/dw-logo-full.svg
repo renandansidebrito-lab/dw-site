@@ -1,0 +1,28 @@
+<svg width="300" height="80" viewBox="0 0 300 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="300" height="80" fill="transparent"/>
+  
+  <!-- Stylized DW Letters -->
+  <g>
+    <!-- D Letter - Bold and rounded -->
+    <path d="M20 15 L20 65 L35 65 Q45 65 45 50 Q45 35 35 35 L20 35 Z" 
+          fill="#1f2937" stroke="#1f2937" stroke-width="3" stroke-linejoin="round"/>
+    
+    <!-- W Letter - Geometric with central peak -->
+    <path d="M65 15 L70 65 L80 40 L90 65 L95 15" 
+          fill="none" stroke="#1f2937" stroke-width="5" 
+          stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  
+  <!-- Wave Line - Smooth flowing curve -->
+  <path d="M120 40 Q130 20 140 40 Q150 60 160 40 Q170 20 180 40 Q190 60 200 40 Q210 20 220 40" 
+        stroke="#1f2937" stroke-width="3" fill="none" stroke-linecap="round"/>
+  
+  <!-- ROCHAS Text - Uppercase, medium weight -->
+  <text x="120" y="60" font-family="Arial, sans-serif" 
+        font-size="12" font-weight="600" fill="#1f2937" letter-spacing="1">ROCHAS</text>
+  
+  <!-- ORNAMENTAIS Text - Below ROCHAS -->
+  <text x="120" y="75" font-family="Arial, sans-serif" 
+        font-size="12" font-weight="600" fill="#1f2937" letter-spacing="1">ORNAMENTAIS</text>
+</svg>

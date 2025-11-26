@@ -1,0 +1,24 @@
+<svg width="300" height="80" viewBox="0 0 300 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Placeholder background -->
+  <rect width="300" height="80" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" stroke-dasharray="4 4"/>
+  
+  <!-- Logo area -->
+  <rect x="20" y="10" width="80" height="60" fill="white" stroke="#9ca3af" stroke-width="1" stroke-dasharray="2 2"/>
+  <text x="60" y="45" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#6b7280">
+    LOGO
+  </text>
+  
+  <!-- Text area -->
+  <rect x="120" y="10" width="160" height="60" fill="white" stroke="#9ca3af" stroke-width="1" stroke-dasharray="2 2"/>
+  <text x="200" y="35" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#6b7280">
+    DW GRANITOS
+  </text>
+  <text x="200" y="55" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#9ca3af">
+    ROCHAS ORNAMENTAIS
+  </text>
+  
+  <!-- Instructions -->
+  <text x="150" y="95" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#9ca3af">
+    Substitua por imagem real: /public/images/logo-dw-granitos-full.png
+  </text>
+</svg>

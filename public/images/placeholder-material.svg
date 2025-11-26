@@ -1,0 +1,35 @@
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fundo -->
+  <rect width="400" height="300" fill="#f8f9fa"/>
+  
+  <!-- Textura de pedra -->
+  <defs>
+    <pattern id="stoneTexture" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <rect width="40" height="40" fill="#e9ecef"/>
+      <circle cx="10" cy="10" r="3" fill="#dee2e6" opacity="0.6"/>
+      <circle cx="30" cy="25" r="2" fill="#ced4da" opacity="0.5"/>
+      <circle cx="15" cy="35" r="4" fill="#dee2e6" opacity="0.4"/>
+      <circle cx="35" cy="5" r="2.5" fill="#ced4da" opacity="0.6"/>
+    </pattern>
+  </defs>
+  
+  <!-- Aplicar textura -->
+  <rect width="400" height="300" fill="url(#stoneTexture)"/>
+  
+  <!-- Ícone de pedra -->
+  <g transform="translate(200, 120)">
+    <path d="M-60,-40 L60,-40 L50,40 L-50,40 Z" fill="#6c757d" opacity="0.3" stroke="#495057" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M-40,-20 L40,-20 L35,20 L-35,20 Z" fill="#adb5bd" opacity="0.5" stroke="#6c757d" stroke-width="1.5" stroke-linejoin="round"/>
+  </g>
+  
+  <!-- Texto -->
+  <text x="200" y="200" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#6c757d" font-weight="500">
+    Material de Pedra
+  </text>
+  <text x="200" y="225" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#adb5bd">
+    Imagem não disponível
+  </text>
+  
+  <!-- Borda decorativa -->
+  <rect x="10" y="10" width="380" height="280" fill="none" stroke="#dee2e6" stroke-width="2" rx="10"/>
+</svg>
