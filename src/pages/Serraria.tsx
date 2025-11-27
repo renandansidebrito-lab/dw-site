@@ -98,7 +98,7 @@ export default function Serraria() {
                 <p className="text-slate-600 mb-4">
                   {item.description}
                 </p>
-                <div className="text-blue-600 font-semibold">
+                <div className="text-brand font-semibold">
                   {item.capacity}
                 </div>
               </div>
@@ -122,28 +122,28 @@ export default function Serraria() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="text-center">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-blue-600">1</span>
+                <span className="text-2xl font-bold text-brand">1</span>
               </div>
               <h3 className="text-lg font-bold text-slate-800 mb-2">Seleção</h3>
               <p className="text-slate-600">Cuidadosa seleção dos blocos de melhor qualidade</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-blue-600">2</span>
+                <span className="text-2xl font-bold text-brand">2</span>
               </div>
               <h3 className="text-lg font-bold text-slate-800 mb-2">Corte</h3>
               <p className="text-slate-600">Corte preciso com equipamentos diamantados</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-blue-600">3</span>
+                <span className="text-2xl font-bold text-brand">3</span>
               </div>
               <h3 className="text-lg font-bold text-slate-800 mb-2">Resinagem</h3>
               <p className="text-slate-600">Aplicação de resina para reforço e acabamento</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-blue-600">4</span>
+                <span className="text-2xl font-bold text-brand">4</span>
               </div>
               <h3 className="text-lg font-bold text-slate-800 mb-2">Polimento</h3>
               <p className="text-slate-600">Polimento final para realçar a beleza natural</p>
@@ -153,17 +153,17 @@ export default function Serraria() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-blue-600">
+      <section className="py-20 bg-brand">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Precisa de Chapas de Qualidade?
           </h2>
-          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
             Solicite um orçamento para nossos serviços de serraria e garanta as melhores chapas para seu projeto.
           </p>
           <a
             href="/contato"
-            className="inline-flex items-center px-8 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-slate-100 transition-colors"
+            className="inline-flex items-center px-8 py-3 bg-white text-brand font-semibold rounded-lg hover:bg-slate-100 transition-colors"
           >
             Solicitar Orçamento
             <ArrowRight className="ml-2 h-5 w-5" />

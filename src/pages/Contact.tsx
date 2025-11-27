@@ -8,7 +8,10 @@ export default function Contact() {
     phone: "",
     subject: "",
     message: "",
-    sector: ""
+    sector: "",
+    state: "",
+    country: "BR",
+    files: [] as File[]
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -18,18 +21,26 @@ export default function Contact() {
     });
   };
 
+  const handleFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files ? Array.from(e.target.files) : [];
+    setFormData({ ...formData, files });
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log("Form submitted:", formData);
-    alert("Obrigado pelo contato! Entraremos em contato em breve.");
+    const body = `Nome: ${formData.name}\nEmail: ${formData.email}\nTelefone: ${formData.phone}\nSetor: ${formData.sector}\nEstado: ${formData.state}\nPaís: ${formData.country}\n\nMensagem:\n${formData.message}\n\nArquivos selecionados: ${formData.files.length}. Após abrir seu e-mail, anexe os arquivos antes de enviar.`;
+    const mailto = `mailto:renan@dwgranitos.com.br?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailto;
     setFormData({
       name: "",
       email: "",
       phone: "",
       subject: "",
       message: "",
-      sector: ""
+      sector: "",
+      state: "",
+      country: "BR",
+      files: []
     });
   };
 
@@ -37,7 +48,7 @@ export default function Contact() {
     {
       icon: MapPin,
       title: "Endereço",
-      content: "Rua Angelo Bazoni, 555\nVargem Grande do Soturno\nCachoeiro de Itapemirim - ES"
+      content: "Rua Antonio Bazoni, 555\nVargem Grande do Soturno\nCachoeiro de Itapemirim - ES"
     },
     {
       icon: Phone,
@@ -47,7 +58,7 @@ export default function Contact() {
     {
       icon: Mail,
       title: "Emails",
-      content: "financeiro@dwgranitos.com.br\ncomercial@dwgranitos.com.br\nvendas@dwgranitos.com.br\nfaturamento@dwgranitos.com.br"
+      content: "financeiro@dwgranitos.com.br\ncomercial@dwgranitos.com.br\nvendas@dwgranitos.com.br"
     },
     {
       icon: Clock,
@@ -79,8 +90,8 @@ export default function Contact() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
             {contactInfo.map((info, index) => (
               <div key={index} className="text-center p-6 bg-slate-50 rounded-xl">
-                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <info.icon className="h-6 w-6 text-blue-600" />
+                <div className="w-12 h-12 bg-brandLight rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <info.icon className="h-6 w-6 text-brand" />
                 </div>
                 <h3 className="text-lg font-bold text-slate-800 mb-2">
                   {info.title}
@@ -93,7 +104,7 @@ export default function Contact() {
           </div>
 
           {/* Setor-specific Contact Info */}
-          <div className="bg-blue-50 rounded-xl p-8">
+          <div className="bg-brandLight rounded-xl p-8">
             <h3 className="text-2xl font-bold text-slate-800 text-center mb-8">
               Contato por Setor
             </h3>
@@ -112,11 +123,11 @@ export default function Contact() {
               
               <div className="text-center p-6 bg-white rounded-lg shadow-sm">
                 <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <Phone className="h-6 w-6 text-blue-600" />
+                  <Phone className="h-6 w-6 text-brand" />
                 </div>
                 <h4 className="text-lg font-bold text-slate-800 mb-2">Serraria</h4>
                 <p className="text-slate-600">
-                  <a href="tel:+5528999057492" className="text-blue-600 hover:text-blue-700 font-medium">
+                  <a href="tel:+5528999057492" className="text-brand hover:text-brand2 font-medium">
                     +55 28 99905-7492
                   </a>
                 </p>
@@ -220,6 +231,55 @@ export default function Contact() {
                 </div>
               </div>
 
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                  <label htmlFor="state" className="block text-sm font-medium text-slate-700 mb-2">
+                    Estado (UF)
+                  </label>
+                  <select
+                    id="state"
+                    name="state"
+                    value={formData.state}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-transparent"
+                  >
+                    <option value="">Selecione</option>
+                    {['AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO'].map(uf => (
+                      <option key={uf} value={uf}>{uf}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label htmlFor="country" className="block text-sm font-medium text-slate-700 mb-2">
+                    País
+                  </label>
+                  <input
+                    type="text"
+                    id="country"
+                    name="country"
+                    value={formData.country}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-transparent"
+                  />
+                  <p className="text-xs text-slate-500 mt-1">Padrão BR, altere se necessário.</p>
+                </div>
+                <div>
+                  <label htmlFor="files" className="block text-sm font-medium text-slate-700 mb-2">
+                    Anexos (imagens, PDF, DWG, DXF)
+                  </label>
+                  <input
+                    type="file"
+                    id="files"
+                    name="files"
+                    multiple
+                    onChange={handleFiles}
+                    accept="image/*,.pdf,.dwg,.dxf"
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg"
+                  />
+                  <p className="text-xs text-slate-500 mt-1">Os arquivos serão anexados no seu e-mail ao abrir o envio.</p>
+                </div>
+              </div>
+
               <div>
                 <label htmlFor="subject" className="block text-sm font-medium text-slate-700 mb-2">
                   Assunto *
@@ -255,7 +315,7 @@ export default function Contact() {
               <div className="text-center">
                 <button
                   type="submit"
-                  className="inline-flex items-center px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+                  className="inline-flex items-center px-8 py-3 bg-brand text-white font-semibold rounded-lg hover:bg-brand2 transition-colors"
                 >
                   Enviar Mensagem
                   <Send className="ml-2 h-5 w-5" />
@@ -292,11 +352,11 @@ export default function Contact() {
             />
             <div className="absolute bottom-4 right-4 bg-white rounded-lg shadow-lg p-4 max-w-xs">
               <div className="flex items-start space-x-3">
-                <MapPin className="h-5 w-5 text-blue-600 mt-1 flex-shrink-0" />
+                <MapPin className="h-5 w-5 text-brand mt-1 flex-shrink-0" />
                 <div>
                   <h3 className="font-semibold text-slate-800 text-sm">DW Granitos & Marmores</h3>
                   <p className="text-slate-600 text-xs">
-                    Rua Ângelo Bazoni, 555<br />
+                    Rua Antonio Bazoni, 555<br />
                     Vargem Grande do Soturno<br />
                     Cachoeiro de Itapemirim - ES
                   </p>
@@ -304,7 +364,7 @@ export default function Contact() {
                     href="https://www.google.com/maps/place/DW+Granitos+%26+Marmores+LTDA/@-20.7651504,-41.0555197,20z/data=!4m15!1m8!3m7!1s0xb96eb6c4bc4ecf:0x11d219c565d3e050!2sR.+%C3%82ngelo+Bazoni,+555+-+Vargem+Grande+Do+Soturno,+Cachoeiro+de+Itapemirim+-+ES,+29321-000!3b1!8m2!3d-20.7651672!4d-41.0554162!16s%2Fg%2F11jyxzckwr!3m5!1s0xb96ff915e9163b:0x1a7a93d530a6f709!8m2!3d-20.7650174!4d-41.0553444!16s%2Fg%2F11rg774jhk?entry=ttu&g_ep=EgoyMDI1MTExMi4wIKXMDSoASAFQAw%3D%3D"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center text-blue-600 text-xs hover:text-blue-700 mt-2"
+                    className="inline-flex items-center text-brand text-xs hover:text-brand2 mt-2"
                   >
                     Abrir no Google Maps →
                   </a>
@@ -316,17 +376,17 @@ export default function Contact() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-blue-600">
+      <section className="py-20 bg-brand">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Pronto para Começar seu Projeto?
           </h2>
-          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
             Nossa equipe está pronta para ajudar você a escolher os melhores materiais e criar o projeto dos seus sonhos.
           </p>
           <a
             href="tel:552835242288"
-            className="inline-flex items-center px-8 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-slate-100 transition-colors mr-4"
+            className="inline-flex items-center px-8 py-3 bg-white text-brand font-semibold rounded-lg hover:bg-slate-100 transition-colors mr-4"
           >
             Ligar Agora
           </a>

@@ -7,7 +7,13 @@ export default {
     container: {
       center: true,
     },
-    extend: {},
+    extend: {
+      colors: {
+        brand: '#772c2c',
+        brand2: '#744d44',
+        brandLight: '#e1e2cc',
+      },
+    },
   },
   plugins: [],
 };

@@ -356,7 +356,7 @@ const materiaisExemplo: Material[] = [
 
 export default function Catalogo() {
   const { t } = useTranslation();
-  const [materiais, setMateriais] = useState<Material[]>(materiaisExemplo);
+  const [materiais] = useState<Material[]>(materiaisExemplo);
   const [filtroTipo, setFiltroTipo] = useState<string>("todos");
   const [filtroCor, setFiltroCor] = useState<string>("todas");
   const [termoBusca, setTermoBusca] = useState<string>("");
@@ -480,10 +480,10 @@ export default function Catalogo() {
                   {/* Imagem do Material */}
                   <div className="relative h-64 bg-slate-200">
                     <img
-                      src={getMaterialImage(material.nome, material.tipo, material.cor)}
+                      src={getMaterialImage(material.nome)}
                       alt={material.nome}
                       className="w-full h-full object-cover"
-                      onError={(e) => handleImageError(e, material.tipo, material.cor)}
+                      onError={(e) => handleImageError(e)}
                     />
                     <div className="absolute top-4 right-4">
                       <span className={`px-3 py-1 rounded-full text-xs font-medium ${
@@ -523,7 +523,7 @@ export default function Catalogo() {
                     <div className="flex gap-2">
                       <button
                         onClick={() => setMaterialSelecionado(material)}
-                        className="flex-1 flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"
+                        className="flex-1 flex items-center justify-center px-4 py-2 bg-brand text-white rounded-lg hover:bg-brand2 transition-colors text-sm"
                       >
                         <Eye className="h-4 w-4 mr-2" />
                         {t('catalog.seeDetails')}
@@ -543,10 +543,10 @@ export default function Catalogo() {
           <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="relative">
               <img
-                src={getMaterialImage(materialSelecionado.nome, materialSelecionado.tipo, materialSelecionado.cor)}
+                src={getMaterialImage(materialSelecionado.nome)}
                 alt={materialSelecionado.nome}
                 className="w-full h-64 object-cover rounded-t-xl"
-                onError={(e) => handleImageError(e, materialSelecionado.tipo, materialSelecionado.cor)}
+                onError={(e) => handleImageError(e)}
               />
               <button
                 onClick={() => setMaterialSelecionado(null)}

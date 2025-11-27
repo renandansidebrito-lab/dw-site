@@ -1,11 +1,11 @@
 // Função para obter imagem do material
-export const getMaterialImage = (materialName: string, tipo: 'marmore' | 'granito', cor: string): string => {
+export const getMaterialImage = (materialName: string): string => {
   // Tenta a imagem específica do material
   const formattedName = materialName.toLowerCase().replace(/\s+/g, '-');
   return `/images/materiais/${formattedName}.webp`;
 };
 
 // Função para tratar erro de imagem - usa imagem placeholder padrão
-export const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>, tipo: 'marmore' | 'granito', cor: string) => {
+export const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
   e.currentTarget.src = '/images/placeholder-material.svg';
 };

@@ -1,4 +1,4 @@
-import { MapPin, Phone, Mail, Clock, Instagram, Facebook, MessageCircle, Building2, Hammer, Package, Users, Star, Award, Shield } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Instagram, Facebook, MessageCircle } from "lucide-react";
 import { useTranslation } from "@/contexts/TranslationContext";
 import { Link } from "react-router-dom";
 
@@ -46,7 +46,7 @@ export default function Footer() {
     <footer className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white relative overflow-hidden">
       {/* Decorative Elements */}
       <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-0 left-0 w-64 h-64 bg-blue-500 rounded-full filter blur-3xl"></div>
+        <div className="absolute top-0 left-0 w-64 h-64 bg-brand rounded-full filter blur-3xl"></div>
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-green-500 rounded-full filter blur-3xl"></div>
       </div>
       
@@ -125,15 +125,15 @@ export default function Footer() {
 
           {/* Column 4: Business Hours */}
           <div className="text-center lg:text-left">
-            <div className="text-sm text-slate-300 space-y-2">
+              <div className="text-sm text-slate-300 space-y-2">
               <div className="flex items-center justify-center lg:justify-start space-x-2 mb-2">
                 <Clock className="h-4 w-4 text-orange-400" />
                 <span className="font-medium">{t('footer.hours') || 'Horário de Funcionamento'}</span>
               </div>
-              <div className="text-xs lg:text-sm">{t('footer.monday.thursday') || 'Segunda a Quinta:'} 7h - 17h</div>
-              <div className="text-xs lg:text-sm">{t('footer.friday') || 'Sexta:'} 7h - 16h</div>
-              <div className="text-xs lg:text-sm">{t('footer.weekend') || 'Sábado e Domingo:'} Fechado</div>
-            </div>
+              <div className="text-xs lg:text-sm">{t('footer.monday.thursday')}</div>
+              <div className="text-xs lg:text-sm">{t('footer.friday')}</div>
+              <div className="text-xs lg:text-sm">{t('footer.weekend')}</div>
+              </div>
           </div>
         </div>
 

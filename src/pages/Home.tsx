@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Settings, Package, Scissors, Star, Award, Calendar, CheckCircle, Building2, Shield } from "lucide-react";
+import { ArrowRight, Settings, Package, Scissors, Star, Award, CheckCircle, Shield, MapPin, Truck } from "lucide-react";
 import { useTranslation } from "@/contexts/TranslationContext";
 
 export default function Home() {
@@ -32,21 +32,28 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-slate-100 to-slate-200 py-20">
+      <section className="relative overflow-hidden py-20">
+        {/* Animated gradient background */}
+        <div className="absolute inset-0 animated-gradient" />
+        {/* Subtle floating blobs */}
+        <div className="absolute -top-10 -left-10 w-56 h-56 rounded-full bg-brandLight/60 blur-3xl blob-float" />
+        <div className="absolute -bottom-16 -right-16 w-72 h-72 rounded-full bg-brand/40 blur-3xl blob-float-delayed" />
+        <div className="absolute top-24 right-1/3 w-48 h-48 rounded-full bg-brand2/30 blur-3xl blob-float-slow" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="flex justify-center mb-8">
               <img src="/images/dw-logo-black.png" alt="DW Granitos" className="h-20 w-auto" />
             </div>
-            <h1 className="text-3xl md:text-5xl font-bold text-slate-800 mb-6">
+            <h1 className="text-3xl md:text-5xl font-bold text-slate-800 mb-6 animate-fade-in-up">
               {t('hero.title')}
             </h1>
-            <p className="text-xl text-slate-600 mb-8 max-w-3xl mx-auto">
+            <p className="text-xl text-slate-600 mb-8 max-w-3xl mx-auto animate-fade-in-up" style={{animationDelay:'120ms'}}>
               {t('hero.description')}
             </p>
             <Link
               to="/contato"
-              className="inline-flex items-center px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+              className="inline-flex items-center px-8 py-3 bg-brand text-white font-semibold rounded-lg hover:bg-brand2 transition-transform duration-300 hover:scale-[1.03] hover:shadow-lg animate-fade-in-up"
+              style={{animationDelay:'200ms'}}
             >
               {t('hero.cta.secondary')}
               <ArrowRight className="ml-2 h-5 w-5" />
@@ -62,7 +69,7 @@ export default function Home() {
             <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">
               {t('about.title')}
             </h2>
-            <div className="w-24 h-1 bg-blue-600 mx-auto mb-8"></div>
+            <div className="w-24 h-1 bg-brand mx-auto mb-8"></div>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -78,20 +85,20 @@ export default function Home() {
               
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-blue-600 mb-2">500+</div>
+                  <div className="text-3xl font-bold text-brand mb-2">500+</div>
                   <div className="text-slate-600">Projetos Completados</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-blue-600 mb-2">20+</div>
+                  <div className="text-3xl font-bold text-brand mb-2">25+</div>
                   <div className="text-slate-600">{t('about.experience')}</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-blue-600 mb-2">3</div>
+                  <div className="text-3xl font-bold text-brand mb-2">3</div>
                   <div className="text-slate-600">{t('about.sectors')}</div>
                 </div>
               </div>
               
-              <div className="bg-blue-50 p-6 rounded-lg mb-6">
+              <div className="bg-brandLight p-6 rounded-lg mb-6 animate-fade-in-up">
                 <h4 className="text-lg font-semibold text-slate-800 mb-3">{t('about.mission')}</h4>
                 <p className="text-slate-700">
                   {t('about.mission.text')}
@@ -101,7 +108,7 @@ export default function Home() {
               <div>
                 <Link
                   to="/contato"
-                  className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+                  className="inline-flex items-center px-6 py-3 bg-brand text-white font-semibold rounded-lg hover:bg-brand2 transition-colors"
                 >
                   {t('sectors.learnMore')}
                   <ArrowRight className="ml-2 h-4 w-4" />
@@ -123,24 +130,24 @@ export default function Home() {
       </section>
 
       {/* Statistics Section */}
-      <section className="py-20 bg-blue-600">
+      <section className="py-20 bg-brand animate-section-enter">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center text-white">
             <div className="">
               <div className="text-4xl md:text-5xl font-bold mb-2">500+</div>
-              <div className="text-blue-100 text-sm uppercase tracking-wide">{t('home.stats.projects')}</div>
+              <div className="text-white/80 text-sm uppercase tracking-wide">{t('home.stats.projects')}</div>
             </div>
             <div className="">
-              <div className="text-4xl md:text-5xl font-bold mb-2">20+</div>
-              <div className="text-blue-100 text-sm uppercase tracking-wide">{t('home.stats.experience')}</div>
+              <div className="text-4xl md:text-5xl font-bold mb-2">25+</div>
+              <div className="text-white/80 text-sm uppercase tracking-wide">{t('home.stats.experience')}</div>
             </div>
             <div className="">
               <div className="text-4xl md:text-5xl font-bold mb-2">50+</div>
-              <div className="text-blue-100 text-sm uppercase tracking-wide">{t('home.stats.materials')}</div>
+              <div className="text-white/80 text-sm uppercase tracking-wide">{t('home.stats.materials')}</div>
             </div>
             <div className="">
               <div className="text-4xl md:text-5xl font-bold mb-2">98%</div>
-              <div className="text-blue-100 text-sm uppercase tracking-wide">{t('home.stats.satisfaction')}</div>
+              <div className="text-white/80 text-sm uppercase tracking-wide">{t('home.stats.satisfaction')}</div>
             </div>
           </div>
         </div>
@@ -151,11 +158,11 @@ export default function Home() {
       {/* Process Section */}
       <section className="py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16 animate-fade-in-up">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">
               {t('home.process.title')}
             </h2>
-            <div className="w-24 h-1 bg-blue-600 mx-auto mb-8"></div>
+            <div className="w-24 h-1 bg-brand mx-auto mb-8"></div>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto">
               {t('home.process.subtitle')}
             </p>
@@ -163,7 +170,7 @@ export default function Home() {
           
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-8">
             <div className="text-center">
-              <div className="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-20 h-20 bg-brand rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-white">1</span>
               </div>
               <h3 className="text-xl font-semibold text-slate-800 mb-3">{t('home.process.step1.title')}</h3>
@@ -171,7 +178,7 @@ export default function Home() {
             </div>
             
             <div className="text-center">
-              <div className="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-20 h-20 bg-brand rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-white">2</span>
               </div>
               <h3 className="text-xl font-semibold text-slate-800 mb-3">{t('home.process.step2.title')}</h3>
@@ -179,7 +186,7 @@ export default function Home() {
             </div>
             
             <div className="text-center">
-              <div className="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-20 h-20 bg-brand rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-white">3</span>
               </div>
               <h3 className="text-xl font-semibold text-slate-800 mb-3">{t('home.process.step3.title')}</h3>
@@ -187,7 +194,7 @@ export default function Home() {
             </div>
             
             <div className="text-center">
-              <div className="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-20 h-20 bg-brand rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-white">4</span>
               </div>
               <h3 className="text-xl font-semibold text-slate-800 mb-3">{t('home.process.step4.title')}</h3>
@@ -195,7 +202,7 @@ export default function Home() {
             </div>
 
             <div className="text-center">
-              <div className="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-20 h-20 bg-brand rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-white">5</span>
               </div>
               <h3 className="text-xl font-semibold text-slate-800 mb-3">{t('home.process.step5.title')}</h3>
@@ -203,7 +210,7 @@ export default function Home() {
             </div>
 
             <div className="text-center">
-              <div className="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-20 h-20 bg-brand rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-white">6</span>
               </div>
               <h3 className="text-xl font-semibold text-slate-800 mb-3">{t('home.process.step6.title')}</h3>
@@ -244,9 +251,9 @@ export default function Home() {
                 </div>
               </div>
               
-              <div className="bg-blue-50 p-6 rounded-lg">
+              <div className="bg-brandLight p-6 rounded-lg">
                 <div className="flex items-center mb-3">
-                  <Award className="h-8 w-8 text-blue-600 mr-3" />
+                  <Award className="h-8 w-8 text-brand mr-3" />
                   <h3 className="text-xl font-semibold text-slate-800">{t('home.quality.certifications.title')}</h3>
                 </div>
                 <p className="text-slate-700">
@@ -257,25 +264,52 @@ export default function Home() {
             
             <div className="grid grid-cols-2 gap-6">
               <div className="bg-slate-50 p-6 rounded-lg text-center">
-                <Award className="h-12 w-12 text-blue-600 mx-auto mb-3" />
-                <h4 className="font-semibold text-slate-800 mb-2">{t('home.quality.iso.title')}</h4>
-                <p className="text-sm text-slate-600">{t('home.quality.iso.subtitle')}</p>
-              </div>
-              <div className="bg-slate-50 p-6 rounded-lg text-center">
-                <Shield className="h-12 w-12 text-blue-600 mx-auto mb-3" />
+                <Shield className="h-12 w-12 text-brand mx-auto mb-3" />
                 <h4 className="font-semibold text-slate-800 mb-2">{t('home.quality.safety.title')}</h4>
                 <p className="text-sm text-slate-600">{t('home.quality.safety.subtitle')}</p>
               </div>
               <div className="bg-slate-50 p-6 rounded-lg text-center">
-                <Star className="h-12 w-12 text-blue-600 mx-auto mb-3" />
+                <Star className="h-12 w-12 text-brand mx-auto mb-3" />
                 <h4 className="font-semibold text-slate-800 mb-2">{t('home.quality.excellence.title')}</h4>
                 <p className="text-sm text-slate-600">{t('home.quality.excellence.subtitle')}</p>
               </div>
               <div className="bg-slate-50 p-6 rounded-lg text-center">
-                <CheckCircle className="h-12 w-12 text-blue-600 mx-auto mb-3" />
+                <CheckCircle className="h-12 w-12 text-brand mx-auto mb-3" />
                 <h4 className="font-semibold text-slate-800 mb-2">{t('home.quality.compliance.title')}</h4>
                 <p className="text-sm text-slate-600">{t('home.quality.compliance.subtitle')}</p>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Delivery Regions Section */}
+      <section className="py-20 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">
+              {t('delivery.title')}
+            </h2>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              {t('delivery.subtitle')}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-white rounded-lg p-6 shadow-sm text-center">
+              <Truck className="h-10 w-10 text-brand mx-auto mb-3" />
+              <h3 className="font-semibold text-slate-800 mb-2">{t('delivery.southeast.title')}</h3>
+              <p className="text-slate-600">{t('delivery.southeast.detail')}</p>
+            </div>
+            <div className="bg-white rounded-lg p-6 shadow-sm text-center">
+              <MapPin className="h-10 w-10 text-brand mx-auto mb-3" />
+              <h3 className="font-semibold text-slate-800 mb-2">{t('delivery.ba.title')}</h3>
+              <p className="text-slate-600">{t('delivery.ba.detail')}</p>
+            </div>
+            <div className="bg-white rounded-lg p-6 shadow-sm text-center">
+              <MapPin className="h-10 w-10 text-brand mx-auto mb-3" />
+              <h3 className="font-semibold text-slate-800 mb-2">{t('delivery.pr.title')}</h3>
+              <p className="text-slate-600">{t('delivery.pr.detail')}</p>
             </div>
           </div>
         </div>
@@ -288,7 +322,7 @@ export default function Home() {
             <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">
               {t('home.projects.title')}
             </h2>
-            <div className="w-24 h-1 bg-blue-600 mx-auto mb-8"></div>
+            <div className="w-24 h-1 bg-brand mx-auto mb-8"></div>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto">
               {t('home.projects.subtitle')}
             </p>
@@ -493,7 +527,7 @@ export default function Home() {
                   <div className="p-6 flex-grow flex flex-col">
                     <div className="flex items-center mb-4">
                       <div className="p-3 bg-blue-100 rounded-lg">
-                        <sector.icon className="h-6 w-6 text-blue-600" />
+                        <sector.icon className="h-6 w-6 text-brand" />
                       </div>
                       <h3 className="text-xl font-bold text-slate-800 ml-4">
                         {sector.title}
@@ -504,7 +538,7 @@ export default function Home() {
                     </p>
                     <Link
                       to={sector.href}
-                      className="inline-flex items-center text-blue-600 font-semibold hover:text-blue-700 transition-colors mt-auto"
+                      className="inline-flex items-center text-brand font-semibold hover:text-brand2 transition-colors mt-auto"
                     >
                       {t('sectors.learnMore')}
                       <ArrowRight className="ml-2 h-4 w-4" />
@@ -523,7 +557,7 @@ export default function Home() {
           <h3 className="text-2xl md:text-3xl font-bold text-slate-800 mb-4">
             Parceiros Comerciais
           </h3>
-          <div className="w-24 h-1 bg-blue-600 mx-auto mb-8"></div>
+          <div className="w-24 h-1 bg-brand mx-auto mb-8"></div>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto">
             Construtoras com quem realizamos diversos condomínios e empreendimentos
           </p>
@@ -560,20 +594,20 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Estanza */}
-          <div className="group">
-            <div className="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition-shadow h-full flex flex-col justify-center">
-              <img
-                src="/images/construtoras/estanza-logo.png"
-                alt="Estanza Construtora"
-                className="h-16 mx-auto mb-4 object-contain"
-              />
-              <h4 className="text-xl font-bold text-slate-800 mb-2">Estanza</h4>
-              <p className="text-slate-600 text-sm">
-                Desenvolvimento de empreendimentos de alto padrão
-              </p>
-            </div>
-          </div>
+              {/* Stanza */}
+              <div className="group">
+                <div className="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition-shadow h-full flex flex-col justify-center">
+                  <img
+                    src="/images/construtoras/stanza-logo.png"
+                    alt="Stanza Construtora"
+                    className="h-16 mx-auto mb-4 object-contain"
+                  />
+                  <h4 className="text-xl font-bold text-slate-800 mb-2">Stanza</h4>
+                  <p className="text-slate-600 text-sm">
+                    Desenvolvimento de empreendimentos de alto padrão
+                  </p>
+                </div>
+              </div>
 
           {/* Vitale */}
           <div className="group">
@@ -593,17 +627,17 @@ export default function Home() {
       </div>
 
       {/* CTA Section */}
-      <section className="py-20 bg-blue-600">
+      <section className="py-20 bg-brand">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             {t('cta.title')}
           </h2>
-          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
             {t('cta.description')}
           </p>
           <Link
             to="/contato"
-            className="inline-flex items-center px-8 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-slate-100 transition-colors"
+            className="inline-flex items-center px-8 py-3 bg-white text-brand font-semibold rounded-lg hover:bg-slate-100 transition-colors"
           >
             {t('hero.cta.secondary')}
             <ArrowRight className="ml-2 h-5 w-5" />

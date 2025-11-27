@@ -61,7 +61,7 @@ const translations = {
     'footer.weekend': 'Sábado e Domingo: Fechado',
     'footer.phone': '(28) 99999-9999',
     'footer.email': 'contato@dwgranitos.com.br',
-    'footer.address': 'Rua Ângelo Bazoni, 555\nVargem Grande do Soturno\nCachoeiro de Itapemirim - ES',
+    'footer.address': 'Rua Antonio Bazoni, 555\nVargem Grande do Soturno\nCachoeiro de Itapemirim - ES',
     'footer.rights': 'Todos os direitos reservados',
     
     // Sectors Pages
@@ -120,20 +120,30 @@ const translations = {
       'Request a quote!',
       'Talk to our specialists'
     ],
+
+    // Delivery Regions
+    'delivery.title': 'Regiões de Entrega',
+    'delivery.subtitle': 'Atendemos todo o Sudeste e também Bahia e Paraná',
+    'delivery.southeast.title': 'Sudeste',
+    'delivery.southeast.detail': 'ES, RJ, SP e MG',
+    'delivery.ba.title': 'Bahia',
+    'delivery.ba.detail': 'Atendimento e logística para toda a Bahia',
+    'delivery.pr.title': 'Paraná',
+    'delivery.pr.detail': 'Atendimento e logística para todo o Paraná',
     
     
-    'home.testimonials.title': 'What our customers say',
-    'home.testimonials.subtitle': 'Customer satisfaction is our greatest reward',
-    'home.partners.title': 'Partners and Clients',
-    'home.partners.subtitle': 'Companies that trust the quality of our services',
-    'home.process.title': 'Our Work Process',
-    'home.process.subtitle': 'From raw block to final masterpiece, each step is executed with precision',
-    'home.quality.title': 'Guaranteed Quality',
-    'home.quality.subtitle': 'We are committed to excellence in every detail',
-    'home.stats.projects': 'Completed Projects',
-    'home.stats.experience': 'Years of Experience',
-    'home.stats.materials': 'Types of Stones',
-    'home.stats.satisfaction': 'Satisfied Customers',
+    'home.testimonials.title': 'O que nossos clientes dizem',
+    'home.testimonials.subtitle': 'A satisfação de nossos clientes é nossa maior recompensa',
+    'home.partners.title': 'Parceiros e Clientes',
+    'home.partners.subtitle': 'Empresas que confiam na qualidade de nossos serviços',
+    'home.process.title': 'Nosso Processo de Trabalho',
+    'home.process.subtitle': 'Do bloco bruto à obra-prima final, cada etapa é executada com precisão',
+    'home.quality.title': 'Qualidade Garantida',
+    'home.quality.subtitle': 'Estamos comprometidos com a excelência em cada detalhe',
+    'home.stats.projects': 'Projetos Completados',
+    'home.stats.experience': 'Anos de Experiência',
+    'home.stats.materials': 'Tipos de Pedras',
+    'home.stats.satisfaction': 'Clientes Satisfeitos',
     
     // Testimonials
     'home.testimonials.client1.name': 'Carlos Silva',
@@ -156,7 +166,7 @@ const translations = {
     'home.process.step4.title': 'Corte',
     'home.process.step4.description': 'Após seleção de chapas pelo cliente, fazemos o corte',
     'home.process.step5.title': 'Acabamento',
-    'home.process.step5.description': 'Acabamento final com acabamento de alta qualidade',
+    'home.process.step5.description': 'Acabamento final com alta qualidade',
     'home.process.step6.title': 'Carregamento',
     'home.process.step6.description': 'Preparação para transporte - fretamos com terceiros se solicitado',
     
@@ -166,9 +176,9 @@ const translations = {
     'home.quality.guarantee': 'Garantia de satisfação total',
     'home.quality.support': 'Suporte técnico especializado',
     'home.quality.certifications.title': 'Certificações',
-    'home.quality.certifications.text': 'ISO 9001:2015 | Certificação ABNT | Selo de Qualidade do Setor de Rochas Ornamentais',
-    'home.quality.iso.title': 'ISO 9001',
-    'home.quality.iso.subtitle': 'Sistema de Gestão da Qualidade',
+    'home.quality.certifications.text': 'Certificação ABNT | Selo de Qualidade do Setor de Rochas Ornamentais',
+    'home.quality.iso.title': '',
+    'home.quality.iso.subtitle': '',
     'home.quality.safety.title': 'Segurança',
     'home.quality.safety.subtitle': 'NR-22 e Normas de Segurança',
     'home.quality.excellence.title': 'Excelência',
@@ -256,7 +266,7 @@ const translations = {
     'footer.weekend': 'Saturday and Sunday: Closed',
     'footer.phone': '(28) 99999-9999',
     'footer.email': 'contato@dwgranitos.com.br',
-    'footer.address': 'Rua Ângelo Bazoni, 555\nVargem Grande do Soturno\nCachoeiro de Itapemirim - ES',
+    'footer.address': 'Rua Antonio Bazoni, 555\nVargem Grande do Soturno\nCachoeiro de Itapemirim - ES',
     'footer.rights': 'All rights reserved',
     'footer.description': 'Specialists in natural stone transformation with excellence and precision in the market for over 20 years.',
     'footer.sectors': 'Sectors',
@@ -315,6 +325,16 @@ const translations = {
     'whatsapp.close': 'Close',
     'whatsapp.schedule': 'Business hours:',
     'whatsapp.schedule.detail': 'Mon-Thu: 7am-5pm | Fri: 7am-4pm',
+
+    // Delivery Regions
+    'delivery.title': 'Delivery Regions',
+    'delivery.subtitle': 'We serve all Southeast and also Bahia and Paraná',
+    'delivery.southeast.title': 'Southeast',
+    'delivery.southeast.detail': 'ES, RJ, SP and MG',
+    'delivery.ba.title': 'Bahia',
+    'delivery.ba.detail': 'Service and logistics across Bahia',
+    'delivery.pr.title': 'Paraná',
+    'delivery.pr.detail': 'Service and logistics across Paraná',
     
     
     'home.testimonials.title': 'What our customers say',
@@ -413,6 +433,16 @@ const translations = {
     'hero.title': 'DW Granitos y Mármoles LTDA',
     'hero.subtitle': 'Excelencia en Transformación de Piedras Naturales',
     'hero.description': 'Con más de 20 años de experiencia, somos especialistas en transformación de piedras naturales, ofreciendo soluciones personalizadas y de alta calidad para sus proyectos.',
+
+    // Delivery Regions
+    'delivery.title': 'Regiones de Entrega',
+    'delivery.subtitle': 'Atendemos todo el Sudeste y también Bahía y Paraná',
+    'delivery.southeast.title': 'Sudeste',
+    'delivery.southeast.detail': 'ES, RJ, SP y MG',
+    'delivery.ba.title': 'Bahía',
+    'delivery.ba.detail': 'Servicio y logística para toda Bahía',
+    'delivery.pr.title': 'Paraná',
+    'delivery.pr.detail': 'Servicio y logística para todo Paraná',
     'hero.cta.primary': 'Nuestros Servicios',
     'hero.cta.secondary': 'Contáctenos',
     

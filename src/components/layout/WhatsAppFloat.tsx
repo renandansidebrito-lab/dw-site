@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { MessageCircle, X } from "lucide-react";
+import { MessageCircle, X, Clock, CheckCircle2, Sparkles } from "lucide-react";
 import { useTranslation } from "@/contexts/TranslationContext";
 import "@/styles/whatsapp-animations.css";
 
@@ -17,8 +17,14 @@ export default function WhatsAppFloat() {
     return () => clearTimeout(timer);
   }, []);
 
-  const handleWhatsAppClick = () => {
-    window.open("https://wa.me/5528999999999", "_blank");
+  const WHATSAPP_NUMBER = "+5528999851446";
+
+  const openWhatsApp = (message?: string) => {
+    const text = message || 'Olá, venho do site e gostaria de falar com a equipe.';
+    const encoded = encodeURIComponent(text);
+    const phone = WHATSAPP_NUMBER.replace(/\D/g, '');
+    const url = `https://wa.me/${phone}?text=${encoded}`;
+    window.open(url, "_blank");
   };
 
   const mensagens = t('whatsapp.messages');
@@ -32,7 +38,21 @@ export default function WhatsAppFloat() {
     }, 4000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [mensagens.length]);
+
+  // Horário de atendimento (Seg-Qui 7-17, Sex 7-16)
+  const now = new Date();
+  const day = now.getDay();
+  const hour = now.getHours();
+  const isWeekday = day >= 1 && day <= 5;
+  const isFriday = day === 5;
+  const online = isWeekday && ((isFriday && hour >= 7 && hour < 16) || (!isFriday && hour >= 7 && hour < 17));
+
+  const quickActions = [
+    { label: 'Pedir orçamento', message: 'Olá! Gostaria de solicitar um orçamento.' },
+    { label: 'Catálogo de materiais', message: 'Olá! Pode me enviar o catálogo de materiais?' },
+    { label: 'Falar com Vendas', message: 'Olá! Gostaria de falar com o setor de Vendas.' }
+  ];
 
   return (
     <>
@@ -40,81 +60,88 @@ export default function WhatsAppFloat() {
       {showButton && !isOpen && (
         <div className="fixed bottom-6 right-6 z-50">
           {/* Balão de mensagem */}
-          <div className="absolute bottom-16 right-0 bg-white rounded-lg shadow-lg p-3 max-w-xs mb-2" style={{animation: 'bounce 2s infinite'}}>
+          <div className="absolute bottom-16 right-0 bg-white rounded-lg shadow-lg p-3 max-w-xs mb-2 animate-bounce">
             <p className="text-sm text-slate-700">{mensagens[mensagemAtual]}</p>
             <div className="absolute -bottom-2 right-4 w-0 h-0 border-l-8 border-l-transparent border-r-8 border-r-transparent border-t-8 border-t-white"></div>
           </div>
           
           <button
             onClick={() => setIsOpen(true)}
-            className="bg-green-500 hover:bg-green-600 text-white rounded-full p-4 shadow-lg transition-all duration-300 hover:scale-110"
+            className="bg-green-500 hover:bg-green-600 text-white rounded-full p-4 shadow-lg transition-all duration-300 hover:scale-110 animate-pulse"
             title="Fale conosco no WhatsApp"
-            style={{
-              animation: 'pulse 2s infinite',
-              boxShadow: '0 0 0 0 rgba(34, 197, 94, 0.7)'
-            }}
-          >
+            >
             <MessageCircle size={28} />
           </button>
         </div>
       )}
 
-      {/* Modal/Pop-up do WhatsApp */}
+      {/* Pop-up WhatsApp melhorado */}
       {isOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-end justify-end z-50 p-4">
-          <div className="bg-white rounded-lg shadow-2xl max-w-sm w-full mb-4" style={{animation: 'slide-up 0.3s ease-out'}}>
+        <div className="fixed bottom-6 right-6 z-50">
+          <div className="bg-white rounded-xl shadow-2xl w-[360px] border animate-slide-up">
             {/* Header */}
-            <div className="bg-green-500 text-white p-4 rounded-t-lg flex items-center justify-between">
+            <div className="p-4 border-b flex items-center justify-between rounded-t-xl bg-gradient-to-r from-green-600 to-green-500 text-white">
               <div className="flex items-center space-x-3">
-                <div className="bg-white rounded-full p-2">
-                  <MessageCircle className="text-green-500" size={20} />
+                <div className="bg-white/20 backdrop-blur w-10 h-10 rounded-full flex items-center justify-center">
+                  <MessageCircle className="text-white" size={20} />
                 </div>
                 <div>
-                  <h3 className="font-semibold">{t('whatsapp.title')}</h3>
-                  <p className="text-sm text-green-100">{t('whatsapp.subtitle')}</p>
+                  <h3 className="font-semibold">DW Granitos</h3>
+                  <div className="flex items-center text-xs">
+                    {online ? (
+                      <>
+                        <CheckCircle2 className="h-3 w-3 text-emerald-300 mr-1" />
+                        <span>Online agora</span>
+                      </>
+                    ) : (
+                      <>
+                        <Clock className="h-3 w-3 text-amber-300 mr-1" />
+                        <span>Fora do horário</span>
+                      </>
+                    )}
+                  </div>
                 </div>
               </div>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="text-white hover:text-green-100 transition-colors"
-              >
-                <X size={20} />
+              <button onClick={() => setIsOpen(false)} className="hover:opacity-80">
+                <X size={18} />
               </button>
             </div>
 
-            {/* Content */}
-            <div className="p-6">
-              <div className="text-center mb-4">
-                <div className="bg-green-100 rounded-full p-4 w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <MessageCircle className="text-green-500" size={32} />
+            {/* Body */}
+            <div className="p-4">
+              <div className="flex items-start space-x-3 mb-4">
+                <div className="w-8 h-8 bg-green-100 text-green-600 rounded-full flex items-center justify-center">
+                  <Sparkles className="h-4 w-4" />
                 </div>
-                <h4 className="text-lg font-semibold text-slate-800 mb-2">{t('whatsapp.chat')}</h4>
-                <p className="text-slate-600 text-sm mb-4">
+                <p className="text-sm text-slate-700">
                   {t('whatsapp.description')}
                 </p>
               </div>
 
-              <div className="space-y-3">
-                <button
-                  onClick={handleWhatsAppClick}
-                  className="w-full bg-green-500 hover:bg-green-600 text-white font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2"
-                >
-                  <MessageCircle size={20} />
-                  <span>{t('whatsapp.startChat')}</span>
-                </button>
-                
-                <button
-                  onClick={() => setIsOpen(false)}
-                  className="w-full border border-slate-300 text-slate-700 hover:bg-slate-50 font-medium py-3 px-4 rounded-lg transition-colors"
-                >
-                  {t('whatsapp.close')}
-                </button>
+              <div className="grid grid-cols-1 gap-2 mb-3">
+                {quickActions.map((qa) => (
+                  <button
+                    key={qa.label}
+                    onClick={() => openWhatsApp(qa.message)}
+                    className="w-full px-3 py-2 rounded-lg border border-slate-200 hover:bg-slate-50 text-sm text-slate-700 flex items-center justify-between"
+                  >
+                    <span>{qa.label}</span>
+                    <MessageCircle className="h-4 w-4 text-green-600" />
+                  </button>
+                ))}
               </div>
 
-              <div className="mt-4 text-center">
+              <button
+                onClick={() => openWhatsApp()}
+                className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2"
+              >
+                <MessageCircle size={18} />
+                <span>{t('whatsapp.startChat')}</span>
+              </button>
+
+              <div className="mt-3 text-center">
                 <p className="text-xs text-slate-500">
-                  {t('whatsapp.schedule')} <br />
-                  {t('whatsapp.schedule.detail')}
+                  {t('whatsapp.schedule')} {t('whatsapp.schedule.detail')}
                 </p>
               </div>
             </div>
@@ -122,23 +149,7 @@ export default function WhatsAppFloat() {
         </div>
       )}
 
-      {/* Estilos para animação do botão pulsante */}
-      <style>{`
-        @keyframes pulse {
-          0% {
-            transform: scale(1);
-            box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
-          }
-          70% {
-            transform: scale(1.05);
-            box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
-          }
-          100% {
-            transform: scale(1);
-            box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
-          }
-        }
-      `}</style>
+      {/* Sem estilos inline: usamos classes de whatsapp-animations.css */}
     </>
   );
 }

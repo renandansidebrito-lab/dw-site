@@ -83,7 +83,7 @@ export default function Chapas() {
                     <h3 className="text-lg font-bold text-slate-800">
                       {material.name}
                     </h3>
-                    <Package className="h-5 w-5 text-blue-600" />
+                    <Package className="h-5 w-5 text-brand" />
                   </div>
                   <p className="text-slate-600 text-sm mb-4">
                     {material.description}
@@ -104,7 +104,7 @@ export default function Chapas() {
                     <h4 className="text-sm font-semibold text-slate-700 mb-1">Aplicações:</h4>
                     <div className="flex flex-wrap gap-1">
                       {material.applications.map((app, appIndex) => (
-                        <span key={appIndex} className="px-2 py-1 bg-blue-100 text-blue-600 text-xs rounded">
+                        <span key={appIndex} className="px-2 py-1 bg-brandLight text-brand text-xs rounded">
                           {app}
                         </span>
                       ))}
@@ -133,7 +133,7 @@ export default function Chapas() {
             {thicknesses.map((item, index) => (
               <div key={index} className="bg-white rounded-xl shadow-lg p-6 text-center">
                 <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-xl font-bold text-blue-600">{item.thickness}</span>
+                  <span className="text-xl font-bold text-brand">{item.thickness}</span>
                 </div>
                 <h3 className="text-lg font-bold text-slate-800 mb-2">
                   {item.thickness}
@@ -191,17 +191,17 @@ export default function Chapas() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-blue-600">
+      <section className="py-20 bg-brand">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Encontre a Chapa Perfeita
           </h2>
-          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
             Visite nosso showroom ou entre em contato para ver nossa completa variedade de chapas e receber orientação especializada.
           </p>
           <a
             href="/contato"
-            className="inline-flex items-center px-8 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-slate-100 transition-colors"
+            className="inline-flex items-center px-8 py-3 bg-white text-brand font-semibold rounded-lg hover:bg-slate-100 transition-colors"
           >
             Solicitar Catálogo
             <ArrowRight className="ml-2 h-5 w-5" />

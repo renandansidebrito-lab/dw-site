@@ -7,12 +7,14 @@ import Contact from "@/pages/Contact";
 import Catalogo from "@/pages/Catalogo";
 import Layout from "@/components/layout/Layout";
 import WhatsAppChatbot from "@/components/layout/WhatsAppChatbot";
+import ScrollToTop from "@/components/common/ScrollToTop";
 import { TranslationProvider } from "@/contexts/TranslationContext";
 
 export default function App() {
   return (
     <TranslationProvider>
       <Router>
+        <ScrollToTop />
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />

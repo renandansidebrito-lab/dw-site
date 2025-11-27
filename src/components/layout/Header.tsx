@@ -50,8 +50,8 @@ export default function Header() {
                 to={item.href}
                 className={`px-3 py-2 text-sm font-medium transition-colors ${
                   isActive(item.href)
-                    ? "text-blue-600 border-b-2 border-blue-600"
-                    : "text-slate-700 hover:text-blue-600"
+                    ? "text-brand border-b-2 border-brand"
+                    : "text-slate-700 hover:text-brand"
                 }`}
               >
                 {item.name}
@@ -62,7 +62,7 @@ export default function Header() {
             <div className="relative">
               <button
                 onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
-                className="flex items-center space-x-2 px-3 py-2 text-sm font-medium text-slate-700 hover:text-blue-600 transition-colors"
+                className="flex items-center space-x-2 px-3 py-2 text-sm font-medium text-slate-700 hover:text-brand transition-colors"
               >
                 <Globe size={16} />
                 <span>{languages.find(lang => lang.code === language)?.flag} {languages.find(lang => lang.code === language)?.name}</span>
@@ -75,7 +75,7 @@ export default function Header() {
                       key={lang.code}
                       onClick={() => handleLanguageChange(lang.code as Language)}
                       className={`w-full text-left px-4 py-2 text-sm hover:bg-slate-50 transition-colors ${
-                        language === lang.code ? 'bg-blue-50 text-blue-600' : 'text-slate-700'
+                        language === lang.code ? 'bg-brandLight text-brand' : 'text-slate-700'
                       }`}
                     >
                       <span className="mr-2">{lang.flag}</span>
@@ -91,7 +91,7 @@ export default function Header() {
           <div className="md:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 rounded-md text-slate-700 hover:text-blue-600 focus:outline-none"
+              className="p-2 rounded-md text-slate-700 hover:text-brand focus:outline-none"
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -106,10 +106,10 @@ export default function Header() {
                 <Link
                   key={item.name}
                   to={item.href}
-                  className={`block px-3 py-2 text-base font-medium transition-colors ${
+                    className={`block px-3 py-2 text-base font-medium transition-colors ${
                     isActive(item.href)
-                      ? "text-blue-600 bg-blue-50"
-                      : "text-slate-700 hover:text-blue-600 hover:bg-slate-50"
+                      ? "text-brand bg-brandLight"
+                      : "text-slate-700 hover:text-brand hover:bg-slate-50"
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -129,8 +129,8 @@ export default function Header() {
                     }}
                     className={`block w-full text-left px-3 py-2 text-base font-medium transition-colors ${
                       language === lang.code
-                        ? "text-blue-600 bg-blue-50"
-                        : "text-slate-700 hover:text-blue-600 hover:bg-slate-50"
+                        ? "text-brand bg-brandLight"
+                        : "text-slate-700 hover:text-brand hover:bg-slate-50"
                     }`}
                   >
                     <span className="mr-2">{lang.flag}</span>

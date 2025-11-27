@@ -79,7 +79,7 @@ export default function Recortado() {
             {services.map((service, index) => (
               <div key={index} className="bg-white rounded-xl shadow-lg p-6 border border-slate-200">
                 <div className="flex items-center mb-4">
-                  <Scissors className="h-8 w-8 text-blue-600 mr-3" />
+                  <Scissors className="h-8 w-8 text-brand mr-3" />
                   <h3 className="text-xl font-bold text-slate-800">
                     {service.title}
                   </h3>
@@ -90,7 +90,7 @@ export default function Recortado() {
                 <div className="space-y-2">
                   {service.features.map((feature, featureIndex) => (
                     <div key={featureIndex} className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                      <div className="w-2 h-2 bg-brand rounded-full"></div>
                       <span className="text-sm text-slate-700">{feature}</span>
                     </div>
                   ))}
@@ -132,7 +132,7 @@ export default function Recortado() {
                   </p>
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-slate-500">Precisão:</span>
-                    <span className="text-sm font-semibold text-blue-600">{example.precision}</span>
+                    <span className="text-sm font-semibold text-brand">{example.precision}</span>
                   </div>
                 </div>
               </div>
@@ -156,12 +156,12 @@ export default function Recortado() {
               
               <div className="grid grid-cols-2 gap-6 mb-8">
                 <div className="text-center p-4 bg-slate-50 rounded-lg">
-                  <Ruler className="h-8 w-8 text-blue-600 mx-auto mb-2" />
+                  <Ruler className="h-8 w-8 text-brand mx-auto mb-2" />
                   <div className="text-2xl font-bold text-slate-800">±0.1mm</div>
                   <div className="text-sm text-slate-600">Tolerância</div>
                 </div>
                 <div className="text-center p-4 bg-slate-50 rounded-lg">
-                  <Clock className="h-8 w-8 text-blue-600 mx-auto mb-2" />
+                  <Clock className="h-8 w-8 text-brand mx-auto mb-2" />
                   <div className="text-2xl font-bold text-slate-800">48h</div>
                   <div className="text-sm text-slate-600">Prazo Médio</div>
                 </div>
@@ -208,28 +208,28 @@ export default function Recortado() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="text-center">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-blue-600">1</span>
+                <span className="text-2xl font-bold text-brand">1</span>
               </div>
               <h3 className="text-lg font-bold text-slate-800 mb-2">Análise do Projeto</h3>
               <p className="text-slate-600 text-sm">Avaliamos suas medidas e requisitos técnicos</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-blue-600">2</span>
+                <span className="text-2xl font-bold text-brand">2</span>
               </div>
               <h3 className="text-lg font-bold text-slate-800 mb-2">Programação</h3>
               <p className="text-slate-600 text-sm">Criamos o programa de corte no sistema CAD/CAM</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-blue-600">3</span>
+                <span className="text-2xl font-bold text-brand">3</span>
               </div>
               <h3 className="text-lg font-bold text-slate-800 mb-2">Corte de Precisão</h3>
               <p className="text-slate-600 text-sm">Executamos o corte com nossos equipamentos de ponta</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-blue-600">4</span>
+                <span className="text-2xl font-bold text-brand">4</span>
               </div>
               <h3 className="text-lg font-bold text-slate-800 mb-2">Acabamento</h3>
               <p className="text-slate-600 text-sm">Polimento e acabamento final das bordas</p>
@@ -239,17 +239,17 @@ export default function Recortado() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-blue-600">
+      <section className="py-20 bg-brand">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Precisa de Peças Personalizadas?
           </h2>
-          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
             Entre em contato e solicite um orçamento para seu projeto de corte sob medida. Transformamos suas ideias em realidade.
           </p>
           <a
             href="/contato"
-            className="inline-flex items-center px-8 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-slate-100 transition-colors"
+            className="inline-flex items-center px-8 py-3 bg-white text-brand font-semibold rounded-lg hover:bg-slate-100 transition-colors"
           >
             Solicitar Orçamento
             <ArrowRight className="ml-2 h-5 w-5" />
