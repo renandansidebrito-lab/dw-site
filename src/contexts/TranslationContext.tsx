@@ -23,7 +23,7 @@ const translations = {
     // Hero Section
     'hero.title': 'DW Granitos e Marmores LTDA',
     'hero.subtitle': 'Excelência em Transformação de Pedras Naturais',
-    'hero.description': 'Com mais de 20 anos de experiência, somos especialistas em transformação de pedras naturais, oferecendo soluções personalizadas e de alta qualidade para seus projetos.',
+    'hero.description': 'Com mais de 25 anos de experiência, somos especialistas em transformação de pedras naturais, oferecendo soluções personalizadas e de alta qualidade para seus projetos.',
     'hero.cta.primary': 'Nossos Serviços',
     'hero.cta.secondary': 'Fale Conosco',
     
@@ -228,7 +228,7 @@ const translations = {
     // Hero Section
     'hero.title': 'DW Granites and Marbles LTD',
     'hero.subtitle': 'Excellence in Natural Stone Transformation',
-    'hero.description': 'With over 20 years of experience, we are specialists in natural stone transformation, offering customized and high-quality solutions for your projects.',
+    'hero.description': 'With over 25 years of experience, we are specialists in natural stone transformation, offering customized and high-quality solutions for your projects.',
     'hero.cta.primary': 'Our Services',
     'hero.cta.secondary': 'Contact Us',
     
@@ -432,7 +432,7 @@ const translations = {
     // Hero Section
     'hero.title': 'DW Granitos y Mármoles LTDA',
     'hero.subtitle': 'Excelencia en Transformación de Piedras Naturales',
-    'hero.description': 'Con más de 20 años de experiencia, somos especialistas en transformación de piedras naturales, ofreciendo soluciones personalizadas y de alta calidad para sus proyectos.',
+    'hero.description': 'Con más de 25 años de experiencia, somos especialistas en transformación de piedras naturales, ofreciendo soluciones personalizadas y de alta calidad para sus proyectos.',
 
     // Delivery Regions
     'delivery.title': 'Regiones de Entrega',

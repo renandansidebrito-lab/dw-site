@@ -13,7 +13,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Animações customizadas */
 @keyframes fade-in-up {
   from {
     opacity: 0;
@@ -29,3 +28,32 @@
   animation: fade-in-up 0.8s ease-out forwards;
   opacity: 0;
 }
+
+@keyframes gradient-move {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animated-gradient {
+  background-image: linear-gradient(120deg, #e1e2cc 0%, #ffffff 30%, #772c2c 60%, #744d44 100%);
+  background-size: 200% 200%;
+  animation: gradient-move 14s ease infinite;
+}
+
+@keyframes float {
+  0% { transform: translate3d(0,0,0) scale(1); }
+  50% { transform: translate3d(0,-14px,0) scale(1.03); }
+  100% { transform: translate3d(0,0,0) scale(1); }
+}
+
+.blob-float { animation: float 9s ease-in-out infinite; }
+.blob-float-delayed { animation: float 11s ease-in-out infinite; animation-delay: 0.8s; }
+.blob-float-slow { animation: float 13s ease-in-out infinite; animation-delay: 1.6s; }
+
+@keyframes section-enter {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-section-enter { animation: section-enter 0.8s ease-out both; }
