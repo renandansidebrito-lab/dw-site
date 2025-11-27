@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { MessageCircle, X, Send, Phone, CreditCard, FileText, HelpCircle, CheckCircle2, Clock } from 'lucide-react';
+import { X, Send, Phone, CreditCard, FileText, HelpCircle, CheckCircle2, Clock } from 'lucide-react';
 
 interface Message {
   id: string;
@@ -20,6 +20,7 @@ export default function WhatsAppChatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [currentFlow, setCurrentFlow] = useState<'menu' | 'sector' | 'direct'>('menu');
+  const [selectedSector, setSelectedSector] = useState<Sector | null>(null);
 
   const WHATSAPP_NUMBER = '+5528999851446';
   const now = new Date();
@@ -76,30 +77,32 @@ export default function WhatsAppChatbot() {
       timestamp: new Date()
     };
 
-    const selectedSector = sectors.find(s => s.name === option);
+    const sector = sectors.find(s => s.name === option);
     
-    if (selectedSector) {
+    if (sector) {
       const sectorMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: `Perfeito! Você escolheu falar com o setor de *${selectedSector.name}*.\n\n${selectedSector.description}\n\nVou te redirecionar para o WhatsApp deste setor. Clique no botão abaixo para iniciar a conversa:`,
+        text: `Perfeito! Você escolheu falar com o setor de *${sector.name}*.\n\n${sector.description}\n\nVou te redirecionar para o WhatsApp deste setor. Clique no botão abaixo para iniciar a conversa:`,
         isBot: true,
         timestamp: new Date()
       };
       
       setMessages(prev => [...prev, userMessage, sectorMessage]);
       setCurrentFlow('sector');
+      setSelectedSector(sector);
       
       // Auto-open WhatsApp after 2 seconds
       setTimeout(() => {
-        window.open(`https://wa.me/${selectedSector.number.replace(/\D/g, '')}?text=Ol%C3%A1%2C%20venho%20do%20site%20e%20gostaria%20de%20falar%20com%20o%20setor%20de%20${encodeURIComponent(selectedSector.name)}`, '_blank');
+        window.open(`https://wa.me/${sector.number.replace(/\D/g, '')}?text=Ol%C3%A1%2C%20venho%20do%20site%20e%20gostaria%20de%20falar%20com%20o%20setor%20de%20${encodeURIComponent(sector.name)}`, '_blank');
       }, 2000);
     }
   };
 
-  const handleDirectWhatsApp = (message?: string) => {
+  const handleDirectWhatsApp = (message?: string, targetNumber?: string) => {
     const text = message || 'Olá! Venho do site e gostaria de mais informações.';
     const encoded = encodeURIComponent(text);
-    window.open(`https://wa.me/${WHATSAPP_NUMBER.replace(/\D/g, '')}?text=${encoded}`, '_blank');
+    const number = (targetNumber || WHATSAPP_NUMBER).replace(/\D/g, '');
+    window.open(`https://wa.me/${number}?text=${encoded}`, '_blank');
   };
 
   useEffect(() => {
@@ -114,10 +117,12 @@ export default function WhatsAppChatbot() {
       {isOpen && (
         <div className="fixed bottom-20 right-4 w-80 h-96 bg-white rounded-xl shadow-2xl border z-50 flex flex-col">
           {/* Header */}
-          <div className="bg-brand text-white p-4 rounded-t-xl flex items-center justify-between">
+          <div className="text-white p-4 rounded-t-xl flex items-center justify-between" style={{background: 'linear-gradient(90deg, #128C7E 0%, #25D366 100%)'}}>
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
-                <MessageCircle className="h-6 w-6" />
+              <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{background:'#25D366'}}>
+                <svg viewBox="0 0 32 32" width="20" height="20" aria-hidden="true">
+                  <path fill="#fff" d="M16 3C9.383 3 4 8.383 4 15c0 2.386.701 4.611 1.902 6.496L5 29l7.654-2.012A11.957 11.957 0 0 0 16 27c6.617 0 12-5.383 12-12S22.617 3 16 3zm0 22a9.93 9.93 0 0 1-5.047-1.382l-.36-.213-4.033 1.06.999-3.938-.235-.372A9.928 9.928 0 0 1 6 15c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10zm5.233-7.82c-.29-.145-1.708-.842-1.97-.936-.263-.096-.455-.145-.646.146-.191.29-.74.936-.906 1.127-.166.191-.337.218-.627.073-.29-.145-1.225-.451-2.332-1.438-.862-.768-1.444-1.716-1.611-2.006-.167-.29-.018-.447.126-.592.13-.13.29-.337.435-.5.145-.163.193-.28.29-.471.096-.19.048-.363-.024-.508-.073-.145-.646-1.559-.884-2.132-.232-.558-.468-.482-.646-.49l-.553-.01c-.19 0-.5.073-.763.363-.263.29-1.003.981-1.003 2.392s1.028 2.773 1.172 2.962c.145.19 2.027 3.091 4.91 4.333.686.296 1.222.473 1.639.606.687.218 1.314.187 1.809.114.551-.082 1.708-.696 1.949-1.367.241-.672.241-1.245.168-1.367-.073-.123-.263-.2-.553-.345z"/>
+                </svg>
               </div>
               <div>
                 <h3 className="font-semibold">DW Granitos</h3>
@@ -138,7 +143,7 @@ export default function WhatsAppChatbot() {
             </div>
             <button
               onClick={() => setIsOpen(false)}
-              className="p-1 hover:bg-brand2 rounded"
+              className="p-1 hover:bg-green-700 rounded"
             >
               <X className="h-5 w-5" />
             </button>
@@ -152,7 +157,7 @@ export default function WhatsAppChatbot() {
                   message.isBot 
                     ? 'bg-slate-100 text-slate-800 rounded-bl-none' 
                     : 'bg-green-600 text-white rounded-br-none'
-                }`}>
+                }`} style={message.isBot ? undefined : { background: '#25D366' }}>
                   <p className="text-sm whitespace-pre-line">{message.text}</p>
                   <p className="text-xs opacity-70 mt-1">
                     {message.timestamp.toLocaleTimeString('pt-BR', { 
@@ -198,19 +203,19 @@ export default function WhatsAppChatbot() {
             {/* Ações rápidas e redirecionamento */}
             <div className="grid grid-cols-1 gap-2">
               <button
-                onClick={() => handleDirectWhatsApp('Olá! Gostaria de solicitar um orçamento.')}
+                onClick={() => handleDirectWhatsApp('Olá! Gostaria de solicitar um orçamento.', sectors.find(s => s.name === 'Vendas')?.number)}
                 className="w-full p-2 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 text-left text-sm"
               >
                 Pedir orçamento
               </button>
               <button
-                onClick={() => handleDirectWhatsApp('Olá! Pode me enviar o catálogo de materiais?')}
+                onClick={() => handleDirectWhatsApp('Olá! Pode me enviar o catálogo de materiais?', sectors.find(s => s.name === 'Vendas')?.number)}
                 className="w-full p-2 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 text-left text-sm"
               >
                 Catálogo de materiais
               </button>
               <button
-                onClick={() => handleDirectWhatsApp('Olá! Gostaria de falar com o setor de Vendas.')}
+                onClick={() => handleDirectWhatsApp('Olá! Gostaria de falar com o setor de Vendas.', sectors.find(s => s.name === 'Vendas')?.number)}
                 className="w-full p-2 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 text-left text-sm"
               >
                 Falar com Vendas
@@ -221,7 +226,7 @@ export default function WhatsAppChatbot() {
             {currentFlow === 'sector' && (
               <div className="text-center p-4">
                 <button
-                  onClick={() => handleDirectWhatsApp()}
+                  onClick={() => handleDirectWhatsApp(undefined, selectedSector?.number)}
                   className="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
                 >
                   <Send className="h-4 w-4 mr-2" />
@@ -244,16 +249,19 @@ export default function WhatsAppChatbot() {
       )}
 
       {/* Floating Button */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-4 right-4 bg-brand text-white p-4 rounded-full shadow-lg hover:bg-brand2 transition-all z-40"
-        style={{
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="fixed bottom-4 right-4 text-white p-4 rounded-full shadow-lg transition-all z-40"
+          style={{
           animation: 'pulse 2s infinite',
-          boxShadow: '0 0 0 0 rgba(34, 197, 94, 0.7)'
-        }}
-      >
-        <MessageCircle className="h-6 w-6" />
-      </button>
+          boxShadow: '0 0 0 0 rgba(37, 211, 102, 0.6)',
+          background: '#25D366'
+          }}
+        >
+        <svg viewBox="0 0 32 32" width="24" height="24" aria-hidden="true">
+          <path fill="#fff" d="M16 3C9.383 3 4 8.383 4 15c0 2.386.701 4.611 1.902 6.496L5 29l7.654-2.012A11.957 11.957 0 0 0 16 27c6.617 0 12-5.383 12-12S22.617 3 16 3zm0 22a9.93 9.93 0 0 1-5.047-1.382l-.36-.213-4.033 1.06.999-3.938-.235-.372A9.928 9.928 0 0 1 6 15c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10zm5.233-7.82c-.29-.145-1.708-.842-1.97-.936-.263-.096-.455-.145-.646.146-.191.29-.74.936-.906 1.127-.166.191-.337.218-.627.073-.29-.145-1.225-.451-2.332-1.438-.862-.768-1.444-1.716-1.611-2.006-.167-.29-.018-.447.126-.592.13-.13.29-.337.435-.5.145-.163.193-.28.29-.471.096-.19.048-.363-.024-.508-.073-.145-.646-1.559-.884-2.132-.232-.558-.468-.482-.646-.49l-.553-.01c-.19 0-.5.073-.763.363-.263.29-1.003.981-1.003 2.392s1.028 2.773 1.172 2.962c.145.19 2.027 3.091 4.91 4.333.686.296 1.222.473 1.639.606.687.218 1.314.187 1.809.114.551-.082 1.708-.696 1.949-1.367.241-.672.241-1.245.168-1.367-.073-.123-.263-.2-.553-.345z"/>
+        </svg>
+        </button>
     </>
   );
 }

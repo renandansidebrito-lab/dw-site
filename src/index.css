@@ -36,9 +36,31 @@
 }
 
 .animated-gradient {
-  background-image: linear-gradient(120deg, #e1e2cc 0%, #ffffff 30%, #772c2c 60%, #744d44 100%);
-  background-size: 200% 200%;
-  animation: gradient-move 14s ease infinite;
+  background-image: linear-gradient(120deg, #f7f7f7 0%, #e1e2cc 25%, #772c2c 60%, #744d44 100%);
+  background-size: 340% 340%;
+  animation: gradient-move 5.5s ease-in-out infinite;
+}
+
+.marble-sheen {
+  background-image:
+    radial-gradient(1200px 600px at 15% 20%, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0) 60%),
+    radial-gradient(900px 500px at 80% 75%, rgba(225,226,204,0.18) 0%, rgba(225,226,204,0) 60%),
+    linear-gradient(135deg, #ffffff 0%, #f6f6f6 50%, #ececec 100%);
+  background-size: 300% 300%;
+  animation: gradient-move 5s ease-in-out infinite;
+}
+
+@keyframes shine-sweep {
+  0% { transform: translateX(-100%); opacity: 0; }
+  10% { opacity: 0.25; }
+  50% { transform: translateX(0%); opacity: 0.2; }
+  90% { opacity: 0; }
+  100% { transform: translateX(100%); opacity: 0; }
+}
+
+.hero-shine {
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.25) 12%, rgba(255,255,255,0) 24%);
+  animation: shine-sweep 4s ease-in-out infinite;
 }
 
 @keyframes float {
@@ -47,9 +69,9 @@
   100% { transform: translate3d(0,0,0) scale(1); }
 }
 
-.blob-float { animation: float 9s ease-in-out infinite; }
-.blob-float-delayed { animation: float 11s ease-in-out infinite; animation-delay: 0.8s; }
-.blob-float-slow { animation: float 13s ease-in-out infinite; animation-delay: 1.6s; }
+.blob-float { animation: float 5.5s ease-in-out infinite; }
+.blob-float-delayed { animation: float 6.2s ease-in-out infinite; animation-delay: 0.5s; }
+.blob-float-slow { animation: float 6.8s ease-in-out infinite; animation-delay: 1s; }
 
 @keyframes section-enter {
   from { opacity: 0; transform: translateY(16px); }
@@ -57,3 +79,180 @@
 }
 
 .animate-section-enter { animation: section-enter 0.8s ease-out both; }
+
+@keyframes wave-pan {
+  0% { transform: translateX(-4%); }
+  50% { transform: translateX(4%); }
+  100% { transform: translateX(-4%); }
+}
+
+.hero-waves {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.hero-waves svg { position: absolute; inset: 0; width: 140%; height: 140%; }
+.hero-waves .wave-1 { animation: wave-pan 5s ease-in-out infinite; opacity: 0.35; }
+.hero-waves .wave-2 { animation: wave-pan 7s ease-in-out infinite; opacity: 0.28; }
+.hero-waves .wave-3 { animation: wave-pan 6s ease-in-out infinite; opacity: 0.22; }
+
+@keyframes layer-sway {
+  0% { transform: translateX(-5%) translateY(0); }
+  50% { transform: translateX(5%) translateY(-6px); }
+  100% { transform: translateX(-5%) translateY(0); }
+}
+
+.hero-layers { position: absolute; inset: 0; overflow: hidden; }
+.hero-layers svg { position: absolute; inset: 0; width: 200%; height: 200%; }
+.hero-layers .layer-1 { animation: layer-sway 4.5s ease-in-out infinite; opacity: 0.55; }
+.hero-layers .layer-2 { animation: layer-sway 6s ease-in-out infinite; opacity: 0.45; }
+.hero-layers .layer-3 { animation: layer-sway 7.5s ease-in-out infinite; opacity: 0.38; }
+.hero-layers .layer-4 { animation: layer-sway 9s ease-in-out infinite; opacity: 0.32; }
+.hero-layers .layer-5 { animation: layer-sway 10.5s ease-in-out infinite; opacity: 0.26; }
+.hero-layers .layer-6 { animation: layer-sway 12s ease-in-out infinite; opacity: 0.22; }
+.hero-layers .layer-7 { animation: layer-sway 13.5s ease-in-out infinite; opacity: 0.18; }
+.hero-layers .layer-8 { animation: layer-sway 15s ease-in-out infinite; opacity: 0.15; }
+
+@keyframes hex-sway {
+  0% { transform: translateX(-3%) translateY(0); }
+  50% { transform: translateX(3%) translateY(-4px); }
+  100% { transform: translateX(-3%) translateY(0); }
+}
+
+.hero-hex { position: absolute; inset: 0; overflow: hidden; }
+.hero-hex svg { position: absolute; inset: 0; width: 170%; height: 170%; }
+.hero-hex .hex-1 { animation: hex-sway 6s ease-in-out infinite; opacity: 0.4; }
+.hero-hex .hex-2 { animation: hex-sway 9s ease-in-out infinite; opacity: 0.3; }
+.hero-hex .hex-3 { animation: hex-sway 12s ease-in-out infinite; opacity: 0.22; }
+
+@keyframes hex-bob {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+
+.hex-bob-1 { animation: hex-bob 4.5s ease-in-out infinite; }
+.hex-bob-2 { animation: hex-bob 6s ease-in-out infinite; animation-delay: 0.4s; }
+.hex-bob-3 { animation: hex-bob 7.5s ease-in-out infinite; animation-delay: 0.8s; }
+@keyframes neon-pan {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.neon-waves {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(90deg, #ffffff 0%, #e1e2cc 35%, #744d44 70%, #772c2c 100%);
+  background-size: 320% 100%;
+  animation: neon-pan 6.5s ease-in-out infinite;
+}
+.neon-waves::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to right,
+    rgba(255,255,255,0.06) 0px,
+    rgba(255,255,255,0.06) 3px,
+    rgba(116,77,68,0.22) 3px,
+    rgba(116,77,68,0.22) 20px
+  );
+  opacity: 0.8;
+}
+.neon-waves::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(800px 260px at 85% 60%, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0) 70%),
+                    radial-gradient(700px 240px at 10% 85%, rgba(225,226,204,0.25) 0%, rgba(225,226,204,0) 70%);
+  pointer-events: none;
+}
+
+@keyframes ribbon-bob {
+  0% { transform: translateY(0) scaleY(1); }
+  50% { transform: translateY(-10px) scaleY(1.02); }
+  100% { transform: translateY(0) scaleY(1); }
+}
+
+.ribbon-waves { position: absolute; inset: 0; }
+.ribbon-waves svg { position: absolute; inset: 0; width: 160%; height: 120%; }
+.ribbon-waves .rib { transform-box: fill-box; transform-origin: 50% 50%; }
+.ribbon-waves .rib-1 { animation: ribbon-bob 5s ease-in-out infinite; opacity: 0.7; }
+.ribbon-waves .rib-2 { animation: ribbon-bob 6s ease-in-out infinite; opacity: 0.65; }
+.ribbon-waves .rib-3 { animation: ribbon-bob 7s ease-in-out infinite; opacity: 0.6; }
+.ribbon-waves .rib-4 { animation: ribbon-bob 8s ease-in-out infinite; opacity: 0.55; }
+.ribbon-waves .rib-5 { animation: ribbon-bob 9s ease-in-out infinite; opacity: 0.5; }
+.ribbon-waves .rib-6 { animation: ribbon-bob 10s ease-in-out infinite; opacity: 0.45; }
+.ribbon-waves .rib-7 { animation: ribbon-bob 11s ease-in-out infinite; opacity: 0.4; }
+.ribbon-waves .rib-8 { animation: ribbon-bob 12s ease-in-out infinite; opacity: 0.35; }
+
+@keyframes marble-sweep {
+  0% { transform: translateX(-2%) translateY(0); }
+  50% { transform: translateX(2%) translateY(-4px); }
+  100% { transform: translateX(-2%) translateY(0); }
+}
+
+.brand-marble-flow {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(120deg, #ffffff 0%, #f7f7f7 22%, #e1e2cc 64%, #fafafa 100%);
+  background-size: 220% 220%;
+  animation: gradient-move 18s ease-in-out infinite;
+}
+.brand-marble-flow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(135deg,
+    rgba(116,77,68,0.06) 0px,
+    rgba(116,77,68,0.06) 8px,
+    rgba(0,0,0,0) 8px,
+    rgba(0,0,0,0) 28px
+  );
+  opacity: 0.45;
+  animation: stripe-shift 16s ease-in-out infinite;
+}
+.brand-marble-flow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(900px 420px at 18% 24%, rgba(116,77,68,0.18) 0%, rgba(116,77,68,0) 65%),
+                    radial-gradient(1000px 520px at 82% 72%, rgba(225,226,204,0.22) 0%, rgba(225,226,204,0) 70%);
+  animation: marble-sweep 24s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes stripe-pan {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
+@keyframes stripe-shift {
+  0% { background-position: 0 0; }
+  50% { background-position: 40px 40px; }
+  100% { background-position: 0 0; }
+}
+
+.diagonal-stripes {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(135deg, #ffffff 0%, #e1e2cc 40%, #772c2c 100%);
+  background-size: 200% 200%;
+  animation: stripe-pan 12s ease-in-out infinite;
+}
+.diagonal-stripes::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(135deg,
+    rgba(255,255,255,0.6) 0px,
+    rgba(255,255,255,0.6) 6px,
+    rgba(119,44,44,0.08) 6px,
+    rgba(119,44,44,0.08) 22px
+  );
+  animation: stripe-shift 10s ease-in-out infinite;
+  opacity: 0.6;
+}

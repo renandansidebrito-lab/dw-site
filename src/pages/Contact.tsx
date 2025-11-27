@@ -26,11 +26,40 @@ export default function Contact() {
     setFormData({ ...formData, files });
   };
 
+  const sectorToWhatsapp = (sector: string): string => {
+    switch (sector) {
+      case 'recortado':
+        return '5528999511643';
+      case 'serraria':
+        return '5528999057492';
+      case 'chapas':
+        return '5528999851446';
+      default:
+        return '5528999851446';
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const body = `Nome: ${formData.name}\nEmail: ${formData.email}\nTelefone: ${formData.phone}\nSetor: ${formData.sector}\nEstado: ${formData.state}\nPaís: ${formData.country}\n\nMensagem:\n${formData.message}\n\nArquivos selecionados: ${formData.files.length}. Após abrir seu e-mail, anexe os arquivos antes de enviar.`;
-    const mailto = `mailto:renan@dwgranitos.com.br?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(body)}`;
-    window.location.href = mailto;
+    const text = `Olá! Venho do site e gostaria de falar com o setor de ${formData.sector || 'atendimento'}.` +
+      `\n\nNome: ${formData.name}` +
+      `\nEmail: ${formData.email}` +
+      `\nTelefone: ${formData.phone}` +
+      `\nEstado: ${formData.state}` +
+      `\nPaís: ${formData.country}` +
+      `\n\nMensagem:` +
+      `\n${formData.message}`;
+
+    if (formData.sector) {
+      const phone = sectorToWhatsapp(formData.sector);
+      const url = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+      window.open(url, '_blank');
+    } else {
+      const body = `Nome: ${formData.name}\nEmail: ${formData.email}\nTelefone: ${formData.phone}\nSetor: ${formData.sector}\nEstado: ${formData.state}\nPaís: ${formData.country}\n\nMensagem:\n${formData.message}\n\nArquivos selecionados: ${formData.files.length}. Após abrir seu e-mail, anexe os arquivos antes de enviar.`;
+      const mailto = `mailto:renan@dwgranitos.com.br?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = mailto;
+    }
+
     setFormData({
       name: "",
       email: "",
@@ -115,7 +144,7 @@ export default function Contact() {
                 </div>
                 <h4 className="text-lg font-bold text-slate-800 mb-2">Recortado</h4>
                 <p className="text-slate-600">
-                  <a href="tel:+5528999511643" className="text-green-600 hover:text-green-700 font-medium">
+                  <a href="https://wa.me/5528999511643?text=Ol%C3%A1!%20Gostaria%20de%20falar%20com%20o%20setor%20de%20Recortado." target="_blank" rel="noopener noreferrer" className="text-green-600 hover:text-green-700 font-medium">
                     +55 28 99951-1643
                   </a>
                 </p>
@@ -127,7 +156,7 @@ export default function Contact() {
                 </div>
                 <h4 className="text-lg font-bold text-slate-800 mb-2">Serraria</h4>
                 <p className="text-slate-600">
-                  <a href="tel:+5528999057492" className="text-brand hover:text-brand2 font-medium">
+                  <a href="https://wa.me/5528999057492?text=Ol%C3%A1!%20Gostaria%20de%20falar%20com%20o%20setor%20de%20Serraria." target="_blank" rel="noopener noreferrer" className="text-brand hover:text-brand2 font-medium">
                     +55 28 99905-7492
                   </a>
                 </p>
@@ -139,7 +168,7 @@ export default function Contact() {
                 </div>
                 <h4 className="text-lg font-bold text-slate-800 mb-2">Chapas</h4>
                 <p className="text-slate-600">
-                  <a href="tel:+5528999851446" className="text-purple-600 hover:text-purple-700 font-medium">
+                  <a href="https://wa.me/5528999851446?text=Ol%C3%A1!%20Gostaria%20de%20falar%20com%20o%20setor%20de%20Chapas." target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:text-purple-700 font-medium">
                     +55 28 99985-1446
                   </a>
                 </p>

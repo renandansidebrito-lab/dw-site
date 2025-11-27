@@ -33,16 +33,11 @@ export default function Home() {
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative overflow-hidden py-20">
-        {/* Animated gradient background */}
-        <div className="absolute inset-0 animated-gradient" />
-        {/* Subtle floating blobs */}
-        <div className="absolute -top-10 -left-10 w-56 h-56 rounded-full bg-brandLight/60 blur-3xl blob-float" />
-        <div className="absolute -bottom-16 -right-16 w-72 h-72 rounded-full bg-brand/40 blur-3xl blob-float-delayed" />
-        <div className="absolute top-24 right-1/3 w-48 h-48 rounded-full bg-brand2/30 blur-3xl blob-float-slow" />
+        <div className="absolute inset-0 brand-marble-flow" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="flex justify-center mb-8">
-              <img src="/images/dw-logo-black.png" alt="DW Granitos" className="h-20 w-auto" />
+              <img src="/images/dw-logo-black.png" alt="DW Granitos" className="h-24 w-auto md:h-28 drop-shadow-md" />
             </div>
             <h1 className="text-3xl md:text-5xl font-bold text-slate-800 mb-6 animate-fade-in-up">
               {t('hero.title')}
@@ -50,14 +45,7 @@ export default function Home() {
             <p className="text-xl text-slate-600 mb-8 max-w-3xl mx-auto animate-fade-in-up" style={{animationDelay:'120ms'}}>
               {t('hero.description')}
             </p>
-            <Link
-              to="/contato"
-              className="inline-flex items-center px-8 py-3 bg-brand text-white font-semibold rounded-lg hover:bg-brand2 transition-transform duration-300 hover:scale-[1.03] hover:shadow-lg animate-fade-in-up"
-              style={{animationDelay:'200ms'}}
-            >
-              {t('hero.cta.secondary')}
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Link>
+            <div className="mt-2" />
           </div>
         </div>
       </section>
@@ -173,7 +161,7 @@ export default function Home() {
               <div className="w-20 h-20 bg-brand rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-white">1</span>
               </div>
-              <h3 className="text-xl font-semibold text-slate-800 mb-3">{t('home.process.step1.title')}</h3>
+              <h3 className="text-xl font-semibold text-slate-800 mb-3 uppercase">{t('home.process.step1.title')}</h3>
               <p className="text-slate-600">{t('home.process.step1.description')}</p>
             </div>
             
@@ -181,7 +169,7 @@ export default function Home() {
               <div className="w-20 h-20 bg-brand rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-white">2</span>
               </div>
-              <h3 className="text-xl font-semibold text-slate-800 mb-3">{t('home.process.step2.title')}</h3>
+              <h3 className="text-xl font-semibold text-slate-800 mb-3 uppercase">{t('home.process.step2.title')}</h3>
               <p className="text-slate-600">{t('home.process.step2.description')}</p>
             </div>
             
@@ -189,7 +177,7 @@ export default function Home() {
               <div className="w-20 h-20 bg-brand rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-white">3</span>
               </div>
-              <h3 className="text-xl font-semibold text-slate-800 mb-3">{t('home.process.step3.title')}</h3>
+              <h3 className="text-xl font-semibold text-slate-800 mb-3 uppercase">{t('home.process.step3.title')}</h3>
               <p className="text-slate-600">{t('home.process.step3.description')}</p>
             </div>
             
@@ -197,7 +185,7 @@ export default function Home() {
               <div className="w-20 h-20 bg-brand rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-white">4</span>
               </div>
-              <h3 className="text-xl font-semibold text-slate-800 mb-3">{t('home.process.step4.title')}</h3>
+              <h3 className="text-xl font-semibold text-slate-800 mb-3 uppercase">{t('home.process.step4.title')}</h3>
               <p className="text-slate-600">{t('home.process.step4.description')}</p>
             </div>
 
@@ -205,7 +193,7 @@ export default function Home() {
               <div className="w-20 h-20 bg-brand rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-white">5</span>
               </div>
-              <h3 className="text-xl font-semibold text-slate-800 mb-3">{t('home.process.step5.title')}</h3>
+              <h3 className="text-xl font-semibold text-slate-800 mb-3 uppercase">{t('home.process.step5.title')}</h3>
               <p className="text-slate-600">{t('home.process.step5.description')}</p>
             </div>
 
@@ -213,7 +201,7 @@ export default function Home() {
               <div className="w-20 h-20 bg-brand rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-white">6</span>
               </div>
-              <h3 className="text-xl font-semibold text-slate-800 mb-3">{t('home.process.step6.title')}</h3>
+              <h3 className="text-xl font-semibold text-slate-800 mb-3 uppercase">{t('home.process.step6.title')}</h3>
               <p className="text-slate-600">{t('home.process.step6.description')}</p>
             </div>
           </div>
@@ -372,9 +360,9 @@ export default function Home() {
                 {/* Conteúdo */}
                 <div className="space-y-4">
                   <div className="flex flex-wrap gap-2 justify-center">
-                    <span className="px-3 py-1 bg-blue-100 text-blue-700 text-xs rounded-full font-medium">Granito Premium</span>
-                    <span className="px-3 py-1 bg-blue-100 text-blue-700 text-xs rounded-full font-medium">Mármore</span>
-                    <span className="px-3 py-1 bg-blue-100 text-blue-700 text-xs rounded-full font-medium">Residencial</span>
+                    <span className="px-3 py-1 bg-brandLight text-brand text-xs rounded-full font-medium">Granito Premium</span>
+                    <span className="px-3 py-1 bg-brandLight text-brand text-xs rounded-full font-medium">Mármore</span>
+                    <span className="px-3 py-1 bg-brandLight text-brand text-xs rounded-full font-medium">Residencial</span>
                   </div>
                   <p className="text-slate-700 text-sm text-center leading-relaxed">
                     {t('home.projects.blessed.description')}
@@ -526,7 +514,7 @@ export default function Home() {
                   </div>
                   <div className="p-6 flex-grow flex flex-col">
                     <div className="flex items-center mb-4">
-                      <div className="p-3 bg-blue-100 rounded-lg">
+                      <div className="p-3 bg-brandLight rounded-lg">
                         <sector.icon className="h-6 w-6 text-brand" />
                       </div>
                       <h3 className="text-xl font-bold text-slate-800 ml-4">

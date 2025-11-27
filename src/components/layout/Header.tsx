@@ -48,7 +48,7 @@ export default function Header() {
               <Link
                 key={item.name}
                 to={item.href}
-                className={`px-3 py-2 text-sm font-medium transition-colors ${
+                className={`px-3 py-2 text-sm font-medium uppercase transition-colors ${
                   isActive(item.href)
                     ? "text-brand border-b-2 border-brand"
                     : "text-slate-700 hover:text-brand"
@@ -106,7 +106,7 @@ export default function Header() {
                 <Link
                   key={item.name}
                   to={item.href}
-                    className={`block px-3 py-2 text-base font-medium transition-colors ${
+                    className={`block px-3 py-2 text-base font-medium uppercase transition-colors ${
                     isActive(item.href)
                       ? "text-brand bg-brandLight"
                       : "text-slate-700 hover:text-brand hover:bg-slate-50"
