@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Settings, Package, Scissors, Star, Award, CheckCircle, Shield, MapPin, Truck } from "lucide-react";
+import { ArrowRight, Settings, Package, Scissors, Star, CheckCircle, Shield, MapPin, Truck } from "lucide-react";
 import { useTranslation } from "@/contexts/TranslationContext";
 
 export default function Home() {
@@ -227,26 +227,12 @@ export default function Home() {
                 </div>
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="h-6 w-6 text-green-500" />
-                  <span className="text-slate-700">{t('home.quality.certified')}</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <CheckCircle className="h-6 w-6 text-green-500" />
                   <span className="text-slate-700">{t('home.quality.guarantee')}</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="h-6 w-6 text-green-500" />
                   <span className="text-slate-700">{t('home.quality.support')}</span>
                 </div>
-              </div>
-              
-              <div className="bg-brandLight p-6 rounded-lg">
-                <div className="flex items-center mb-3">
-                  <Award className="h-8 w-8 text-brand mr-3" />
-                  <h3 className="text-xl font-semibold text-slate-800">{t('home.quality.certifications.title')}</h3>
-                </div>
-                <p className="text-slate-700">
-                  {t('home.quality.certifications.text')}
-                </p>
               </div>
             </div>
             
@@ -608,6 +594,39 @@ export default function Home() {
               <h4 className="text-xl font-bold text-slate-800 mb-2">Vitale</h4>
               <p className="text-slate-600 text-sm">
                 Construtora com sólida experiência em empreendimentos residenciais
+              </p>
+            </div>
+          </div>
+
+
+          {/* MZ3 */}
+          <div className="group">
+            <div className="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition-shadow h-full flex flex-col justify-center">
+              <img
+                src="/images/construtoras/mz3-logo.png"
+                alt="MZ3"
+                className="h-16 mx-auto mb-4 object-contain"
+                onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+              />
+              <h4 className="text-xl font-bold text-slate-800 mb-2">MZ3</h4>
+              <p className="text-slate-600 text-sm">
+                Parceria em empreendimentos residenciais e comerciais
+              </p>
+            </div>
+          </div>
+
+          {/* MVituzzo */}
+          <div className="group">
+            <div className="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition-shadow h-full flex flex-col justify-center">
+              <img
+                src="/images/construtoras/mvituzzo-logo.png"
+                alt="MVituzzo"
+                className="h-16 mx-auto mb-4 object-contain"
+                onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+              />
+              <h4 className="text-xl font-bold text-slate-800 mb-2">MVituzzo</h4>
+              <p className="text-slate-600 text-sm">
+                Parceria em empreendimentos residenciais e comerciais
               </p>
             </div>
           </div>

@@ -21,7 +21,7 @@ const translations = {
     'nav.contact': 'Contato',
     
     // Hero Section
-    'hero.title': 'DW Granitos e Marmores LTDA',
+    'hero.title': 'DW Granitos e Mármores LTDA',
     'hero.subtitle': 'Excelência em Transformação de Pedras Naturais',
     'hero.description': 'Com mais de 25 anos de experiência, somos especialistas em transformação de pedras naturais, oferecendo soluções personalizadas e de alta qualidade para seus projetos.',
     'hero.cta.primary': 'Nossos Serviços',
@@ -59,7 +59,7 @@ const translations = {
     'footer.monday.thursday': 'Segunda a Quinta: 7h - 17h',
     'footer.friday': 'Sexta: 7h - 16h',
     'footer.weekend': 'Sábado e Domingo: Fechado',
-    'footer.phone': '(28) 99999-9999',
+    'footer.phone': '+55 28 99905-7492',
     'footer.email': 'contato@dwgranitos.com.br',
     'footer.address': 'Rua Antonio Bazoni, 555\nVargem Grande do Soturno\nCachoeiro de Itapemirim - ES',
     'footer.rights': 'Todos os direitos reservados',
@@ -68,7 +68,7 @@ const translations = {
     'sectors.serraria.hero': 'Serraria DW Granitos',
     'sectors.serraria.subtitle': 'Precisão e Qualidade no Corte',
     'sectors.chapas.hero': 'Chapas DW Granitos',
-    'sectors.chapas.subtitle': 'Excellência em Chapas de Pedra',
+    'sectors.chapas.subtitle': 'Excelência em Chapas de Pedra',
     'sectors.recortado.hero': 'Recortado DW Granitos',
     'sectors.recortado.subtitle': 'Peças Especiais Sob Medida',
     
@@ -106,14 +106,14 @@ const translations = {
     'catalog.type': 'Tipo',
     
     // WhatsApp Float
-    'whatsapp.title': 'DW Granites',
-    'whatsapp.subtitle': 'Click to chat',
-    'whatsapp.chat': 'Contact Us',
-    'whatsapp.description': 'Do you have questions about our marbles and granites? Our team is ready to help!',
-    'whatsapp.startChat': 'Start Chat',
-    'whatsapp.close': 'Close',
-    'whatsapp.schedule': 'Business Hours:',
-    'whatsapp.schedule.detail': 'Mon-Thu: 7am-5pm | Fri: 7am-4pm',
+    'whatsapp.title': 'DW Granitos',
+    'whatsapp.subtitle': 'Clique para conversar',
+    'whatsapp.chat': 'Fale conosco',
+    'whatsapp.description': 'Tem dúvidas sobre nossos mármores e granitos? Nossa equipe está pronta para ajudar!',
+    'whatsapp.startChat': 'Iniciar conversa',
+    'whatsapp.close': 'Fechar',
+    'whatsapp.schedule': 'Horário de atendimento:',
+    'whatsapp.schedule.detail': 'Seg-Qui: 7h-17h | Sex: 7h-16h',
     'whatsapp.messages': [
       'Hello! How can I help you?',
       'Do you have questions about our materials?',
@@ -172,11 +172,11 @@ const translations = {
     
     // Quality Section
     'home.quality.materials': 'Materiais selecionados com rigor',
-    'home.quality.certified': 'Processos certificados e auditados',
+    'home.quality.certified': 'Compromisso com melhoria contínua',
     'home.quality.guarantee': 'Garantia de satisfação total',
     'home.quality.support': 'Suporte técnico especializado',
-    'home.quality.certifications.title': 'Certificações',
-    'home.quality.certifications.text': 'ISO 9001:2015 | Certificação ABNT | Selo de Qualidade do Setor de Rochas Ornamentais',
+    'home.quality.certifications.title': '',
+    'home.quality.certifications.text': '',
     'home.quality.iso.title': '',
     'home.quality.iso.subtitle': '',
     'home.quality.safety.title': 'Segurança',
@@ -189,7 +189,7 @@ const translations = {
     // Sectors Descriptions (já definidas anteriormente na linha 42-44)
     
     // About Section
-    'about.location': 'A DW Granitos e Marmores LTDA está localizada em Vargem Grande do Soturno, Cachoeiro de Itapemirim - ES.',
+    'about.location': 'A DW Granitos e Mármores LTDA está localizada em Vargem Grande do Soturno, Cachoeiro de Itapemirim - ES.',
     'about.structure': 'Como você pode ver na imagem ao lado, nossa estrutura é completa e moderna, com equipamentos de ponta para processamento de mármore e granito.',
     'about.technology': 'Combinamos tecnologia avançada com expertise artesanal para transformar pedras naturais em obras de arte.',
     'about.services': 'Atendemos desde pequenas reformas residenciais até grandes projetos comerciais, sempre com o compromisso de entregar excelência em cada detalhe.',
@@ -264,7 +264,7 @@ const translations = {
     'footer.monday.thursday': 'Monday to Thursday: 7am - 5pm',
     'footer.friday': 'Friday: 7am - 4pm',
     'footer.weekend': 'Saturday and Sunday: Closed',
-    'footer.phone': '(28) 99999-9999',
+    'footer.phone': '+55 28 99905-7492',
     'footer.email': 'contato@dwgranitos.com.br',
     'footer.address': 'Rua Antonio Bazoni, 555\nVargem Grande do Soturno\nCachoeiro de Itapemirim - ES',
     'footer.rights': 'All rights reserved',
@@ -391,11 +391,11 @@ const translations = {
     
     // Quality Section
     'home.quality.materials': 'Rigorously selected materials',
-    'home.quality.certified': 'Certified and audited processes',
+    'home.quality.certified': 'Commitment to continuous improvement',
     'home.quality.guarantee': 'Total satisfaction guarantee',
     'home.quality.support': 'Specialized technical support',
-    'home.quality.certifications.title': 'Certifications',
-    'home.quality.certifications.text': 'ISO 9001:2015 | ABNT Certification | Quality Seal of the Ornamental Stones Sector',
+    'home.quality.certifications.title': '',
+    'home.quality.certifications.text': '',
     'home.quality.iso.title': 'ISO 9001',
     'home.quality.iso.subtitle': 'Quality Management System',
     'home.quality.safety.title': 'Safety',
@@ -478,7 +478,7 @@ const translations = {
     'footer.monday.thursday': 'Lunes a Jueves: 7h - 17h',
     'footer.friday': 'Viernes: 7h - 16h',
     'footer.weekend': 'Sábado y Domingo: Cerrado',
-    'footer.phone': '(28) 99999-9999',
+    'footer.phone': '+55 28 99905-7492',
     'footer.email': 'contato@dwgranitos.com.br',
     'footer.address': 'Rua Ângelo Bazoni, 555\nVargem Grande do Soturno\nCachoeiro de Itapemirim - ES',
     'footer.rights': 'Todos los derechos reservados',
@@ -601,11 +601,11 @@ const translations = {
     
     // Quality Section
     'home.quality.materials': 'Materiales seleccionados con rigor',
-    'home.quality.certified': 'Procesos certificados y auditados',
+    'home.quality.certified': 'Compromiso con la mejora continua',
     'home.quality.guarantee': 'Garantía de satisfacción total',
     'home.quality.support': 'Soporte técnico especializado',
-    'home.quality.certifications.title': 'Certificaciones',
-    'home.quality.certifications.text': 'ISO 9001:2015 | Certificación ABNT | Sello de Calidad del Sector de Rocas Ornamentales',
+    'home.quality.certifications.title': '',
+    'home.quality.certifications.text': '',
     'home.quality.iso.title': 'ISO 9001',
     'home.quality.iso.subtitle': 'Sistema de Gestión de la Calidad',
     'home.quality.safety.title': 'Seguridad',
