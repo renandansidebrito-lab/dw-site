@@ -21,6 +21,7 @@ export default function WhatsAppChatbot() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [currentFlow, setCurrentFlow] = useState<'menu' | 'sector' | 'direct'>('menu');
   const [selectedSector, setSelectedSector] = useState<Sector | null>(null);
+  const [footerOffset, setFooterOffset] = useState(0);
 
   const WHATSAPP_NUMBER = '+5528999851446';
   const now = new Date();
@@ -111,11 +112,31 @@ export default function WhatsAppChatbot() {
     }
   }, [isOpen]);
 
+  useEffect(() => {
+    const updateOffset = () => {
+      const footer = document.querySelector('footer');
+      if (!footer) {
+        setFooterOffset(0);
+        return;
+      }
+      const rect = footer.getBoundingClientRect();
+      const overlap = Math.max(0, window.innerHeight - rect.top);
+      setFooterOffset(overlap);
+    };
+    updateOffset();
+    window.addEventListener('scroll', updateOffset, { passive: true });
+    window.addEventListener('resize', updateOffset);
+    return () => {
+      window.removeEventListener('scroll', updateOffset);
+      window.removeEventListener('resize', updateOffset);
+    };
+  }, []);
+
   return (
     <>
       {/* Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-20 right-4 w-80 h-96 bg-white rounded-xl shadow-2xl border z-50 flex flex-col">
+        <div className="fixed right-4 w-80 h-96 bg-white rounded-xl shadow-2xl border z-50 flex flex-col" style={{ bottom: 80 + footerOffset }}>
           {/* Header */}
           <div className="text-white p-4 rounded-t-xl flex items-center justify-between" style={{background: 'linear-gradient(90deg, #128C7E 0%, #25D366 100%)'}}>
             <div className="flex items-center space-x-3">
@@ -251,11 +272,12 @@ export default function WhatsAppChatbot() {
       {/* Floating Button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="fixed bottom-4 right-4 text-white p-4 rounded-full shadow-lg transition-all z-40"
+          className="fixed right-4 text-white p-4 rounded-full shadow-lg transition-all z-40"
           style={{
-          animation: 'pulse 2s infinite',
-          boxShadow: '0 0 0 0 rgba(37, 211, 102, 0.6)',
-          background: '#25D366'
+            bottom: 16 + footerOffset,
+            animation: 'pulse 2s infinite',
+            boxShadow: '0 0 0 0 rgba(37, 211, 102, 0.6)',
+            background: '#25D366'
           }}
         >
         <svg viewBox="0 0 32 32" width="24" height="24" aria-hidden="true">
