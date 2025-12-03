@@ -3,7 +3,7 @@ import { Search, Filter, Eye } from "lucide-react";
 import { useTranslation } from "@/contexts/TranslationContext";
 import { getMaterialImage, handleImageError } from "@/utils/imageUtils";
 
-interface Material {
+export interface Material {
   id: number;
   nome: string;
   tipo: "marmore" | "granito";
@@ -14,7 +14,7 @@ interface Material {
   descricao: string;
 }
 
-const materiaisExemplo: Material[] = [
+export const materiaisExemplo: Material[] = [
   // ===== MATERIAIS BRANCOS =====
   {
     id: 1,

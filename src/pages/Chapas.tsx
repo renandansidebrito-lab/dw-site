@@ -1,43 +1,38 @@
-import { ArrowRight, Package, Star } from "lucide-react";
+import { ArrowRight, Star } from "lucide-react";
+import { useEffect, useState } from "react";
+import { materiaisExemplo } from "@/pages/Catalogo";
 
 export default function Chapas() {
-  const materials = [
-    {
-      name: "Mármore Branco",
-      description: "Clássico e elegante, ideal para ambientes sofisticados",
-      colors: ["Branco", "Creme"],
-      applications: ["Bancadas", "Pisos", "Revestimentos"],
-      image: "https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=White%20marble%20slab%20with%20subtle%20veining%2C%20high-gloss%20finish%2C%20professional%20stone%20photography%2C%20clean%20background&image_size=square_hd"
-    },
-    {
-      name: "Granito Preto",
-      description: "Resistente e moderno, perfeito para áreas de alto tráfego",
-      colors: ["Preto", "Cinza Escuro"],
-      applications: ["Bancadas", "Pisos comerciais", "Fachadas"],
-      image: "https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=Black%20granite%20slab%20with%20subtle%20crystals%2C%20polished%20finish%2C%20professional%20stone%20photography%2C%20elegant%20appearance&image_size=square_hd"
-    },
-    {
-      name: "Mármore Bege",
-      description: "Aquecido e versátil, combina com diversos estilos",
-      colors: ["Bege", "Creme", "Marrom Claro"],
-      applications: ["Bancadas", "Paredes", "Lareiras"],
-      image: "https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=Beige%20marble%20slab%20with%20natural%20veining%2C%20warm%20tones%2C%20polished%20finish%2C%20professional%20stone%20photography&image_size=square_hd"
-    },
-    {
-      name: "Granito Cinza",
-      description: "Prático e durável, ideal para uso externo e interno",
-      colors: ["Cinza", "Prata", "Branco"],
-      applications: ["Pisos externos", "Bancadas", "Escadas"],
-      image: "https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=Gray%20granite%20slab%20with%20speckled%20pattern%2C%20matte%20and%20polished%20finish%2C%20versatile%20stone%20material%2C%20professional%20photography&image_size=square_hd"
+  const [previewIndices, setPreviewIndices] = useState<number[]>(() => {
+    const count = 4;
+    const max = materiaisExemplo.length;
+    const set = new Set<number>();
+    while (set.size < Math.min(count, max)) {
+      set.add(Math.floor(Math.random() * max));
     }
-  ];
+    return Array.from(set);
+  });
 
-  const thicknesses = [
-    { thickness: "2cm", use: "Bancadas, revestimentos, paredes" },
-    { thickness: "3cm", use: "Bancadas de cozinha, balcões, mesas" },
-    { thickness: "4cm", use: "Pisos externos, áreas de alto tráfego" },
-    { thickness: "Personalizado", use: "Projetos especiais sob medida" }
-  ];
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (materiaisExemplo.length === 0) return;
+      const pos = Math.floor(Math.random() * Math.min(4, previewIndices.length));
+      const currentSet = new Set(previewIndices);
+      let candidate = Math.floor(Math.random() * materiaisExemplo.length);
+      let guard = 0;
+      while (currentSet.has(candidate) && guard < 100) {
+        candidate = Math.floor(Math.random() * materiaisExemplo.length);
+        guard++;
+      }
+      setPreviewIndices(prev => {
+        const next = [...prev];
+        next[pos] = candidate;
+        return next;
+      });
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [previewIndices]);
+
 
   return (
     <div className="min-h-screen">
@@ -46,106 +41,95 @@ export default function Chapas() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              Chapas de Mármore e Granito
+              Chapas
             </h1>
             <p className="text-xl text-slate-300 max-w-3xl mx-auto">
-              Amplia variedade de chapas de alta qualidade em diferentes cores, texturas e espessuras. 
-              Perfeitas para transformar seu projeto em realidade.
+              Variedade de chapas com curadoria de qualidade e opções de acabamento sob demanda.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Materials Gallery */}
+      {/* Services Summary */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">
-              Nossos Materiais
-            </h2>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">Resumo de Serviços</h2>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Selecione entre nossa amplia variedade de pedras naturais, cada uma com características únicas e beleza singular
+              Entregamos chapas com excelente curadoria, tratamento e acabamento, prontas para seu projeto.
             </p>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {materials.map((material, index) => (
-              <div key={index} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-                <div className="h-48 bg-slate-200">
-                  <img
-                    src={material.image}
-                    alt={material.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="p-6">
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-lg font-bold text-slate-800">
-                      {material.name}
-                    </h3>
-                    <Package className="h-5 w-5 text-brand" />
-                  </div>
-                  <p className="text-slate-600 text-sm mb-4">
-                    {material.description}
-                  </p>
-                  
-                  <div className="mb-3">
-                    <h4 className="text-sm font-semibold text-slate-700 mb-1">Cores:</h4>
-                    <div className="flex flex-wrap gap-1">
-                      {material.colors.map((color, colorIndex) => (
-                        <span key={colorIndex} className="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded">
-                          {color}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <h4 className="text-sm font-semibold text-slate-700 mb-1">Aplicações:</h4>
-                    <div className="flex flex-wrap gap-1">
-                      {material.applications.map((app, appIndex) => (
-                        <span key={appIndex} className="px-2 py-1 bg-brandLight text-brand text-xs rounded">
-                          {app}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="bg-white rounded-xl shadow-lg p-6">
+              <h3 className="text-lg font-bold text-slate-800 mb-2">Curadoria</h3>
+              <p className="text-slate-600">Curadoria cuidadosa das chapas, selecionando as melhores peças para cada finalidade.</p>
+            </div>
+            <div className="bg-white rounded-xl shadow-lg p-6">
+              <h3 className="text-lg font-bold text-slate-800 mb-2">Tratamento</h3>
+              <p className="text-slate-600">Tratamento com resinagem para estabilidade, proteção e melhor acabamento superficial.</p>
+            </div>
+            <div className="bg-white rounded-xl shadow-lg p-6">
+              <h3 className="text-lg font-bold text-slate-800 mb-2">Acabamentos</h3>
+              <p className="text-slate-600">Polida, bi‑polida, levigada, flameada e escovada, conforme especificação do cliente.</p>
+            </div>
+            <div className="bg-white rounded-xl shadow-lg p-6">
+              <h3 className="text-lg font-bold text-slate-800 mb-2">Espessuras</h3>
+              <p className="text-slate-600">Trabalhamos principalmente com espessuras de 2 cm e 3 cm.</p>
+            </div>
+            <div className="bg-white rounded-xl shadow-lg p-6">
+              <h3 className="text-lg font-bold text-slate-800 mb-2">Dimensões</h3>
+              <p className="text-slate-600">Tamanhos variáveis de chapas, dependentes do bloco de origem.</p>
+            </div>
+            <div className="bg-white rounded-xl shadow-lg p-6">
+              <h3 className="text-lg font-bold text-slate-800 mb-2">Atendimento</h3>
+              <p className="text-slate-600">Atendimento consultivo para apoiar na escolha de materiais e acabamentos.</p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Thickness Guide */}
+
+      {/* Catálogo Preview */}
       <section className="py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">
-              Guia de Espessuras
-            </h2>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">Materiais em Destaque</h2>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Escolha a espessura ideal para sua aplicação específica
+              Uma seleção dinâmica do nosso catálogo. Clique para conhecer mais.
             </p>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {thicknesses.map((item, index) => (
-              <div key={index} className="bg-white rounded-xl shadow-lg p-6 text-center">
-                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-xl font-bold text-brand">{item.thickness}</span>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {previewIndices.map((idx, i) => {
+              const m = materiaisExemplo[idx];
+              if (!m) return null;
+              return (
+                <div key={`${idx}-${i}`} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                  <div className="h-48 bg-slate-200">
+                    <img
+                      src={m.imagem}
+                      alt={m.nome}
+                      className="w-full h-full object-cover"
+                      onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+                    />
+                  </div>
+                  <div className="p-6">
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="text-lg font-bold text-slate-800">{m.nome}</h3>
+                      <span className="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded">{m.tipo}</span>
+                    </div>
+                    <p className="text-slate-600 text-sm mb-4">{m.descricao}</p>
+                    <a href="/catalogo" className="inline-flex items-center text-brand font-semibold hover:underline">
+                      Ver no catálogo
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </a>
+                  </div>
                 </div>
-                <h3 className="text-lg font-bold text-slate-800 mb-2">
-                  {item.thickness}
-                </h3>
-                <p className="text-slate-600 text-sm">
-                  {item.use}
-                </p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
+
 
       {/* Quality Section */}
       <section className="py-20 bg-white">
@@ -153,38 +137,50 @@ export default function Chapas() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-6">
-                Qualidade Garantida
+                Qualidade e Acabamentos
               </h2>
               <p className="text-lg text-slate-600 mb-8">
-                Todas as nossas chapas passam por rigoroso controle de qualidade. Selecionamos apenas 
-                os melhores blocos e garantimos acabamento perfeito em cada peça.
+                Curadoria rigorosa dos blocos e tratamento com resinagem. Após isso, realizamos polimento
+                conforme a necessidade do cliente, com diferentes tipos de acabamento.
               </p>
               
               <div className="space-y-4">
                 <div className="flex items-center space-x-3">
                   <Star className="h-5 w-5 text-yellow-500" />
-                  <span className="text-slate-700">Seleção cuidadosa de matéria-prima</span>
+                  <span className="text-slate-700">Curadoria cuidadosa das chapas</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <Star className="h-5 w-5 text-yellow-500" />
-                  <span className="text-slate-700">Acabamento polido ou fosco sob demanda</span>
+                  <span className="text-slate-700">Tratamento com resinagem</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <Star className="h-5 w-5 text-yellow-500" />
-                  <span className="text-slate-700">Medidas exatas e precisão milimétrica</span>
+                  <span className="text-slate-700">Polimento e acabamentos: polida, bi‑polida, levigada, flameada, escovada</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <Star className="h-5 w-5 text-yellow-500" />
-                  <span className="text-slate-700">Embalagem profissional para transporte</span>
+                  <span className="text-slate-700">Precisão e acabamento conforme a demanda</span>
                 </div>
               </div>
             </div>
-            <div className="bg-slate-200 rounded-xl h-96">
+            <div className="bg-slate-200 rounded-xl h-96 overflow-hidden">
               <img
-                src="https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=Quality%20control%20inspection%20of%20marble%20slabs%20in%20warehouse%2C%20professional%20stone%20quality%20assessment%2C%20measuring%20tools%20and%20inspection%20equipment&image_size=square_hd"
-                alt="Controle de qualidade"
-                className="w-full h-full object-cover rounded-xl"
+                src="/images/chapas/qualidade.jpg"
+                alt="Qualidade e Acabamentos"
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  const img = e.currentTarget as HTMLImageElement;
+                  img.style.display = 'none';
+                  const next = img.nextElementSibling as HTMLElement | null;
+                  if (next) next.style.display = 'flex';
+                }}
               />
+              <div className="hidden items-center justify-center w-full h-full text-center p-6">
+                <div className="bg-white/70 rounded-lg p-4 border border-slate-300">
+                  <p className="text-slate-800 font-semibold">Adicione sua imagem</p>
+                  <p className="text-slate-600 text-sm">Coloque o arquivo em <code>/public/images/chapas/qualidade.jpg</code></p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

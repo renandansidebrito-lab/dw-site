@@ -3,19 +3,34 @@ import { ArrowRight, Scissors, Ruler, Clock, Award } from "lucide-react";
 export default function Recortado() {
   const services = [
     {
-      title: "Corte com Waterjet",
-      description: "Precisão extrema para formatos complexos e detalhados",
-      features: ["Precisão de ±0.1mm", "Corte de formas complexas", "Sem estresse térmico"]
+      title: "Cortadeira a disco em L",
+      description: "Cortes retos e esquadrias em L para tampo e peças",
+      features: ["Cortes precisos", "Esquadrias em L", "Peças maiores"]
     },
     {
-      title: "Corte com Bridge Saw",
-      description: "Corte reto e preciso para peças maiores",
-      features: ["Corte reto perfeito", "Peças grandes", "Alta produtividade"]
+      title: "Poliborda",
+      description: "Polimento e perfil de bordas com consistência",
+      features: ["Perfis diversos", "Acabamento uniforme", "Preparação para montagem"]
     },
     {
-      title: "Corte com CNC",
-      description: "Automação para repetição e precisão em série",
-      features: ["Repetição exata", "Formatos complexos", "Produção em série"]
+      title: "Chanfradeira",
+      description: "Chanframento e detalhes finos em bordas",
+      features: ["Chanfrados uniformes", "Acabamentos finos", "Junções preparadas"]
+    },
+    {
+      title: "Acabamento de boca de pia",
+      description: "Regularização e acabamento interno da abertura da pia",
+      features: ["Superfície regular", "Integração ao tampo", "Acabamento fino"]
+    },
+    {
+      title: "Furadora de boca de pia",
+      description: "Perfuração precisa para torneiras e acessórios",
+      features: ["Diâmetros variados", "Posicionamento exato", "Furos limpos"]
+    },
+    {
+      title: "Acabamento manual com lixadeiras",
+      description: "Acabadores especializados para precisão, colagem e montagem",
+      features: ["Acabamento preciso", "Colagem e montagem", "Ajustes finais"]
     }
   ];
 
@@ -68,7 +83,7 @@ export default function Recortado() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">
-              Serviços de Corte
+              Equipamentos e Operações
             </h2>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto">
               Utilizamos diferentes tecnologias de corte para atender às necessidades específicas de cada projeto
@@ -217,22 +232,22 @@ export default function Recortado() {
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-brand">2</span>
               </div>
-              <h3 className="text-lg font-bold text-slate-800 mb-2">Programação</h3>
-              <p className="text-slate-600 text-sm">Criamos o programa de corte no sistema CAD/CAM</p>
+              <h3 className="text-lg font-bold text-slate-800 mb-2">Corte em L</h3>
+              <p className="text-slate-600 text-sm">Corte com cortadeira a disco em L conforme projeto</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-brand">3</span>
               </div>
-              <h3 className="text-lg font-bold text-slate-800 mb-2">Corte de Precisão</h3>
-              <p className="text-slate-600 text-sm">Executamos o corte com nossos equipamentos de ponta</p>
+              <h3 className="text-lg font-bold text-slate-800 mb-2">Furação e Chanframento</h3>
+              <p className="text-slate-600 text-sm">Furadora de boca de pia e chanfradeira conforme necessidade</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-brand">4</span>
               </div>
-              <h3 className="text-lg font-bold text-slate-800 mb-2">Acabamento</h3>
-              <p className="text-slate-600 text-sm">Polimento e acabamento final das bordas</p>
+              <h3 className="text-lg font-bold text-slate-800 mb-2">Poliborda e Montagem</h3>
+              <p className="text-slate-600 text-sm">Poliborda, acabamento com lixadeiras, colagem e montagem</p>
             </div>
           </div>
         </div>

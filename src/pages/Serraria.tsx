@@ -2,29 +2,19 @@ import { ArrowRight, CheckCircle } from "lucide-react";
 
 export default function Serraria() {
   const services = [
-    "Corte de blocos de mármore e granito",
+    "Corte de blocos em chapas com Multi-Fio",
     "Chapas de diversas espessuras (2cm, 3cm, 4cm)",
-    "Corte com precisão milimétrica",
-    "Produção em larga escala",
+    "Precisão e rendimento com tecnologia Multi-Fio",
+    "Serviços internos e para terceiros",
     "Respeito ao prazo de entrega",
     "Qualidade garantida em cada corte"
   ];
 
   const equipment = [
     {
-      name: "Gang Saw",
-      description: "Máquina de corte multi-lâminas para produção em série",
-      capacity: "Até 100 chapas/dia"
-    },
-    {
-      name: "Diamond Wire Saw",
-      description: "Corte com fio diamantado para precisão máxima",
-      capacity: "Corte de blocos grandes"
-    },
-    {
-      name: "Block Cutter",
-      description: "Corte de blocos em chapas de espessura uniforme",
-      capacity: "Espessuras variadas"
+      name: "Multi-Fio",
+      description: "Corte de blocos com multi-fios para alta precisão e ótimo rendimento",
+      capacity: "Serviços internos e para terceiros"
     }
   ];
 
@@ -38,8 +28,8 @@ export default function Serraria() {
               Serraria
             </h1>
             <p className="text-xl text-slate-300 max-w-3xl mx-auto">
-              Transformação de blocos de mármore e granito em chapas de alta qualidade com equipamentos 
-              de última geração e precisão milimétrica.
+              Filial Mineração Jeronymo. Operamos um equipamento Multi-Fio para transformar blocos em chapas
+              com precisão e rendimento, atendendo serviços internos e para terceiros.
             </p>
           </div>
         </div>
@@ -54,8 +44,8 @@ export default function Serraria() {
                 Nossos Serviços
               </h2>
               <p className="text-lg text-slate-600 mb-8">
-                Na nossa serraria, transformamos blocos brutos de mármore e granito em chapas de 
-                diversas espessuras, garantindo precisão e qualidade em cada corte.
+                Na filial Mineração Jeronymo, transformamos blocos brutos em chapas com tecnologia Multi-Fio,
+                garantindo precisão, excelente rendimento e atendimento a serviços internos e para terceiros.
               </p>
               <div className="space-y-4">
                 {services.map((service, index) => (
@@ -64,6 +54,20 @@ export default function Serraria() {
                     <span className="text-slate-700">{service}</span>
                   </div>
                 ))}
+              </div>
+              <div className="mt-8 bg-slate-50 rounded-xl p-6 border border-slate-200">
+                <div className="flex items-center gap-4">
+                  <img
+                    src="/images/mineracao-jeronymo-logo.png"
+                    alt="Mineração Jeronymo"
+                    className="h-12 w-auto object-contain"
+                    onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+                  />
+                  <div>
+                    <div className="text-lg font-semibold text-slate-800">Mineração Jeronymo</div>
+                    <div className="text-slate-600 text-sm">CNPJ: 00.000.000/0000-00</div>
+                  </div>
+                </div>
               </div>
             </div>
             <div className="bg-slate-200 rounded-xl h-96">
@@ -115,38 +119,24 @@ export default function Serraria() {
               Nosso Processo
             </h2>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Cada etapa do processo é cuidadosamente controlada para garantir a máxima qualidade
+              Seleção de blocos com variação de qualidade conforme a finalidade e corte em chapas
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="text-center">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-brand">1</span>
               </div>
               <h3 className="text-lg font-bold text-slate-800 mb-2">Seleção</h3>
-              <p className="text-slate-600">Cuidadosa seleção dos blocos de melhor qualidade</p>
+              <p className="text-slate-600">Seleção de blocos com variação de qualidade conforme a finalidade</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-brand">2</span>
               </div>
               <h3 className="text-lg font-bold text-slate-800 mb-2">Corte</h3>
-              <p className="text-slate-600">Corte preciso com equipamentos diamantados</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-brand">3</span>
-              </div>
-              <h3 className="text-lg font-bold text-slate-800 mb-2">Resinagem</h3>
-              <p className="text-slate-600">Aplicação de resina para reforço e acabamento</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-brand">4</span>
-              </div>
-              <h3 className="text-lg font-bold text-slate-800 mb-2">Polimento</h3>
-              <p className="text-slate-600">Polimento final para realçar a beleza natural</p>
+              <p className="text-slate-600">Corte do bloco em chapas com Multi-Fio</p>
             </div>
           </div>
         </div>
@@ -156,7 +146,7 @@ export default function Serraria() {
       <section className="py-20 bg-brand">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Precisa de Chapas de Qualidade?
+            Precisa de Serraria de Qualidade?
           </h2>
           <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
             Solicite um orçamento para nossos serviços de serraria e garanta as melhores chapas para seu projeto.
