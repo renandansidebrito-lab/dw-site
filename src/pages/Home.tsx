@@ -529,15 +529,15 @@ export default function Home() {
       <div className="mt-24">
         <div className="text-center mb-16">
           <h3 className="text-2xl md:text-3xl font-bold text-slate-800 mb-4">
-            Parceiros Comerciais
+            {t('home.partners.title')}
           </h3>
           <div className="w-24 h-1 bg-brand mx-auto mb-8"></div>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            Construtoras com quem realizamos diversos condomínios e empreendimentos
+            {t('home.partners.subtitle')}
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8">
           {/* Morar */}
           <div className="group">
             <div className="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition-shadow h-full flex flex-col justify-center">
@@ -546,9 +546,9 @@ export default function Home() {
                 alt="Morar Construtora"
                 className="h-16 mx-auto mb-4 object-contain"
               />
-              <h4 className="text-xl font-bold text-slate-800 mb-2">Morar</h4>
+              <h4 className="text-xl font-bold text-slate-800 mb-2">{t('home.partners.morar.title')}</h4>
               <p className="text-slate-600 text-sm">
-                Construtora parceira em diversos empreendimentos residenciais
+                {t('home.partners.morar.description')}
               </p>
             </div>
           </div>
@@ -561,9 +561,9 @@ export default function Home() {
                 alt="Tecvale Construtora"
                 className="h-16 mx-auto mb-4 object-contain"
               />
-              <h4 className="text-xl font-bold text-slate-800 mb-2">Tecvale</h4>
+              <h4 className="text-xl font-bold text-slate-800 mb-2">{t('home.partners.tecvale.title')}</h4>
               <p className="text-slate-600 text-sm">
-                Especializada em condomínios horizontais e verticais
+                {t('home.partners.tecvale.description')}
               </p>
             </div>
           </div>
@@ -576,9 +576,9 @@ export default function Home() {
                     alt="Stanza Construtora"
                     className="h-16 mx-auto mb-4 object-contain"
                   />
-                  <h4 className="text-xl font-bold text-slate-800 mb-2">Stanza</h4>
+                  <h4 className="text-xl font-bold text-slate-800 mb-2">{t('home.partners.stanza.title')}</h4>
                   <p className="text-slate-600 text-sm">
-                    Desenvolvimento de empreendimentos de alto padrão
+                    {t('home.partners.stanza.description')}
                   </p>
                 </div>
               </div>
@@ -591,9 +591,9 @@ export default function Home() {
                 alt="Vitale Construtora"
                 className="h-16 mx-auto mb-4 object-contain"
               />
-              <h4 className="text-xl font-bold text-slate-800 mb-2">Vitale</h4>
+              <h4 className="text-xl font-bold text-slate-800 mb-2">{t('home.partners.vitale.title')}</h4>
               <p className="text-slate-600 text-sm">
-                Construtora com sólida experiência em empreendimentos residenciais
+                {t('home.partners.vitale.description')}
               </p>
             </div>
           </div>
