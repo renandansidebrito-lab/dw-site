@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Settings, Package, Scissors, Star, CheckCircle, Shield, MapPin, Truck } from "lucide-react";
-import { useTranslation } from "@/contexts/TranslationContext";
+import { useTranslation } from "@/contexts/i18nContext";
 
 export default function Home() {
   const { t } = useTranslation();
@@ -32,8 +32,8 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-20">
-        <div className="absolute inset-0 brand-marble-flow" />
+      <section className="relative overflow-hidden py-28">
+        <div className="absolute inset-0 abstract-aurora" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="flex justify-center mb-8">
@@ -42,11 +42,25 @@ export default function Home() {
             <h1 className="text-3xl md:text-5xl font-bold text-slate-800 mb-6 animate-fade-in-up">
               {t('hero.title')}
             </h1>
-            <p className="text-xl text-slate-600 mb-8 max-w-3xl mx-auto animate-fade-in-up" style={{animationDelay:'120ms'}}>
+            <p className="text-xl text-slate-600 mb-10 max-w-3xl mx-auto animate-fade-in-up" style={{animationDelay:'120ms'}}>
               {t('hero.description')}
             </p>
-            <div className="mt-2" />
+            <div className="flex items-center justify-center gap-4 animate-fade-in-up" style={{animationDelay:'220ms'}}>
+              <Link to="/catalogo" className="inline-flex items-center px-6 py-3 bg-brand text-white font-semibold rounded-lg hover:bg-brand2 transition-colors">
+                {t('hero.cta.primary')}
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+              <Link to="/contato" className="inline-flex items-center px-6 py-3 bg-white text-brand border border-brand font-semibold rounded-lg hover:bg-slate-100 transition-colors">
+                {t('hero.cta.secondary')}
+              </Link>
+            </div>
           </div>
+        </div>
+        <div className="pointer-events-none absolute inset-0 aurora-blobs">
+          <div className="blob b1 blob-float" />
+          <div className="blob b2 blob-float-delayed" />
+          <div className="blob b3 blob-float-slow" />
+          <div className="blob b4 blob-float" />
         </div>
       </section>
 

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { X, Send, Phone, CreditCard, FileText, HelpCircle, CheckCircle2, Clock } from 'lucide-react';
 
 interface Message {
@@ -31,7 +31,7 @@ export default function WhatsAppChatbot() {
   const isFriday = day === 5;
   const online = isWeekday && ((isFriday && hour >= 7 && hour < 16) || (!isFriday && hour >= 7 && hour < 17));
 
-  const sectors: Sector[] = [
+  const sectors: Sector[] = useMemo(() => [
     {
       name: 'Vendas',
       number: '+5528999851446',
@@ -56,9 +56,9 @@ export default function WhatsAppChatbot() {
       icon: <HelpCircle className="h-5 w-5" />,
       description: 'Dúvidas gerais e suporte'
     }
-  ];
+  ], []);
 
-  const startConversation = () => {
+  const startConversation = useCallback(() => {
     const welcomeMessage: Message = {
       id: '1',
       text: 'Olá! 👋 Bem-vindo à DW Granitos & Marmores!\n\nCom qual setor você gostaria de falar?',
@@ -68,7 +68,7 @@ export default function WhatsAppChatbot() {
     };
     setMessages([welcomeMessage]);
     setCurrentFlow('menu');
-  };
+  }, [sectors]);
 
   const handleOptionClick = (option: string) => {
     const userMessage: Message = {
@@ -110,7 +110,7 @@ export default function WhatsAppChatbot() {
     if (isOpen && messages.length === 0) {
       startConversation();
     }
-  }, [isOpen]);
+  }, [isOpen, messages.length, startConversation]);
 
   useEffect(() => {
     const updateOffset = () => {

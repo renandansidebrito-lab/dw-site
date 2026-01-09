@@ -1,6 +1,6 @@
 import { ArrowRight, Star } from "lucide-react";
 import { useEffect, useState } from "react";
-import { materiaisExemplo } from "@/pages/Catalogo";
+import { materiaisExemplo } from "@/data/materiais";
 
 export default function Chapas() {
   const [previewIndices, setPreviewIndices] = useState<number[]>(() => {
@@ -16,22 +16,22 @@ export default function Chapas() {
   useEffect(() => {
     const interval = setInterval(() => {
       if (materiaisExemplo.length === 0) return;
-      const pos = Math.floor(Math.random() * Math.min(4, previewIndices.length));
-      const currentSet = new Set(previewIndices);
-      let candidate = Math.floor(Math.random() * materiaisExemplo.length);
-      let guard = 0;
-      while (currentSet.has(candidate) && guard < 100) {
-        candidate = Math.floor(Math.random() * materiaisExemplo.length);
-        guard++;
-      }
       setPreviewIndices(prev => {
+        const pos = Math.floor(Math.random() * Math.min(4, prev.length));
+        const currentSet = new Set(prev);
+        let candidate = Math.floor(Math.random() * materiaisExemplo.length);
+        let guard = 0;
+        while (currentSet.has(candidate) && guard < 100) {
+          candidate = Math.floor(Math.random() * materiaisExemplo.length);
+          guard++;
+        }
         const next = [...prev];
         next[pos] = candidate;
         return next;
       });
     }, 4000);
     return () => clearInterval(interval);
-  }, [previewIndices]);
+  }, []);
 
 
   return (

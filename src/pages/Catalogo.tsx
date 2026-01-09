@@ -1,20 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Search, Filter, Eye } from "lucide-react";
-import { useTranslation } from "@/contexts/TranslationContext";
-import { getMaterialImage, handleImageError } from "@/utils/imageUtils";
+import { useTranslation } from "@/contexts/i18nContext";
+import { materiaisExemplo, type Material } from "@/data/materiais";
 
-export interface Material {
-  id: number;
-  nome: string;
-  tipo: "marmore" | "granito";
-  cor: string;
-  origem: string;
-  aplicacoes: string[];
-  imagem: string;
-  descricao: string;
-}
+const ImageWithFallback = ({ src, alt, className }: { src: string; alt: string; className?: string }) => {
+  const [imgSrc, setImgSrc] = useState(src);
+  const [hasError, setHasError] = useState(false);
 
-export const materiaisExemplo: Material[] = [
+  useEffect(() => {
+    setImgSrc(src);
+    setHasError(false);
+  }, [src]);
+
+  return (
+    <img
+      src={hasError ? '/images/placeholder-material.svg' : imgSrc}
+      alt={alt}
+      className={className}
+      onError={() => {
+        setHasError(true);
+        setImgSrc('/images/placeholder-material.svg');
+      }}
+    />
+  );
+};
+
+const materiaisSeed: Material[] = [
   // ===== MATERIAIS BRANCOS =====
   {
     id: 1,
@@ -356,7 +367,7 @@ export const materiaisExemplo: Material[] = [
 
 export default function Catalogo() {
   const { t } = useTranslation();
-  const [materiais] = useState<Material[]>(materiaisExemplo);
+  const [materiais] = useState<Material[]>(materiaisExemplo.length ? materiaisExemplo : materiaisSeed);
   const [filtroTipo, setFiltroTipo] = useState<string>("todos");
   const [filtroCor, setFiltroCor] = useState<string>("todas");
   const [termoBusca, setTermoBusca] = useState<string>("");
@@ -365,7 +376,12 @@ export default function Catalogo() {
   const tipos = [
     { value: "todos", label: t('catalog.allTypes') },
     { value: "marmore", label: t('catalog.marble') },
-    { value: "granito", label: t('catalog.granite') }
+    { value: "granito", label: t('catalog.granite') },
+    { value: "quartzito", label: t('catalog.quartzite') || "Quartzito" },
+    { value: "quartzo", label: t('catalog.quartz') || "Quartzo" },
+    { value: "ultracompacto", label: t('catalog.ultracompact') || "Ultracompacto" },
+    { value: "supernano", label: t('catalog.supernano') || "Supernano" },
+    { value: "outros", label: t('catalog.others') || "Outros" }
   ];
   
   const cores = [
@@ -392,7 +408,36 @@ export default function Catalogo() {
     return correspondeTipo && correspondeCor && correspondeBusca;
   });
 
+  const getBadgeStyle = (tipo: string) => {
+    switch (tipo) {
+      case "marmore":
+        return "bg-blue-100 text-blue-800";
+      case "granito":
+        return "bg-green-100 text-green-800";
+      case "quartzito":
+        return "bg-purple-100 text-purple-800";
+      case "quartzo":
+        return "bg-pink-100 text-pink-800";
+      case "ultracompacto":
+        return "bg-gray-100 text-gray-800";
+      case "supernano":
+        return "bg-indigo-100 text-indigo-800";
+      default:
+        return "bg-orange-100 text-orange-800";
+    }
+  };
 
+  const getBadgeLabel = (tipo: string) => {
+    switch (tipo) {
+      case "marmore": return t('catalog.marble');
+      case "granito": return t('catalog.granite');
+      case "quartzito": return t('catalog.quartzite') || "Quartzito";
+      case "quartzo": return t('catalog.quartz') || "Quartzo";
+      case "ultracompacto": return t('catalog.ultracompact') || "Ultracompacto";
+      case "supernano": return t('catalog.supernano') || "Supernano";
+      default: return t('catalog.others') || "Outros";
+    }
+  };
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -479,19 +524,14 @@ export default function Catalogo() {
                 <div key={material.id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
                   {/* Imagem do Material */}
                   <div className="relative h-64 bg-slate-200">
-                    <img
-                      src={getMaterialImage(material.nome)}
+                    <ImageWithFallback
+                      src={material.imagem}
                       alt={material.nome}
                       className="w-full h-full object-cover"
-                      onError={(e) => handleImageError(e)}
                     />
                     <div className="absolute top-4 right-4">
-                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                        material.tipo === "marmore" 
-                          ? "bg-blue-100 text-blue-800" 
-                          : "bg-green-100 text-green-800"
-                      }`}>
-                        {material.tipo === "marmore" ? t('catalog.marble') : t('catalog.granite')}
+                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${getBadgeStyle(material.tipo)}`}>
+                        {getBadgeLabel(material.tipo)}
                       </span>
                     </div>
                   </div>
@@ -543,7 +583,7 @@ export default function Catalogo() {
           <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="relative">
               <img
-                src={getMaterialImage(materialSelecionado.nome)}
+                src={materialSelecionado.imagem}
                 alt={materialSelecionado.nome}
                 className="w-full h-64 object-cover rounded-t-xl"
                 onError={(e) => handleImageError(e)}
@@ -559,12 +599,8 @@ export default function Catalogo() {
             <div className="p-6">
               <div className="flex justify-between items-start mb-4">
                 <h2 className="text-2xl font-bold text-slate-800">{materialSelecionado.nome}</h2>
-                <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                  materialSelecionado.tipo === "marmore" 
-                    ? "bg-blue-100 text-blue-800" 
-                    : "bg-green-100 text-green-800"
-                }`}>
-                  {materialSelecionado.tipo === "marmore" ? t('catalog.marble') : t('catalog.granite')}
+                <span className={`px-3 py-1 rounded-full text-sm font-medium ${getBadgeStyle(materialSelecionado.tipo)}`}>
+                  {getBadgeLabel(materialSelecionado.tipo)}
                 </span>
               </div>
 

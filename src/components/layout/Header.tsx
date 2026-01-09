@@ -1,7 +1,8 @@
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Globe } from "lucide-react";
 import { useState } from "react";
-import { useTranslation, Language } from "@/contexts/TranslationContext";
+import { useTranslation } from "@/contexts/i18nContext";
+import { Language } from "@/types/i18n";
 // import DwLogo from "@/assets/dw-logo.svg"; // Descomente quando tiver a logo real
 // import LogoPlaceholder from "@/assets/logo-placeholder.svg"; // Placeholder removido - usando imagem real
 

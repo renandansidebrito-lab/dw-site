@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { MessageCircle, X, Clock, CheckCircle2, Sparkles } from "lucide-react";
-import { useTranslation } from "@/contexts/TranslationContext";
+import { useTranslation } from "@/contexts/i18nContext";
 import "@/styles/whatsapp-animations.css";
 
 export default function WhatsAppFloat() {
