@@ -582,11 +582,10 @@ export default function Catalogo() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="relative">
-              <img
+              <ImageWithFallback
                 src={materialSelecionado.imagem}
                 alt={materialSelecionado.nome}
                 className="w-full h-64 object-cover rounded-t-xl"
-                onError={(e) => handleImageError(e)}
               />
               <button
                 onClick={() => setMaterialSelecionado(null)}
