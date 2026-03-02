@@ -1,4 +1,4 @@
-import { ArrowRight, Scissors, Ruler, Clock, Award, CheckCircle, Truck } from "lucide-react";
+import { ArrowRight, Scissors, Ruler, Clock, Award } from "lucide-react";
 import { useTranslation } from "@/contexts/i18nContext";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 
@@ -254,18 +254,10 @@ export default function Recortado() {
                         muted
                         loop
                         playsInline
-                        style={{ opacity: 0 }}
-                        className="absolute inset-0 w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 transition-opacity duration-500"
-                        onLoadedData={(e) => {
-                          e.currentTarget.style.opacity = '1';
-                        }}
-                        onError={(e) => {
-                          console.error("Erro vídeo:", (example as any).video);
-                          e.currentTarget.style.display = 'none';
-                        }}
+                        className="absolute inset-0 w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                       />
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity pointer-events-none" />
                     <div className="absolute bottom-4 left-4 right-4">
                        <span className="inline-block px-2 py-1 mb-2 text-xs font-bold text-white bg-brand/80 backdrop-blur-sm rounded">
                         {example.precision}

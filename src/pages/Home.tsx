@@ -691,8 +691,16 @@ export default function Home() {
                       />
                     </div>
 
-                    {/* Item 3 - Imagem Terciária (Placeholder) */}
+                    {/* Item 3 - Vídeo Terciário */}
                     <div className="aspect-square rounded-2xl overflow-hidden relative shadow-lg group bg-slate-900">
+                      <video 
+                        src="/images/logistica/carregamento-3.mp4" 
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
+                      />
                     </div>
                   </div>
 

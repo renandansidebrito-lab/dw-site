@@ -1,8 +1,7 @@
-import { useState } from "react";
-import { MapPin, Phone, Mail, Clock, Send, MessageCircle } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Mail, Phone, MapPin, Send, MessageCircle, Clock, CheckCircle, XCircle, X } from "lucide-react";
 import { useTranslation } from "@/contexts/i18nContext";
 import ScrollReveal from "@/components/animations/ScrollReveal";
-import emailjs from '@emailjs/browser';
 
 export default function Contact() {
   const { t } = useTranslation();
@@ -11,6 +10,7 @@ export default function Contact() {
     email: "",
     phoneCode: "+55",
     phone: "",
+    country: "Brasil",
     subject: "",
     message: "",
     state: "",
@@ -18,11 +18,20 @@ export default function Contact() {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [feedback, setFeedback] = useState<string>("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalTitle, setModalTitle] = useState("");
-  const [modalMessage, setModalMessage] = useState("");
-  const [modalSuggestWhatsapp, setModalSuggestWhatsapp] = useState(false);
-  const [modalWhatsappUrl, setModalWhatsappUrl] = useState("");
+  const [notification, setNotification] = useState<{
+    show: boolean;
+    type: 'success' | 'error';
+    message: string;
+  }>({ show: false, type: 'success', message: '' });
+
+  useEffect(() => {
+    if (notification.show) {
+      const timer = setTimeout(() => {
+        setNotification(prev => ({ ...prev, show: false }));
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [notification.show]);
 
   const formatBR = (val: string) => {
     const d = val.replace(/\D/g, "");
@@ -66,6 +75,8 @@ export default function Contact() {
     const newErrors: Record<string, string> = {};
     if (!formData.name.trim()) newErrors.name = t('contact.validation.nameRequired');
     if (!formData.email.trim() || !validateEmail(formData.email)) newErrors.email = t('contact.validation.emailInvalid');
+    if (!formData.country) newErrors.country = t('contact.validation.countryRequired');
+    if (formData.country.toLowerCase() === 'brasil' && !formData.state) newErrors.state = t('contact.validation.stateRequired');
     if (!formData.subject.trim()) newErrors.subject = t('contact.validation.subjectRequired');
     if (!formData.message.trim()) newErrors.message = t('contact.validation.messageRequired');
     return newErrors;
@@ -84,55 +95,59 @@ export default function Contact() {
     }
     setFeedback(t('contact.feedback.sending'));
     
-    // Configuração do EmailJS
-    // Você precisa criar uma conta em https://www.emailjs.com/
-    // Criar um serviço (ex: Gmail) e um template de email
-    // Substitua as variáveis abaixo pelas suas chaves do EmailJS
-    const SERVICE_ID = "service_ID_AQUI"; // Coloque seu Service ID
-    const TEMPLATE_ID = "template_ID_AQUI"; // Coloque seu Template ID
-    const PUBLIC_KEY = "PUBLIC_KEY_AQUI"; // Coloque sua Public Key
-
+    // Configuração de envio via API
     try {
-      // Preparar parâmetros para o template do EmailJS
-      const templateParams = {
-        to_name: "DW Granitos", // Nome de quem recebe
-        from_name: formData.name, // Nome de quem envia
-        from_email: formData.email, // Email de quem envia
-        phone: `${formData.phoneCode} ${formData.phone}`,
-        subject: formData.subject,
-        message: formData.message,
-        state: formData.state,
-        // Nota: Anexos requerem configuração avançada no EmailJS ou plano pago para envio direto
-      };
+      // Converter arquivos para Base64
+      const attachments = await Promise.all(formData.files.map(async (file) => {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve({
+            filename: file.name,
+            content: (reader.result as string).split(',')[1],
+            contentType: file.type
+          });
+          reader.onerror = reject;
+        });
+      }));
 
-      await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY);
-
-      setFeedback(t('contact.feedback.sent'));
-      setModalTitle(t('contact.modal.sent.title'));
-      setModalMessage(t('contact.modal.sent.message'));
-      setIsModalOpen(true);
-      setModalSuggestWhatsapp(false);
-      setFormData({
-        name: "",
-        email: "",
-        phoneCode: "+55",
-        phone: "",
-        subject: "",
-        message: "",
-        state: "",
-        files: []
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: `${formData.phoneCode} ${formData.phone}`,
+          country: formData.country,
+          state: formData.state,
+          subject: formData.subject,
+          message: formData.message,
+          attachments
+        })
       });
+
+      if (response.ok) {
+        setFeedback(t('contact.feedback.sent'));
+        setNotification({ show: true, type: 'success', message: t('contact.feedback.sent') });
+        setFormData({
+          name: "",
+          email: "",
+          phoneCode: "+55",
+          phone: "",
+          country: "Brasil",
+          subject: "",
+          message: "",
+          state: "",
+          files: []
+        });
+      } else {
+        throw new Error('Falha no envio');
+      }
     } catch (error) {
       console.error("Erro ao enviar email:", error);
       const msg = t('contact.modal.fail.message');
       setFeedback(msg);
-      setModalTitle(t('contact.modal.fail.title'));
-      setModalMessage(msg);
-      setIsModalOpen(true);
-      const phone = '5528999851446';
-      const text = `Olá! Tive uma falha ao enviar pelo site e gostaria de falar com a equipe.\n\nNome: ${formData.name}\nEmail: ${formData.email}\nTelefone: ${formData.phoneCode}${formData.phone}\nEstado: ${formData.state}\n\nMensagem:\n${formData.message}`;
-      setModalWhatsappUrl(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`);
-      setModalSuggestWhatsapp(true);
+      setNotification({ show: true, type: 'error', message: msg });
     }
   };
 
@@ -314,16 +329,14 @@ export default function Contact() {
                     <div className="space-y-2">
                       <label htmlFor="phone" className="text-sm font-semibold text-slate-700">{t('contact.form.phone.label')}</label>
                       <div className="flex gap-2">
-                        <select
+                        <input
+                          type="text"
                           name="phoneCode"
                           value={formData.phoneCode}
                           onChange={handleChange}
-                          className="px-3 py-3 rounded-lg bg-slate-50 border border-slate-200 outline-none focus:border-brand"
-                        >
-                          <option value="+55">+55</option>
-                          <option value="+1">+1</option>
-                          <option value="+351">+351</option>
-                        </select>
+                          className="w-20 px-3 py-3 rounded-lg bg-slate-50 border border-slate-200 outline-none focus:border-brand text-center"
+                          placeholder="+55"
+                        />
                         <input
                           type="tel"
                           name="phone"
@@ -336,19 +349,39 @@ export default function Contact() {
                     </div>
 
                     <div className="space-y-2">
-                      <label htmlFor="state" className="text-sm font-semibold text-slate-700">{t('contact.form.state.label')}</label>
-                      <select
-                        name="state"
-                        value={formData.state}
+                      <label htmlFor="country" className="text-sm font-semibold text-slate-700">{t('contact.form.country.label')}</label>
+                      <input
+                        type="text"
+                        name="country"
+                        value={formData.country}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 rounded-lg bg-slate-50 border border-slate-200 focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all outline-none"
-                      >
-                        <option value="">{t('contact.form.state.placeholder')}</option>
-                        {['AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO'].map(uf => (
-                          <option key={uf} value={uf}>{uf}</option>
-                        ))}
-                      </select>
+                        className={`w-full px-4 py-3 rounded-lg bg-slate-50 border focus:ring-2 focus:ring-brand/20 transition-all outline-none ${
+                          errors.country ? 'border-red-500 focus:border-red-500' : 'border-slate-200 focus:border-brand'
+                        }`}
+                        placeholder={t('contact.form.country.placeholder')}
+                      />
+                      {errors.country && <p className="text-xs text-red-500">{errors.country}</p>}
                     </div>
+
+                    {formData.country.toLowerCase() === 'brasil' && (
+                      <div className="space-y-2">
+                        <label htmlFor="state" className="text-sm font-semibold text-slate-700">{t('contact.form.state.label')}</label>
+                        <select
+                          name="state"
+                          value={formData.state}
+                          onChange={handleChange}
+                          className={`w-full px-4 py-3 rounded-lg bg-slate-50 border focus:ring-2 focus:ring-brand/20 transition-all outline-none ${
+                            errors.state ? 'border-red-500 focus:border-red-500' : 'border-slate-200 focus:border-brand'
+                          }`}
+                        >
+                          <option value="">{t('contact.form.state.placeholder')}</option>
+                          {['AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO'].map(uf => (
+                            <option key={uf} value={uf}>{uf}</option>
+                          ))}
+                        </select>
+                        {errors.state && <p className="text-xs text-red-500">{errors.state}</p>}
+                      </div>
+                    )}
                   </div>
 
                   <div className="space-y-2">
@@ -367,8 +400,16 @@ export default function Contact() {
                       </div>
                     </div>
                     {formData.files.length > 0 && (
-                      <div className="text-xs text-brand font-medium">
-                        {formData.files.length} {t('contact.form.files.selected')}
+                      <div className="mt-3 space-y-2">
+                        <p className="text-xs font-semibold text-slate-700">{t('contact.form.files.list')}</p>
+                        <ul className="text-xs text-slate-600 bg-slate-50 rounded-lg p-2 border border-slate-100">
+                          {formData.files.map((file, index) => (
+                            <li key={index} className="flex items-center justify-between py-1 border-b border-slate-100 last:border-0">
+                              <span className="truncate max-w-[200px]">{file.name}</span>
+                              <span className="text-slate-400 text-[10px]">{(file.size / 1024 / 1024).toFixed(2)} MB</span>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     )}
                   </div>
@@ -434,33 +475,16 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={() => setIsModalOpen(false)} />
-          <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md p-8 animate-fade-in-up">
-            <h3 className="text-2xl font-bold text-slate-800 mb-2">{modalTitle}</h3>
-            <p className="text-slate-600 mb-6">{modalMessage}</p>
-            <div className="flex flex-col gap-3">
-              {modalSuggestWhatsapp && (
-                <a 
-                  href={modalWhatsappUrl} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="w-full py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 text-center font-semibold transition-colors flex items-center justify-center gap-2"
-                >
-                  <MessageCircle className="h-5 w-5" />
-                  {t('contact.modal.whatsapp')}
-                </a>
-              )}
-              <button 
-                onClick={() => setIsModalOpen(false)} 
-                className="w-full py-3 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 font-semibold transition-colors"
-              >
-                {t('contact.modal.close')}
-              </button>
-            </div>
-          </div>
+      {/* Toast Notification */}
+      {notification.show && (
+        <div className={`fixed bottom-4 right-4 p-4 rounded-lg shadow-2xl flex items-center gap-3 z-50 animate-slide-in ${
+          notification.type === 'success' ? 'bg-green-50 text-green-800 border border-green-200' : 'bg-red-50 text-red-800 border border-red-200'
+        }`}>
+          {notification.type === 'success' ? <CheckCircle className="h-5 w-5" /> : <XCircle className="h-5 w-5" />}
+          <p className="font-medium">{notification.message}</p>
+          <button onClick={() => setNotification(prev => ({ ...prev, show: false }))} className="ml-2 opacity-50 hover:opacity-100">
+            <X className="h-4 w-4" />
+          </button>
         </div>
       )}
     </div>
