@@ -274,3 +274,9 @@
 .aurora-blobs .b2 { width: 180px; height: 180px; right: 14%; top: 26%; background: rgba(237,240,233,0.55); }
 .aurora-blobs .b3 { width: 140px; height: 140px; right: 28%; bottom: 16%; background: rgba(233,226,214,0.5); }
 .aurora-blobs .b4 { width: 120px; height: 120px; left: 24%; bottom: 22%; background: rgba(255,255,255,0.5); }
+
+/* Safeguard: esconde badge de ferramentas de desenvolvimento se injetado */
+#trae-badge-plugin,
+.trae-badge {
+  display: none !important;
+}

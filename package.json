@@ -11,14 +11,18 @@
     "check": "tsc -b --noEmit"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "clsx": "^2.1.1",
+    "framer-motion": "^12.31.0",
     "lucide-react": "^0.511.0",
     "nodemailer": "^6.10.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-hook-form": "^7.71.1",
     "react-router-dom": "^7.9.5",
-    "tailwind-merge": "^3.0.2",
-    "zustand": "^5.0.8"
+    "tailwind-merge": "^3.4.0",
+    "zod": "^4.3.6",
+    "zustand": "^5.0.11"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
@@ -28,11 +32,13 @@
     "@vitejs/plugin-react": "^4.4.1",
     "autoprefixer": "^10.4.21",
     "babel-plugin-react-dev-locator": "^1.0.0",
+    "baseline-browser-mapping": "^2.9.19",
     "eslint": "^9.25.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
     "postcss": "^8.5.3",
+    "sharp": "^0.34.5",
     "tailwindcss": "^3.4.17",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.30.1",

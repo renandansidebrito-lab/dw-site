@@ -1,7 +1,8 @@
 import { ReactNode, useEffect, useState } from "react";
 import { AlertTriangle } from "lucide-react";
-import Header from "./Header";
+import ModernNavigation from "@/components/ModernNavigation";
 import Footer from "./Footer";
+import { useTranslation } from "@/contexts/i18nContext";
 
 interface LayoutProps {
   children: ReactNode;
@@ -10,6 +11,7 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   const [showNotice, setShowNotice] = useState(false);
   const [showCookies, setShowCookies] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     try {
@@ -41,16 +43,16 @@ export default function Layout({ children }: LayoutProps) {
               <div className="w-10 h-10 rounded-full bg-yellow-100 text-yellow-700 flex items-center justify-center mr-3">
                 <AlertTriangle className="h-6 w-6" />
               </div>
-              <h3 className="text-lg font-semibold text-slate-800">Site em construção</h3>
+              <h3 className="text-lg font-semibold text-slate-800">{t('notice.site.title')}</h3>
             </div>
-            <p className="text-slate-600 mb-6">Estamos ajustando alguns conteúdos e seções. Obrigado pela compreensão!</p>
+            <p className="text-slate-600 mb-6">{t('notice.site.message')}</p>
             <div className="text-right">
-              <button onClick={dismissNotice} className="px-4 py-2 bg-brand text-white rounded-lg hover:bg-brand2">Entendi</button>
+              <button onClick={dismissNotice} className="px-4 py-2 bg-brand text-white rounded-lg hover:bg-brand2">{t('notice.site.ok')}</button>
             </div>
           </div>
         </div>
       )}
-      <Header />
+      <ModernNavigation />
       <main className="flex-grow">
         {children}
       </main>
@@ -59,11 +61,9 @@ export default function Layout({ children }: LayoutProps) {
         <div className="fixed bottom-4 left-4 right-4 z-40">
           <div className="mx-auto max-w-7xl">
             <div className="bg-white/95 backdrop-blur rounded-xl shadow-lg border border-slate-200 p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-              <p className="text-slate-700 text-sm">
-                Usamos cookies para melhorar sua experiência e entender o uso do site. Ao continuar, você concorda com nossa política de cookies.
-              </p>
+              <p className="text-slate-700 text-sm">{t('cookies.message')}</p>
               <div className="flex items-center gap-3">
-                <button onClick={acceptCookies} className="px-4 py-2 bg-brand text-white rounded-lg hover:bg-brand2">Aceitar</button>
+                <button onClick={acceptCookies} className="px-4 py-2 bg-brand text-white rounded-lg hover:bg-brand2">{t('cookies.accept')}</button>
               </div>
             </div>
           </div>

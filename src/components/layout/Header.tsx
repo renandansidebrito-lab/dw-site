@@ -40,7 +40,7 @@ export default function Header() {
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
           <Link to="/" className="flex items-center">
-            <img src="/images/dw-logo-black.png" alt="DW Granitos" className="h-12 w-auto" />
+            <img src="/images/dw-logo-black.webp" alt="DW Granitos" className="h-12 w-auto" />
           </Link>
 
           {/* Desktop Navigation */}
@@ -120,7 +120,7 @@ export default function Header() {
               
               {/* Language Selector Mobile */}
               <div className="border-t pt-2 mt-2">
-                <p className="px-3 py-2 text-sm font-medium text-slate-500">Idioma / Language / Idioma</p>
+                <p className="px-3 py-2 text-sm font-medium text-slate-500">{t('nav.language')}</p>
                 {languages.map((lang) => (
                   <button
                     key={lang.code}

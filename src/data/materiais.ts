@@ -9,808 +9,735 @@ export type Material = {
   descricao: string;
 };
 
-export const materiaisExemplo: Material[] = [
-  // 1. GRANITO AMARELO CAPRI
+export const getMateriais = (t: (key: string) => string): Material[] => [
   {
     id: 1,
-    nome: "Amarelo Capri",
+    nome: t('catalog.name.1'),
     tipo: "granito",
-    cor: "Amarelo",
+    cor: t('catalog.colors.yellow'),
     origem: "BA",
-    aplicacoes: ["Pisos", "Paredes", "Áreas sociais", "Decoração"],
+    aplicacoes: [t('catalog.app.floors'), t('catalog.app.walls'), t('catalog.app.social'), t('catalog.app.decoration')],
     imagem: "/images/materiais/amarelo-capri.webp",
-    descricao: "Granito amarelo vibrante com tons dourados que aquecem os ambientes."
+    descricao: t('catalog.desc.1')
   },
-  // 2. GRANITO AMARELO ÍCARAI
   {
     id: 2,
-    nome: "Amarelo Icaraí",
+    nome: t('catalog.name.2'),
     tipo: "granito",
-    cor: "Amarelo",
+    cor: t('catalog.colors.yellow'),
     origem: "RJ",
-    aplicacoes: ["Pisos", "Revestimentos", "Bancadas"],
+    aplicacoes: [t('catalog.app.floors'), t('catalog.app.cladding'), t('catalog.app.countertops')],
     imagem: "/images/materiais/amarelo-icarai.webp",
-    descricao: "Granito amarelo com tons quentes e vibrantes."
+    descricao: t('catalog.desc.2')
   },
-  // 3. GRANITO AMARELO MARACUJÁ
   {
     id: 3,
-    nome: "Amarelo Maracujá",
+    nome: t('catalog.name.3'),
     tipo: "granito",
-    cor: "Amarelo",
+    cor: t('catalog.colors.yellow'),
     origem: "BA",
-    aplicacoes: ["Cozinhas", "Áreas internas", "Bancadas", "Pias"],
+    aplicacoes: [t('catalog.app.kitchens'), t('catalog.app.internal'), t('catalog.app.countertops'), t('catalog.app.sinks')],
     imagem: "/images/materiais/amarelo-maracuja.webp",
-    descricao: "Granito amarelo único com padrão exclusivo e cores vibrantes."
+    descricao: t('catalog.desc.3')
   },
-  // 4. GRANITO AMARELO ORNAMENTAL
   {
     id: 4,
-    nome: "Amarelo Ornamental",
+    nome: t('catalog.name.4'),
     tipo: "granito",
-    cor: "Amarelo",
+    cor: t('catalog.colors.yellow'),
     origem: "ES",
-    aplicacoes: ["Pisos", "Bancadas", "Revestimentos"],
+    aplicacoes: [t('catalog.app.floors'), t('catalog.app.countertops'), t('catalog.app.cladding')],
     imagem: "/images/materiais/amarelo-ornamental.webp",
-    descricao: "Granito amarelo com pontilhados pretos e marrons, clássico."
+    descricao: t('catalog.desc.4')
   },
-  // 5. GRANITO AMARELO SANTA CECÍLIA
   {
     id: 5,
-    nome: "Amarelo Santa Cecília",
+    nome: t('catalog.name.5'),
     tipo: "granito",
-    cor: "Amarelo",
+    cor: t('catalog.colors.yellow'),
     origem: "ES",
-    aplicacoes: ["Bancadas", "Pisos"],
+    aplicacoes: [t('catalog.app.countertops'), t('catalog.app.floors')],
     imagem: "/images/materiais/amarelo-santa-cecilia.webp",
-    descricao: "Granito amarelo clássico e resistente."
+    descricao: t('catalog.desc.5')
   },
-  // 6. GRANITO AMARELO VITÓRIA
   {
     id: 6,
-    nome: "Amarelo Vitória",
+    nome: t('catalog.name.6'),
     tipo: "granito",
-    cor: "Amarelo",
+    cor: t('catalog.colors.yellow'),
     origem: "ES",
-    aplicacoes: ["Paredes", "Banheiros", "Áreas sociais", "Decoração"],
+    aplicacoes: [t('catalog.app.walls'), t('catalog.app.bathrooms'), t('catalog.app.social'), t('catalog.app.decoration')],
     imagem: "/images/materiais/amarelo-vitoria.webp",
-    descricao: "Granito amarelo sofisticado com padrão elegante e acabamento refinado."
+    descricao: t('catalog.desc.6')
   },
-  // 7. ANFIBOLITO MADEIRUS
   {
     id: 7,
-    nome: "Anfibolito Madeirus",
+    nome: t('catalog.name.7'),
     tipo: "outros",
-    cor: "Marrom",
-    origem: "Nacional",
-    aplicacoes: ["Revestimentos", "Pisos"],
+    cor: t('catalog.colors.brown'),
+    origem: t('catalog.origin.national'),
+    aplicacoes: [t('catalog.app.cladding'), t('catalog.app.floors')],
     imagem: "/images/materiais/anfibolito-madeirus.webp",
-    descricao: "Rocha metamórfica com textura que lembra madeira."
+    descricao: t('catalog.desc.7')
   },
-  // 8. MÁRMORE BEGE BAHIA
   {
     id: 8,
-    nome: "Bege Bahia",
+    nome: t('catalog.name.8'),
     tipo: "marmore",
-    cor: "Bege",
+    cor: t('catalog.colors.beige'),
     origem: "BA",
-    aplicacoes: ["Pisos", "Revestimentos", "Fachadas"],
+    aplicacoes: [t('catalog.app.floors'), t('catalog.app.cladding'), t('catalog.app.facades')],
     imagem: "/images/materiais/bege-bahia.webp",
-    descricao: "Mármore bege nacional muito utilizado em pisos e revestimentos."
+    descricao: t('catalog.desc.8')
   },
-  // 9. GRANITO BEGE IPANEMA
   {
     id: 9,
-    nome: "Bege Ipanema",
+    nome: t('catalog.name.9'),
     tipo: "granito",
-    cor: "Bege",
+    cor: t('catalog.colors.beige'),
     origem: "RJ",
-    aplicacoes: ["Pisos", "Cozinhas", "Áreas internas", "Salas"],
+    aplicacoes: [t('catalog.app.floors'), t('catalog.app.kitchens'), t('catalog.app.internal'), t('catalog.app.living')],
     imagem: "/images/materiais/bege-ipanema.webp",
-    descricao: "Granito bege versátil com tons quentes que combinam com diversos estilos."
+    descricao: t('catalog.desc.9')
   },
-  // 10. QUARTZITO BIANCO SUPERIORE
   {
     id: 10,
-    nome: "Bianco Superiore",
+    nome: t('catalog.name.10'),
     tipo: "quartzito",
-    cor: "Branco",
-    origem: "Importado",
-    aplicacoes: ["Bancadas de Luxo", "Revestimentos"],
+    cor: t('catalog.colors.white'),
+    origem: t('catalog.origin.imported'),
+    aplicacoes: [t('catalog.app.luxury_countertops'), t('catalog.app.cladding')],
     imagem: "/images/materiais/bianco-superiore.webp",
-    descricao: "Quartzito branco de extrema pureza e dureza."
+    descricao: t('catalog.desc.10')
   },
-  // 11. GRANITO BRANCO ALASKA
   {
     id: 11,
-    nome: "Branco Alaska",
+    nome: t('catalog.name.11'),
     tipo: "granito",
-    cor: "Branco",
-    origem: "Importado",
-    aplicacoes: ["Bancadas", "Paredes"],
+    cor: t('catalog.colors.white'),
+    origem: t('catalog.origin.imported'),
+    aplicacoes: [t('catalog.app.countertops'), t('catalog.app.walls')],
     imagem: "/images/materiais/branco-alaska.webp",
-    descricao: "Granito branco com grandes cristais de quartzo e feldspato."
+    descricao: t('catalog.desc.11')
   },
-  // 12. GRANITO BRANCO ARABESCO
   {
     id: 12,
-    nome: "Branco Arabesco",
+    nome: t('catalog.name.12'),
     tipo: "granito",
-    cor: "Branco",
+    cor: t('catalog.colors.white'),
     origem: "ES",
-    aplicacoes: ["Pisos", "Bancadas", "Revestimentos"],
+    aplicacoes: [t('catalog.app.floors'), t('catalog.app.countertops'), t('catalog.app.cladding')],
     imagem: "/images/materiais/branco-arabesco.webp",
-    descricao: "Granito branco com movimentos cinzas fluidos."
+    descricao: t('catalog.desc.12')
   },
-  // 13. MÁRMORE BRANCO CARRARINHA
   {
     id: 13,
-    nome: "Branco Carrarinha",
+    nome: t('catalog.name.13'),
     tipo: "marmore",
-    cor: "Branco",
-    origem: "Nacional",
-    aplicacoes: ["Revestimentos", "Banheiros"],
+    cor: t('catalog.colors.white'),
+    origem: t('catalog.origin.national'),
+    aplicacoes: [t('catalog.app.cladding'), t('catalog.app.bathrooms')],
     imagem: "/images/materiais/branco-carrarinha.webp",
-    descricao: "Mármore nacional que remete ao Carrara italiano."
+    descricao: t('catalog.desc.13')
   },
-  // 14. GRANITO BRANCO CEARÁ
   {
     id: 14,
-    nome: "Branco Ceará",
+    nome: t('catalog.name.14'),
     tipo: "granito",
-    cor: "Branco",
+    cor: t('catalog.colors.white'),
     origem: "CE",
-    aplicacoes: ["Pisos", "Revestimentos"],
+    aplicacoes: [t('catalog.app.floors'), t('catalog.app.cladding')],
     imagem: "/images/materiais/branco-ceara.webp",
-    descricao: "Granito branco com pintas pretas bem distribuídas."
+    descricao: t('catalog.desc.14')
   },
-  // 15. GRANITO BRANCO COTTON
   {
     id: 15,
-    nome: "Branco Cotton",
+    nome: t('catalog.name.15'),
     tipo: "granito",
-    cor: "Branco",
+    cor: t('catalog.colors.white'),
     origem: "ES",
-    aplicacoes: ["Bancadas", "Pisos"],
+    aplicacoes: [t('catalog.app.countertops'), t('catalog.app.floors')],
     imagem: "/images/materiais/branco-cotton.webp",
-    descricao: "Granito branco com aparência suave como algodão."
+    descricao: t('catalog.desc.15')
   },
-  // 16. GRANITO BRANCO DALLAS
   {
     id: 16,
-    nome: "Branco Dallas",
+    nome: t('catalog.name.16'),
     tipo: "granito",
-    cor: "Branco",
+    cor: t('catalog.colors.white'),
     origem: "ES",
-    aplicacoes: ["Pisos", "Bancadas", "Revestimentos"],
+    aplicacoes: [t('catalog.app.floors'), t('catalog.app.countertops'), t('catalog.app.cladding')],
     imagem: "/images/materiais/branco-dallas.webp",
-    descricao: "Granito branco com pontilhados em tons de vinho e cinza."
+    descricao: t('catalog.desc.16')
   },
-  // 17. GRANITO BRANCO FORTALEZA
   {
     id: 17,
-    nome: "Branco Fortaleza",
+    nome: t('catalog.name.17'),
     tipo: "granito",
-    cor: "Branco",
+    cor: t('catalog.colors.white'),
     origem: "CE",
-    aplicacoes: ["Pisos", "Bancadas", "Revestimentos"],
+    aplicacoes: [t('catalog.app.floors'), t('catalog.app.countertops'), t('catalog.app.cladding')],
     imagem: "/images/materiais/branco-fortaleza.webp",
-    descricao: "Granito branco com pintas cinzas e pretas, alta durabilidade."
+    descricao: t('catalog.desc.17')
   },
-  // 18. GRANITO BRANCO ITAÚNAS
   {
     id: 18,
-    nome: "Branco Itaúnas",
+    nome: t('catalog.name.18'),
     tipo: "granito",
-    cor: "Branco",
+    cor: t('catalog.colors.white'),
     origem: "ES",
-    aplicacoes: ["Pisos", "Revestimentos", "Bancadas"],
+    aplicacoes: [t('catalog.app.floors'), t('catalog.app.cladding'), t('catalog.app.countertops')],
     imagem: "/images/materiais/branco-itaunas.webp",
-    descricao: "Granito branco com aparência que remete ao mármore, muito utilizado em pisos."
+    descricao: t('catalog.desc.18')
   },
-  // 19. QUARTZITO BRANCO MACAÚBAS
   {
     id: 19,
-    nome: "Branco Macaúbas",
+    nome: t('catalog.name.19'),
     tipo: "quartzito",
-    cor: "Branco",
+    cor: t('catalog.colors.white'),
     origem: "BA",
-    aplicacoes: ["Bancadas", "Pisos", "Revestimentos"],
+    aplicacoes: [t('catalog.app.countertops'), t('catalog.app.floors'), t('catalog.app.cladding')],
     imagem: "/images/materiais/branco-macaubas.webp",
-    descricao: "Quartzito branco com veios lineares cinzas, nobre e resistente."
+    descricao: t('catalog.desc.19')
   },
-  // 20. MÁRMORE BRANCO MOURA
   {
     id: 20,
-    nome: "Branco Moura",
+    nome: t('catalog.name.20'),
     tipo: "marmore",
-    cor: "Branco",
-    origem: "Nacional",
-    aplicacoes: ["Pisos", "Revestimentos"],
+    cor: t('catalog.colors.white'),
+    origem: t('catalog.origin.national'),
+    aplicacoes: [t('catalog.app.floors'), t('catalog.app.cladding')],
     imagem: "/images/materiais/branco-moura.webp",
-    descricao: "Mármore branco com veios cinzas suaves."
+    descricao: t('catalog.desc.20')
   },
-  // 21. MÁRMORE BRANCO PARANÁ
   {
     id: 21,
-    nome: "Branco Paraná",
+    nome: t('catalog.name.21'),
     tipo: "marmore",
-    cor: "Branco",
+    cor: t('catalog.colors.white'),
     origem: "PR",
-    aplicacoes: ["Pisos", "Revestimentos"],
+    aplicacoes: [t('catalog.app.floors'), t('catalog.app.cladding')],
     imagem: "/images/materiais/branco-parana.webp",
-    descricao: "Mármore branco nacional de alta dureza e beleza."
+    descricao: t('catalog.desc.21')
   },
-  // 22. GRANITO BRANCO PITAYA
   {
     id: 22,
-    nome: "Branco Pitaya",
+    nome: t('catalog.name.22'),
     tipo: "granito",
-    cor: "Branco",
+    cor: t('catalog.colors.white'),
     origem: "BA",
-    aplicacoes: ["Bancadas", "Pisos"],
+    aplicacoes: [t('catalog.app.countertops'), t('catalog.app.floors')],
     imagem: "/images/materiais/branco-pitaya.webp",
-    descricao: "Granito branco com padrão exclusivo."
+    descricao: t('catalog.desc.22')
   },
-  // 23. BRANCO PRIME
   {
     id: 23,
-    nome: "Branco Prime",
+    nome: t('catalog.name.23'),
     tipo: "ultracompacto",
-    cor: "Branco",
-    origem: "Industrializado",
-    aplicacoes: ["Bancadas de Banheiro", "Revestimentos Internos", "Lavatórios"],
+    cor: t('catalog.colors.white'),
+    origem: t('catalog.origin.industrialized'),
+    aplicacoes: [t('catalog.app.bathroom_countertops'), t('catalog.app.internal_cladding'), "Lavatórios"],
     imagem: "/images/materiais/branco-prime.webp",
-    descricao: "Material industrializado branco puro, ideal para ambientes internos e lavatórios."
+    descricao: t('catalog.desc.23')
   },
-  // 24. GRANITO BRANCO SIENA
   {
     id: 24,
-    nome: "Branco Siena",
+    nome: t('catalog.name.24'),
     tipo: "granito",
-    cor: "Branco",
+    cor: t('catalog.colors.white'),
     origem: "ES",
-    aplicacoes: ["Pisos", "Bancadas", "Revestimentos"],
+    aplicacoes: [t('catalog.app.floors'), t('catalog.app.countertops'), t('catalog.app.cladding')],
     imagem: "/images/materiais/branco-siena.webp",
-    descricao: "Granito branco com pontilhados cinzas e pretos, muito popular e resistente."
+    descricao: t('catalog.desc.24')
   },
-  // 25. GRANITO CAFÉ IMPERIAL
   {
     id: 25,
-    nome: "Café Imperial",
+    nome: t('catalog.name.25'),
     tipo: "granito",
-    cor: "Marrom",
+    cor: t('catalog.colors.brown'),
     origem: "MG",
-    aplicacoes: ["Pisos", "Bancadas", "Detalhes"],
+    aplicacoes: [t('catalog.app.floors'), t('catalog.app.countertops'), t('catalog.app.details')],
     imagem: "/images/materiais/cafe-imperial.webp",
-    descricao: "Granito marrom escuro com grãos marcantes, muito sofisticado."
+    descricao: t('catalog.desc.25')
   },
-  // 26. MÁRMORE CALACATA
   {
     id: 26,
-    nome: "Calacata",
+    nome: t('catalog.name.26'),
     tipo: "marmore",
-    cor: "Branco",
-    origem: "Importado",
-    aplicacoes: ["Bancadas", "Pisos", "Revestimentos de Luxo"],
+    cor: t('catalog.colors.white'),
+    origem: t('catalog.origin.imported'),
+    aplicacoes: [t('catalog.app.countertops'), t('catalog.app.floors'), t('catalog.app.luxury_cladding')],
     imagem: "/images/materiais/calacata.webp",
-    descricao: "Mármore branco de alto padrão com veios cinzas marcantes e fundo claro."
+    descricao: t('catalog.desc.26')
   },
-  // 27. MÁRMORE CALACATTA GOLD
   {
     id: 27,
-    nome: "Calacatta Gold",
+    nome: t('catalog.name.27'),
     tipo: "marmore",
-    cor: "Branco",
-    origem: "Importado",
-    aplicacoes: ["Bancadas", "Revestimentos de Luxo"],
+    cor: t('catalog.colors.white'),
+    origem: t('catalog.origin.imported'),
+    aplicacoes: [t('catalog.app.countertops'), t('catalog.app.luxury_cladding')],
     imagem: "/images/materiais/calacatta-gold.webp",
-    descricao: "Mármore branco com veios dourados, ícone de luxo."
+    descricao: t('catalog.desc.27')
   },
-  // 28. GRANITO CINZA ANDORINHA
   {
     id: 28,
-    nome: "Cinza Andorinha",
+    nome: t('catalog.name.28'),
     tipo: "granito",
-    cor: "Cinza",
+    cor: t('catalog.colors.gray'),
     origem: "SP",
-    aplicacoes: ["Pisos", "Escadas", "Soleiras"],
+    aplicacoes: [t('catalog.app.floors'), t('catalog.app.stairs'), t('catalog.app.sills')],
     imagem: "/images/materiais/cinza-andorinha.webp",
-    descricao: "Granito cinza com pigmentos pretos, excelente custo-benefício."
+    descricao: t('catalog.desc.28')
   },
-  // 29. GRANITO CINZA CORUMBÁ
   {
     id: 29,
-    nome: "Cinza Corumbá",
+    nome: t('catalog.name.29'),
     tipo: "granito",
-    cor: "Cinza",
+    cor: t('catalog.colors.gray'),
     origem: "MS",
-    aplicacoes: ["Pisos", "Revestimentos", "Bancadas"],
+    aplicacoes: [t('catalog.app.floors'), t('catalog.app.cladding'), t('catalog.app.countertops')],
     imagem: "/images/materiais/cinza-corumba.webp",
-    descricao: "Granito cinza clássico e resistente, ideal para grandes obras."
+    descricao: t('catalog.desc.29')
   },
-  // 30. GRANITO CINZA CORUMBAZINHO
   {
     id: 30,
-    nome: "Cinza Corumbazinho",
+    nome: t('catalog.name.30'),
     tipo: "granito",
-    cor: "Cinza",
+    cor: t('catalog.colors.gray'),
     origem: "MS",
-    aplicacoes: ["Pisos", "Revestimentos", "Escadas"],
+    aplicacoes: [t('catalog.app.floors'), t('catalog.app.cladding'), t('catalog.app.stairs')],
     imagem: "/images/materiais/cinza-corumbazinho.webp",
-    descricao: "Granito cinza com grãos menores que o Corumbá tradicional."
+    descricao: t('catalog.desc.30')
   },
-  // 31. GRANITO CINZA MUNDO NOVO
   {
     id: 31,
-    nome: "Cinza Mundo Novo",
+    nome: t('catalog.name.31'),
     tipo: "granito",
-    cor: "Cinza",
-    origem: "Nacional",
-    aplicacoes: ["Pisos", "Calçadas"],
+    cor: t('catalog.colors.gray'),
+    origem: t('catalog.origin.national'),
+    aplicacoes: [t('catalog.app.floors'), t('catalog.app.sidewalks')],
     imagem: "/images/materiais/cinza-mundo-novo.webp",
-    descricao: "Granito cinza clássico para obras comerciais e residenciais."
+    descricao: t('catalog.desc.31')
   },
-  // 32. MÁRMORE CREMA MARFIL EXTRA
   {
     id: 32,
-    nome: "Crema Marfil Extra",
+    nome: t('catalog.name.32'),
     tipo: "marmore",
-    cor: "Bege",
-    origem: "Importado",
-    aplicacoes: ["Pisos Internos", "Banheiros", "Revestimentos"],
+    cor: t('catalog.colors.beige'),
+    origem: t('catalog.origin.imported'),
+    aplicacoes: [t('catalog.app.internal_floors'), t('catalog.app.bathrooms'), t('catalog.app.cladding')],
     imagem: "/images/materiais/crema-marfil.webp",
-    descricao: "Mármore bege espanhol de tonalidade uniforme e acabamento nobre."
+    descricao: t('catalog.desc.32')
   },
-  // 33. QUARTZITO DAKAR
   {
     id: 33,
-    nome: "Dakar",
+    nome: t('catalog.name.33'),
     tipo: "quartzito",
-    cor: "Bege",
-    origem: "Nacional",
-    aplicacoes: ["Revestimentos", "Pisos", "Bancadas"],
+    cor: t('catalog.colors.beige'),
+    origem: t('catalog.origin.national'),
+    aplicacoes: [t('catalog.app.cladding'), t('catalog.app.floors'), t('catalog.app.countertops')],
     imagem: "/images/materiais/dakar.webp",
-    descricao: "Quartzito resistente com tons terrosos e bege."
+    descricao: t('catalog.desc.33')
   },
-  // 34. ULTRACOMPACTA DEKTON LAOS
   {
     id: 34,
-    nome: "Dekton Laos",
+    nome: t('catalog.name.34'),
     tipo: "ultracompacto",
-    cor: "Cinza",
-    origem: "Industrializado",
-    aplicacoes: ["Fachadas", "Pisos", "Bancadas"],
+    cor: t('catalog.colors.gray'),
+    origem: t('catalog.origin.industrialized'),
+    aplicacoes: [t('catalog.app.facades'), t('catalog.app.floors'), t('catalog.app.countertops')],
     imagem: "/images/materiais/dekton-laos.webp",
-    descricao: "Superfície ultracompacta inspirada em cimento industrial."
+    descricao: t('catalog.desc.34')
   },
-  // 35. ULTRACOMPACTA DEKTON SIROCCO
   {
     id: 35,
-    nome: "Dekton Sirocco",
+    nome: t('catalog.name.35'),
     tipo: "ultracompacto",
-    cor: "Cinza",
-    origem: "Industrializado",
-    aplicacoes: ["Pisos", "Revestimentos"],
+    cor: t('catalog.colors.gray'),
+    origem: t('catalog.origin.industrialized'),
+    aplicacoes: [t('catalog.app.floors'), t('catalog.app.cladding')],
     imagem: "/images/materiais/dekton-sirocco.webp",
-    descricao: "Ultracompacto cinza calcário com textura natural."
+    descricao: t('catalog.desc.35')
   },
-  // 36. MÁRMORE GREY EMPERADOR
   {
     id: 36,
-    nome: "Grey Emperador",
+    nome: t('catalog.name.36'),
     tipo: "marmore",
-    cor: "Cinza",
-    origem: "Importado",
-    aplicacoes: ["Revestimentos", "Lavabos"],
+    cor: t('catalog.colors.gray'),
+    origem: t('catalog.origin.imported'),
+    aplicacoes: [t('catalog.app.cladding'), t('catalog.app.washbasins')],
     imagem: "/images/materiais/grey-emperador.webp",
-    descricao: "Mármore cinza com veios brancos, sofisticação moderna."
+    descricao: t('catalog.desc.36')
   },
-  // 37. GRANITO JUPARANÁ
   {
     id: 37,
-    nome: "Juparaná",
+    nome: t('catalog.name.37'),
     tipo: "granito",
-    cor: "Cinza",
-    origem: "Nacional",
-    aplicacoes: ["Pisos", "Bancadas"],
+    cor: t('catalog.colors.gray'),
+    origem: t('catalog.origin.national'),
+    aplicacoes: [t('catalog.app.floors'), t('catalog.app.countertops')],
     imagem: "/images/materiais/juparana.webp",
-    descricao: "Granito com movimentos ondulados característicos."
+    descricao: t('catalog.desc.37')
   },
-  // 38. QUARTZO CINZA KENSHO
   {
     id: 38,
-    nome: "Kensho",
+    nome: t('catalog.name.38'),
     tipo: "quartzo",
-    cor: "Cinza",
-    origem: "Industrializado",
-    aplicacoes: ["Bancadas", "Revestimentos"],
+    cor: t('catalog.colors.gray'),
+    origem: t('catalog.origin.industrialized'),
+    aplicacoes: [t('catalog.app.countertops'), t('catalog.app.cladding')],
     imagem: "/images/materiais/kensho.webp",
-    descricao: "Quartzo cinza claro da Silestone, inspiração oriental."
+    descricao: t('catalog.desc.38')
   },
-  // 39. QUARTZITO KOUROS
   {
     id: 39,
-    nome: "Kouros",
+    nome: t('catalog.name.39'),
     tipo: "quartzito",
-    cor: "Branco",
-    origem: "Nacional",
-    aplicacoes: ["Bancadas", "Revestimentos"],
+    cor: t('catalog.colors.white'),
+    origem: t('catalog.origin.national'),
+    aplicacoes: [t('catalog.app.countertops'), t('catalog.app.cladding')],
     imagem: "/images/materiais/kouros.webp",
-    descricao: "Quartzito branco com veios dourados e textura única."
+    descricao: t('catalog.desc.39')
   },
-  // 40. LÂMINA ULTRACOMPACTA
   {
     id: 40,
-    nome: "Lâmina Ultracompacta",
+    nome: t('catalog.name.40'),
     tipo: "ultracompacto",
-    cor: "Variada",
-    origem: "Industrializado",
-    aplicacoes: ["Revestimentos", "Mobiliário"],
+    cor: t('catalog.colors.varied'),
+    origem: t('catalog.origin.industrialized'),
+    aplicacoes: [t('catalog.app.cladding'), t('catalog.app.furniture')],
     imagem: "/images/materiais/lamina-ultracompacta.webp",
-    descricao: "Lâminas finas e resistentes para revestimento de móveis e paredes."
+    descricao: t('catalog.desc.40')
   },
-  // 41. MÁRMORE BRANCO
   {
     id: 41,
-    nome: "Mármore Branco",
+    nome: t('catalog.name.41'),
     tipo: "marmore",
-    cor: "Branco",
-    origem: "Nacional",
-    aplicacoes: ["Revestimentos", "Pisos", "Banheiros"],
+    cor: t('catalog.colors.white'),
+    origem: t('catalog.origin.national'),
+    aplicacoes: [t('catalog.app.cladding'), t('catalog.app.floors'), t('catalog.app.bathrooms')],
     imagem: "/images/materiais/marmore-branco.webp",
-    descricao: "Mármore branco nacional clássico."
+    descricao: t('catalog.desc.41')
   },
-  // 42. GRANITO MARROM ABSOLUTO
   {
     id: 42,
-    nome: "Marrom Absoluto",
+    nome: t('catalog.name.42'),
     tipo: "granito",
-    cor: "Marrom",
+    cor: t('catalog.colors.brown'),
     origem: "BA",
-    aplicacoes: ["Bancadas", "Pisos", "Revestimentos"],
+    aplicacoes: [t('catalog.app.countertops'), t('catalog.app.floors'), t('catalog.app.cladding')],
     imagem: "/images/materiais/marrom-absoluto.webp",
-    descricao: "Granito marrom uniforme e elegante."
+    descricao: t('catalog.desc.42')
   },
-  // 43. MÁRMORE MICHELANGELO NUVOLATO
   {
     id: 43,
-    nome: "Michelangelo Nuvolato",
+    nome: t('catalog.name.43'),
     tipo: "marmore",
-    cor: "Branco",
+    cor: t('catalog.colors.white'),
     origem: "PR",
-    aplicacoes: ["Pisos", "Revestimentos", "Banheiros"],
+    aplicacoes: [t('catalog.app.floors'), t('catalog.app.cladding'), t('catalog.app.bathrooms')],
     imagem: "/images/materiais/michelangelo-nuvolato.webp",
-    descricao: "Mármore branco paranaense com veios dourados e cinzas, de beleza única."
+    descricao: t('catalog.desc.43')
   },
-  // 44. QUARTZITO MONT BLANC
   {
     id: 44,
-    nome: "Mont Blanc",
+    nome: t('catalog.name.44'),
     tipo: "quartzito",
-    cor: "Branco",
-    origem: "Nacional",
-    aplicacoes: ["Bancadas", "Áreas Gourmet", "Revestimentos"],
+    cor: t('catalog.colors.white'),
+    origem: t('catalog.origin.national'),
+    aplicacoes: [t('catalog.app.countertops'), t('catalog.app.gourmet'), t('catalog.app.cladding')],
     imagem: "/images/materiais/mont-blanc.webp",
-    descricao: "Quartzito branco com veios cinzas e aparência cristalina."
+    descricao: t('catalog.desc.44')
   },
-  // 45. GRANITO OCRE ITABIRA
   {
     id: 45,
-    nome: "Ocre Itabira",
+    nome: t('catalog.name.45'),
     tipo: "granito",
-    cor: "Ocre",
+    cor: t('catalog.colors.ochre'),
     origem: "MG",
-    aplicacoes: ["Revestimentos", "Pisos", "Fachadas"],
+    aplicacoes: [t('catalog.app.cladding'), t('catalog.app.floors'), t('catalog.app.facades')],
     imagem: "/images/materiais/ocre-itabira.webp",
-    descricao: "Granito de tom ocre acinzentado, muito resistente."
+    descricao: t('catalog.desc.45')
   },
-  // 46. MÁRMORE ONIX WHITE TRANSLÚCIDO
   {
     id: 46,
-    nome: "Onix White Translúcido",
+    nome: t('catalog.name.46'),
     tipo: "marmore",
-    cor: "Branco",
-    origem: "Importado",
-    aplicacoes: ["Iluminação", "Bancadas Decorativas"],
+    cor: t('catalog.colors.white'),
+    origem: t('catalog.origin.imported'),
+    aplicacoes: [t('catalog.app.lighting'), t('catalog.app.decorative_countertops')],
     imagem: "/images/materiais/onix-white.webp",
-    descricao: "Pedra translúcida espetacular para projetos com iluminação."
+    descricao: t('catalog.desc.46')
   },
-  // 47. QUARTZITO PERLA SANTANA
   {
     id: 47,
-    nome: "Perla Santana",
+    nome: t('catalog.name.47'),
     tipo: "quartzito",
-    cor: "Bege",
+    cor: t('catalog.colors.beige'),
     origem: "CE",
-    aplicacoes: ["Bancadas", "Revestimentos"],
+    aplicacoes: [t('catalog.app.countertops'), t('catalog.app.cladding')],
     imagem: "/images/materiais/perla-santana.webp",
-    descricao: "Quartzito de tom perolado e alta translucidez."
+    descricao: t('catalog.desc.47')
   },
-  // 48. MÁRMORE PIGUÊS
   {
     id: 48,
-    nome: "Piguês",
+    nome: t('catalog.name.48'),
     tipo: "marmore",
-    cor: "Branco",
-    origem: "Grécia",
-    aplicacoes: ["Pisos", "Banheiros"],
+    cor: t('catalog.colors.white'),
+    origem: t('catalog.origin.greece'),
+    aplicacoes: [t('catalog.app.floors'), t('catalog.app.bathrooms')],
     imagem: "/images/materiais/pigues.webp",
-    descricao: "Mármore grego branco com veios cinzas suaves."
+    descricao: t('catalog.desc.48')
   },
-  // 49. MÁRMORE PINTA CINZA
   {
     id: 49,
-    nome: "Pinta Cinza",
+    nome: t('catalog.name.49'),
     tipo: "marmore",
-    cor: "Branco",
+    cor: t('catalog.colors.white'),
     origem: "ES",
-    aplicacoes: ["Pisos", "Revestimentos"],
+    aplicacoes: [t('catalog.app.floors'), t('catalog.app.cladding')],
     imagem: "/images/materiais/pinta-cinza.webp",
-    descricao: "Mármore branco com pequenas pintas cinzas."
+    descricao: t('catalog.desc.49')
   },
-  // 50. MÁRMORE PINTA VERDE
   {
     id: 50,
-    nome: "Pinta Verde",
+    nome: t('catalog.name.50'),
     tipo: "marmore",
-    cor: "Branco",
-    origem: "Nacional",
-    aplicacoes: ["Revestimentos", "Detalhes"],
+    cor: t('catalog.colors.white'),
+    origem: t('catalog.origin.national'),
+    aplicacoes: [t('catalog.app.cladding'), t('catalog.app.details')],
     imagem: "/images/materiais/pinta-verde.webp",
-    descricao: "Mármore branco com pigmentos verdes sutis."
+    descricao: t('catalog.desc.50')
   },
-  // 51. GRANITO PRETO ABSOLUTO
   {
     id: 51,
-    nome: "Preto Absoluto",
+    nome: t('catalog.name.51'),
     tipo: "granito",
-    cor: "Preto",
-    origem: "Importado",
-    aplicacoes: ["Bancadas", "Pisos", "Revestimentos"],
+    cor: t('catalog.colors.black'),
+    origem: t('catalog.origin.imported'),
+    aplicacoes: [t('catalog.app.countertops'), t('catalog.app.floors'), t('catalog.app.cladding')],
     imagem: "/images/materiais/preto-absoluto.webp",
-    descricao: "Granito preto profundo e uniforme, sinônimo de elegância moderna."
+    descricao: t('catalog.desc.51')
   },
-  // 52. GRANITO PRETO INDIANO
   {
     id: 52,
-    nome: "Preto Indiano",
+    nome: t('catalog.name.52'),
     tipo: "granito",
-    cor: "Preto",
-    origem: "Índia",
-    aplicacoes: ["Bancadas", "Pisos"],
+    cor: t('catalog.colors.black'),
+    origem: t('catalog.origin.india'),
+    aplicacoes: [t('catalog.app.countertops'), t('catalog.app.floors')],
     imagem: "/images/materiais/preto-indiano.webp",
-    descricao: "Granito preto com veios brancos discretos."
+    descricao: t('catalog.desc.52')
   },
-  // 53. GRANITO PRETO SANTA ANGÉLICA
   {
     id: 53,
-    nome: "Preto Santa Angélica",
+    nome: t('catalog.name.53'),
     tipo: "granito",
-    cor: "Preto",
+    cor: t('catalog.colors.black'),
     origem: "ES",
-    aplicacoes: ["Cozinhas", "Banheiros", "Áreas externas", "Garagens"],
+    aplicacoes: [t('catalog.app.kitchens'), t('catalog.app.bathrooms'), t('catalog.app.external'), t('catalog.app.garages')],
     imagem: "/images/materiais/preto-santa-angelica.webp",
-    descricao: "Granito preto nacional com excelente custo-benefício e durabilidade."
+    descricao: t('catalog.desc.53')
   },
-  // 54. GRANITO PRETO SÃO GABRIEL
   {
     id: 54,
-    nome: "Preto São Gabriel",
+    nome: t('catalog.name.54'),
     tipo: "granito",
-    cor: "Preto",
+    cor: t('catalog.colors.black'),
     origem: "ES",
-    aplicacoes: ["Pisos", "Bancadas", "Revestimentos", "Escadas"],
+    aplicacoes: [t('catalog.app.floors'), t('catalog.app.countertops'), t('catalog.app.cladding'), t('catalog.app.stairs')],
     imagem: "/images/materiais/preto-sao-gabriel.webp",
-    descricao: "Granito preto de grão médio e uniforme, muito resistente e versátil."
+    descricao: t('catalog.desc.54')
   },
-  // 55. GRANITO PRETO SEMI ABSOLUTO
   {
     id: 55,
-    nome: "Preto Semi Absoluto",
+    nome: t('catalog.name.55'),
     tipo: "granito",
-    cor: "Preto",
-    origem: "Nacional",
-    aplicacoes: ["Bancadas", "Pisos"],
+    cor: t('catalog.colors.black'),
+    origem: t('catalog.origin.national'),
+    aplicacoes: [t('catalog.app.countertops'), t('catalog.app.floors')],
     imagem: "/images/materiais/preto-semi-absoluto.webp",
-    descricao: "Granito preto quase uniforme, excelente alternativa ao Absoluto."
+    descricao: t('catalog.desc.55')
   },
-  // 56. GRANITO PRETO VIA LÁCTEA
   {
     id: 56,
-    nome: "Preto Via Láctea",
+    nome: t('catalog.name.56'),
     tipo: "granito",
-    cor: "Preto",
+    cor: t('catalog.colors.black'),
     origem: "BA",
-    aplicacoes: ["Bancadas", "Revestimentos"],
+    aplicacoes: [t('catalog.app.countertops'), t('catalog.app.cladding')],
     imagem: "/images/materiais/preto-via-lactea.webp",
-    descricao: "Granito preto com veios brancos que lembram uma galáxia."
+    descricao: t('catalog.desc.56')
   },
-  // 57. QUARTZO BRANCO
   {
     id: 57,
-    nome: "Quartzo Branco",
+    nome: t('catalog.name.57'),
     tipo: "quartzo",
-    cor: "Branco",
-    origem: "Industrializado",
-    aplicacoes: ["Bancadas de Cozinha", "Lavatórios", "Áreas Internas"],
+    cor: t('catalog.colors.white'),
+    origem: t('catalog.origin.industrialized'),
+    aplicacoes: [t('catalog.app.kitchen_countertops'), "Lavatórios", "Áreas Internas"],
     imagem: "/images/materiais/quartzo-branco.webp",
-    descricao: "Superfície de quartzo branco puro, resistente a manchas e riscos."
+    descricao: t('catalog.desc.57')
   },
-  // 58. QUARTZO CALACATA
   {
     id: 58,
-    nome: "Quartzo Calacata",
+    nome: t('catalog.name.58'),
     tipo: "quartzo",
-    cor: "Branco",
-    origem: "Industrializado",
-    aplicacoes: ["Bancadas", "Ilhas", "Revestimentos"],
+    cor: t('catalog.colors.white'),
+    origem: t('catalog.origin.industrialized'),
+    aplicacoes: [t('catalog.app.countertops'), t('catalog.app.islands'), t('catalog.app.cladding')],
     imagem: "/images/materiais/quartzo-calacata.webp",
-    descricao: "Quartzo com veios que imitam o mármore Calacata, unindo beleza e resistência."
+    descricao: t('catalog.desc.58')
   },
-  // 59. QUARTZO CINZA
   {
     id: 59,
-    nome: "Quartzo Cinza",
+    nome: t('catalog.name.59'),
     tipo: "quartzo",
-    cor: "Cinza",
-    origem: "Industrializado",
-    aplicacoes: ["Bancadas", "Revestimentos", "Pisos Internos"],
+    cor: t('catalog.colors.gray'),
+    origem: t('catalog.origin.industrialized'),
+    aplicacoes: [t('catalog.app.countertops'), t('catalog.app.cladding'), t('catalog.app.internal_floors')],
     imagem: "/images/materiais/quartzo-cinza.webp",
-    descricao: "Superfície de quartzo cinza uniforme e moderna."
+    descricao: t('catalog.desc.59')
   },
-  // 60. QUARTZO VALENTINO
   {
     id: 60,
-    nome: "Quartzo Valentino",
+    nome: t('catalog.name.60'),
     tipo: "quartzo",
-    cor: "Branco",
-    origem: "Industrializado",
-    aplicacoes: ["Bancadas", "Revestimentos"],
+    cor: t('catalog.colors.white'),
+    origem: t('catalog.origin.industrialized'),
+    aplicacoes: [t('catalog.app.countertops'), t('catalog.app.cladding')],
     imagem: "/images/materiais/quartzo-valentino.webp",
-    descricao: "Quartzo com padrão marmorizado elegante."
+    descricao: t('catalog.desc.60')
   },
-  // 61. MÁRMORE RAJA CINZA
   {
     id: 61,
-    nome: "Raja Cinza",
+    nome: t('catalog.name.61'),
     tipo: "marmore",
-    cor: "Cinza",
+    cor: t('catalog.colors.gray'),
     origem: "ES",
-    aplicacoes: ["Revestimentos", "Pisos", "Banheiros"],
+    aplicacoes: [t('catalog.app.cladding'), t('catalog.app.floors'), t('catalog.app.bathrooms')],
     imagem: "/images/materiais/raja-cinza.webp",
-    descricao: "Mármore cinza com padrão que lembra textura de tecido, design sofisticado."
+    descricao: t('catalog.desc.61')
   },
-  // 62. QUARTZITO SÃO TOMÉ BRANCO
   {
     id: 62,
-    nome: "São Tomé Branco",
+    nome: t('catalog.name.62'),
     tipo: "quartzito",
-    cor: "Branco",
+    cor: t('catalog.colors.white'),
     origem: "MG",
-    aplicacoes: ["Pisos Externos", "Bordas de Piscina"],
+    aplicacoes: [t('catalog.app.external_floors'), t('catalog.app.pool_edges')],
     imagem: "/images/materiais/sao-tome-branco.webp",
-    descricao: "Pedra térmica e antiderrapante, ideal para áreas de lazer."
+    descricao: t('catalog.desc.62')
   },
-  // 63. SILESTONE UNSUI
   {
     id: 63,
-    nome: "Silestone Unsui",
+    nome: t('catalog.name.63'),
     tipo: "quartzo",
-    cor: "Marrom",
-    origem: "Industrializado",
-    aplicacoes: ["Bancadas", "Revestimentos"],
+    cor: t('catalog.colors.brown'),
+    origem: t('catalog.origin.industrialized'),
+    aplicacoes: [t('catalog.app.countertops'), t('catalog.app.cladding')],
     imagem: "/images/materiais/silestone-unsui.webp",
-    descricao: "Quartzo marrom acinzentado de tom sóbrio e elegante."
+    descricao: t('catalog.desc.63')
   },
-  // 64. SUPERNANO (NANOGLASS)
   {
     id: 64,
-    nome: "Supernano",
+    nome: t('catalog.name.64'),
     tipo: "supernano",
-    cor: "Branco",
-    origem: "Industrializado",
-    aplicacoes: ["Bancadas", "Pisos", "Revestimentos"],
+    cor: t('catalog.colors.white'),
+    origem: t('catalog.origin.industrialized'),
+    aplicacoes: [t('catalog.app.countertops'), t('catalog.app.floors'), t('catalog.app.cladding')],
     imagem: "/images/materiais/supernano.webp",
-    descricao: "Superfície de vidro cristalizado branco puro, brilho intenso e dureza."
+    descricao: t('catalog.desc.64')
   },
-  // 65. QUARTZITO TAJ MAHAL
   {
     id: 65,
-    nome: "Taj Mahal",
+    nome: t('catalog.name.65'),
     tipo: "quartzito",
-    cor: "Bege",
+    cor: t('catalog.colors.beige'),
     origem: "CE",
-    aplicacoes: ["Bancadas", "Pisos", "Revestimentos de Luxo"],
+    aplicacoes: [t('catalog.app.countertops'), t('catalog.app.floors'), t('catalog.app.luxury_cladding')],
     imagem: "/images/materiais/taj-mahal.webp",
-    descricao: "Quartzito nobre de fundo creme translúcido, alta resistência e beleza única."
+    descricao: t('catalog.desc.65')
   },
-  // 66. MÁRMORE TRAVERTINO NACIONAL
   {
     id: 66,
-    nome: "Travertino Nacional",
+    nome: t('catalog.name.66'),
     tipo: "marmore",
-    cor: "Bege",
+    cor: t('catalog.colors.beige'),
     origem: "BA",
-    aplicacoes: ["Paredes", "Pisos Internos", "Lavabos"],
+    aplicacoes: [t('catalog.app.walls'), t('catalog.app.internal_floors'), t('catalog.app.washbasins')],
     imagem: "/images/materiais/travertino.webp",
-    descricao: "Mármore bege com veios característicos, trazendo elegância e sofisticação."
+    descricao: t('catalog.desc.66')
   },
-  // 67. TRAVERTINO ROMANO
   {
     id: 67,
-    nome: "Travertino Romano",
+    nome: t('catalog.name.67'),
     tipo: "marmore",
-    cor: "Bege",
-    origem: "IT",
-    aplicacoes: ["Paredes", "Pisos"],
+    cor: t('catalog.colors.beige'),
+    origem: t('catalog.origin.italy'),
+    aplicacoes: [t('catalog.app.walls'), t('catalog.app.floors')],
     imagem: "/images/materiais/travertino-romano.webp",
-    descricao: "Clássico mármore italiano bege com veios horizontais."
+    descricao: t('catalog.desc.67')
   },
-  // 68. ULTRACOMPACTO MARMORIZADO CINZA
   {
     id: 68,
-    nome: "Ultracompacto Marmorizado Cinza",
+    nome: t('catalog.name.68'),
     tipo: "ultracompacto",
-    cor: "Cinza",
-    origem: "Industrializado",
-    aplicacoes: ["Bancadas", "Pisos", "Fachadas"],
+    cor: t('catalog.colors.gray'),
+    origem: t('catalog.origin.industrialized'),
+    aplicacoes: [t('catalog.app.countertops'), t('catalog.app.floors'), t('catalog.app.facades')],
     imagem: "/images/materiais/ultracompacto-marmorizado-cinza.webp",
-    descricao: "Material tecnológico de alta performance com estética de mármore cinza."
+    descricao: t('catalog.desc.68')
   },
-  // 69. GRANITO VERDE PANTANAL
   {
     id: 69,
-    nome: "Verde Pantanal",
+    nome: t('catalog.name.69'),
     tipo: "granito",
-    cor: "Verde",
+    cor: t('catalog.colors.green'),
     origem: "MG",
-    aplicacoes: ["Bancadas", "Pisos"],
+    aplicacoes: [t('catalog.app.countertops'), t('catalog.app.floors')],
     imagem: "/images/materiais/verde-pantanal.webp",
-    descricao: "Granito verde com movimentos que remetem à natureza."
+    descricao: t('catalog.desc.69')
   },
-  // 70. GRANITO VERDE UBATUBA
   {
     id: 70,
-    nome: "Verde Ubatuba",
+    nome: t('catalog.name.70'),
     tipo: "granito",
-    cor: "Verde",
+    cor: t('catalog.colors.green'),
     origem: "SP",
-    aplicacoes: ["Bancadas", "Pisos", "Revestimentos"],
+    aplicacoes: [t('catalog.app.countertops'), t('catalog.app.floors'), t('catalog.app.cladding')],
     imagem: "/images/materiais/verde-ubatuba.webp",
-    descricao: "Granito verde escuro, quase preto, muito resistente e tradicional."
+    descricao: t('catalog.desc.70')
   },
-  // 71. GRANITO VERMELHO BRASILIA
   {
     id: 71,
-    nome: "Vermelho Brasília",
+    nome: t('catalog.name.71'),
     tipo: "granito",
-    cor: "Vermelho",
+    cor: t('catalog.colors.red'),
     origem: "DF",
-    aplicacoes: ["Pisos", "Fachadas"],
+    aplicacoes: [t('catalog.app.floors'), t('catalog.app.facades')],
     imagem: "/images/materiais/vermelho-brasilia.webp",
-    descricao: "Granito vermelho intenso e marcante."
+    descricao: t('catalog.desc.71')
   },
-  // 72. QUARTZO WHITE PEARL
   {
     id: 72,
-    nome: "White Pearl",
+    nome: t('catalog.name.72'),
     tipo: "quartzo",
-    cor: "Branco",
-    origem: "Industrializado",
-    aplicacoes: ["Bancadas", "Ilhas"],
+    cor: t('catalog.colors.white'),
+    origem: t('catalog.origin.industrialized'),
+    aplicacoes: [t('catalog.app.countertops'), t('catalog.app.islands')],
     imagem: "/images/materiais/white-pearl.webp",
-    descricao: "Quartzo branco com textura perolada sutil."
+    descricao: t('catalog.desc.72')
   },
-  // 73. GRANITO WHITE ROSE
   {
     id: 73,
-    nome: "White Rose",
+    nome: t('catalog.name.73'),
     tipo: "granito",
-    cor: "Branco",
+    cor: t('catalog.colors.white'),
     origem: "ES",
-    aplicacoes: ["Pisos", "Bancadas", "Revestimentos"],
+    aplicacoes: [t('catalog.app.floors'), t('catalog.app.countertops'), t('catalog.app.cladding')],
     imagem: "/images/materiais/white-rose.webp",
-    descricao: "Granito branco com nuances rosadas sutis."
-  }
+    descricao: t('catalog.desc.73')
+  },
 ];
