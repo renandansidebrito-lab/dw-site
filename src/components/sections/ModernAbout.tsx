@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { ReactNode } from 'react';
+import { Link } from 'react-router-dom';
 import { cn } from '@/components/ui';
 import { 
   fadeInUp, 
@@ -115,25 +116,26 @@ export function ModernAbout({
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.8 }}
             >
-              <motion.a
-                href="/contato"
+              <motion.div
                 className="inline-flex items-center px-8 py-4 bg-brand text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 group"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <span>Saiba Mais</span>
-                <motion.svg
-                  className="w-5 h-5 ml-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  initial={{ x: 0 }}
-                  whileHover={{ x: 5 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </motion.svg>
-              </motion.a>
+                <Link to="/contato" className="inline-flex items-center">
+                  <span>Saiba Mais</span>
+                  <motion.svg
+                    className="w-5 h-5 ml-2"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    initial={{ x: 0 }}
+                    whileHover={{ x: 5 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </motion.svg>
+                </Link>
+              </motion.div>
             </motion.div>
           </motion.div>
 

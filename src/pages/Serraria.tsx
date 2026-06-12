@@ -1,9 +1,13 @@
 import { ArrowRight, CheckCircle } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useTranslation } from "@/contexts/i18nContext";
 import ScrollReveal from "@/components/animations/ScrollReveal";
+import Seo from "@/components/seo/Seo";
+import { institutionalContent } from "@/data/institutionalContent";
 
 export default function Serraria() {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
+  const seo = institutionalContent[language].seo.serraria;
 
   const services = [
     t('serraria.services.list.1'),
@@ -24,6 +28,7 @@ export default function Serraria() {
 
   return (
     <div className="min-h-screen">
+      <Seo title={seo.title} description={seo.description} path="/serraria" />
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-slate-800 to-slate-900 text-white pt-32 pb-24 lg:pt-40 lg:pb-32 overflow-hidden">
         {/* Abstract Background Elements */}
@@ -303,13 +308,13 @@ export default function Serraria() {
             <p className="text-xl text-white/90 mb-10 max-w-2xl mx-auto font-light">
               {t('serraria.cta.description')}
             </p>
-            <a
-              href="/contato"
+            <Link
+              to="/contato"
               className="inline-flex items-center px-10 py-4 bg-white text-brand font-bold rounded-full hover:bg-slate-50 transition-all transform hover:-translate-y-1 hover:shadow-lg"
             >
               {t('serraria.cta.button')}
               <ArrowRight className="ml-2 h-5 w-5" />
-            </a>
+            </Link>
           </ScrollReveal>
         </div>
       </section>

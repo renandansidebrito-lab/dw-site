@@ -2,9 +2,12 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Settings, Package, Scissors, Star, CheckCircle, Shield, MapPin, Truck } from "lucide-react";
 import { useTranslation } from "@/contexts/i18nContext";
 import ModernHero from "@/components/ModernHero";
+import Seo from "@/components/seo/Seo";
+import { institutionalContent } from "@/data/institutionalContent";
 
 export default function Home() {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
+  const seo = institutionalContent[language].seo.home;
   
   const sectors = [
     {
@@ -32,6 +35,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
+      <Seo title={seo.title} description={seo.description} path="/" />
       {/* Modern Hero Section */}
       <ModernHero />
 
@@ -54,8 +58,8 @@ export default function Home() {
               <div className="text-white/80 text-sm uppercase tracking-wide">{t('home.stats.materials')}</div>
             </div>
             <div className="">
-              <div className="text-4xl md:text-5xl font-bold mb-2">100%</div>
-              <div className="text-white/80 text-sm uppercase tracking-wide">{t('home.stats.satisfaction')}</div>
+              <div className="text-4xl md:text-5xl font-bold mb-2 flex justify-center"><CheckCircle className="w-10 h-10 md:w-12 md:h-12" /></div>
+              <div className="text-white/80 text-sm uppercase tracking-wide">Controle de qualidade<br/>em todas as etapas</div>
             </div>
           </div>
         </div>
@@ -625,7 +629,7 @@ export default function Home() {
             <div className="absolute top-0 right-0 w-1/2 h-full opacity-10 pointer-events-none">
               <img 
                 src="/images/setores/chapas.webp" 
-                alt="Logistics Background" 
+                alt="Logística de chapas e expedição da DW Granitos & Mármores" 
                 className="w-full h-full object-cover grayscale"
               />
             </div>
@@ -668,6 +672,7 @@ export default function Home() {
                     <div className="col-span-2 aspect-video rounded-2xl overflow-hidden relative shadow-lg group bg-slate-900">
                       <video 
                         src="/images/logistica/carregamento-1.mp4" 
+                        preload="metadata"
                         autoPlay
                         muted
                         loop
@@ -683,6 +688,7 @@ export default function Home() {
                     <div className="aspect-square rounded-2xl overflow-hidden relative shadow-lg group bg-slate-900">
                       <video 
                         src="/images/logistica/carregamento-2.mp4" 
+                        preload="metadata"
                         autoPlay
                         muted
                         loop
@@ -693,13 +699,15 @@ export default function Home() {
 
                     {/* Item 3 - Vídeo Terciário */}
                     <div className="aspect-square rounded-2xl overflow-hidden relative shadow-lg group bg-slate-900">
-                      <video 
-                        src="/images/logistica/carregamento-3.mp4" 
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
+                      <img
+                        src="/images/setores/chapas.webp"
+                        alt="Movimentação e expedição de chapas na DW Granitos & Mármores"
+                        loading="lazy"
                         className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
+                        onError={(e) => {
+                          e.currentTarget.src = "/images/drone-empresa.webp";
+                          e.currentTarget.onerror = null;
+                        }}
                       />
                     </div>
                   </div>

@@ -3,32 +3,33 @@ import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone, Mail, MapPin, ArrowRight } from "lucide-react";
 import { useTranslation } from "@/contexts/i18nContext";
+import { COMPANY } from "@/data/company";
 import { useUIStore } from "@/stores/uiStore";
-import { useScrollStore } from "@/stores/uiStore";
 import { 
   navVariants, 
   menuItemVariants, 
   mobileMenuVariants,
-  glassmorphismVariants,
   hoverScaleVariants 
 } from "@/utils/animations";
 
 export default function ModernNavigation() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState("home");
   const { t, language, setLanguage } = useTranslation();
   const { isMenuOpen, setIsMenuOpen } = useUIStore();
-  const { scrollY } = useScrollStore();
   const location = useLocation();
   const [langMenuOpen, setLangMenuOpen] = useState(false);
+  const isHomePage = location.pathname === "/";
+  const isOnHero = isHomePage && !isScrolled;
+
+  const isLightMode = !isOnHero;
 
   const navItems = [
     { id: "home", label: t('nav.home'), href: "/" },
-    { id: "serraria", label: t('sectors.serraria.title'), href: "/serraria" },
-    { id: "chapas", label: t('sectors.chapas.title'), href: "/chapas" },
-    { id: "recortado", label: t('sectors.recortado.title'), href: "/recortado" },
-    { id: "catalogo", label: t('nav.catalog'), href: "/catalogo" },
     { id: "sobre", label: t('nav.about'), href: "/sobre" },
+    { id: "serraria", label: t('nav.serraria'), href: "/serraria" },
+    { id: "chapas", label: t('nav.chapas'), href: "/chapas" },
+    { id: "recortado", label: t('nav.recortado'), href: "/recortado" },
+    { id: "catalogo", label: t('nav.catalog'), href: "/catalogo" },
     { id: "contato", label: t('nav.contact'), href: "/contato" }
   ];
 
@@ -41,31 +42,6 @@ export default function ModernNavigation() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  useEffect(() => {
-    // Detectar seção ativa baseada no scroll
-    const sections = ["home", "catalogo", "sobre", "contato"];
-    const sectionElements = sections.map(id => 
-      document.getElementById(id) || document.querySelector(`[data-section="${id}"]`)
-    );
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.getAttribute("data-section") || "home");
-          }
-        });
-      },
-      { threshold: 0.3 }
-    );
-
-    sectionElements.forEach((element) => {
-      if (element) observer.observe(element);
-    });
-
-    return () => observer.disconnect();
-  }, []);
-
   const handleNavClick = (href: string) => {
     setIsMenuOpen(false);
     if (href.startsWith("#")) {
@@ -76,16 +52,17 @@ export default function ModernNavigation() {
     }
   };
 
-  // Determina se o texto deve ser branco (quando não scrollado e em cima de hero escuro)
-  const isTransparent = !isScrolled;
-  
-  // Classe de cor do texto baseada no estado do scroll
-  const getTextColor = (isActive: boolean) => {
-    if (isActive) return "text-brand";
-    return isTransparent ? "text-white hover:text-brandLight" : "text-slate-600 hover:text-brand";
+  const getNavItemClass = (isActive: boolean) => {
+    if (isLightMode) {
+      return isActive
+        ? "text-brand bg-red-50/50 border-red-100/50 font-semibold shadow-sm"
+        : "text-slate-600 hover:text-brand hover:bg-slate-50 border-transparent font-medium";
+    } else {
+      return isActive
+        ? "text-white bg-white/12 border-white/15 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)] font-medium"
+        : "text-slate-200 hover:text-white hover:bg-white/6 border-transparent font-medium";
+    }
   };
-
-  const logoSrc = isTransparent ? "/images/dw-logo-white.webp" : "/images/dw-logo-black.webp";
 
   return (
     <>
@@ -95,43 +72,42 @@ export default function ModernNavigation() {
         animate={isScrolled ? "scrolled" : "visible"}
         variants={navVariants}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled ? "py-4 bg-white/90 backdrop-blur-lg shadow-sm" : "py-6 bg-transparent"
+          isLightMode
+            ? "bg-white/95 backdrop-blur-xl border-b border-slate-200/80 shadow-[0_4px_20px_-8px_rgba(0,0,0,0.08)]"
+            : "bg-slate-950/40 backdrop-blur-md border-b border-white/10"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between">
+          <div className={`flex items-center justify-between transition-all duration-300 ${isOnHero ? "h-[4.5rem]" : "h-[4.15rem]"}`}>
             {/* Logo */}
             <motion.div
               variants={hoverScaleVariants}
               whileHover="hover"
               className="flex-shrink-0"
             >
-              <Link to="/" className="flex items-center space-x-3">
+              <Link to="/" className="flex items-center">
                 <motion.img
-                  src={logoSrc}
-                  alt="DW Granitos"
+                  src={isLightMode ? "/images/dw-logo-black.webp" : "/images/dw-logo-white.webp"}
+                  alt={COMPANY.legalName}
                   className={`transition-all duration-300 object-contain ${
-                    isScrolled ? "h-10" : "h-12"
+                    isOnHero ? "h-10 md:h-11" : "h-9 md:h-10"
                   }`}
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={{ scale: 1.02 }}
                   onError={(e) => {
-                     // Fallback se a logo branca não existir, usa a preta e inverte cores via css se necessário ou mantém original
                      e.currentTarget.src = "/images/dw-logo-black.webp";
-                     if (isTransparent) {
-                        e.currentTarget.style.filter = "brightness(0) invert(1)";
-                     } else {
-                        e.currentTarget.style.filter = "none";
-                     }
+                     e.currentTarget.style.filter = isLightMode ? "none" : "brightness(0) invert(1)";
                   }}
                 />
               </Link>
             </motion.div>
 
             {/* Navigation Items */}
-            <div className="hidden lg:flex items-center space-x-8">
+            <div className="hidden lg:flex items-center gap-2 xl:gap-3">
               {navItems.map((item, index) => {
-                const isHomePage = location.pathname === "/";
-                const isActive = (isHomePage && activeSection === item.id) || (location.pathname === item.href && item.href !== "/");
+                const isActive =
+                  item.href === "/"
+                    ? location.pathname === "/"
+                    : location.pathname === item.href;
                 
                 return (
                   <motion.div
@@ -144,17 +120,9 @@ export default function ModernNavigation() {
                     <Link
                       to={item.href}
                       onClick={() => handleNavClick(item.href)}
-                      className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 ${getTextColor(isActive)}`}
+                    className={`relative inline-flex items-center whitespace-nowrap rounded-full border px-4 py-2 text-sm transition-all duration-200 ${getNavItemClass(isActive)}`}
                     >
                       {item.label}
-                      {isActive && (
-                        <motion.div
-                          layoutId="activeTab"
-                          className="absolute bottom-0 left-0 right-0 h-0.5 bg-brand"
-                          initial={false}
-                          transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                        />
-                      )}
                     </Link>
                   </motion.div>
                 );
@@ -166,8 +134,10 @@ export default function ModernNavigation() {
                   onClick={() => setLangMenuOpen(!langMenuOpen)}
                   aria-label={t('nav.selectLanguage')}
                   aria-expanded={langMenuOpen}
-                  className={`flex items-center space-x-1 font-medium transition-colors ${
-                    isTransparent ? "text-white hover:text-brandLight" : "text-slate-600 hover:text-brand"
+                  className={`flex items-center whitespace-nowrap rounded-full border px-3 py-2 text-sm font-medium transition-colors ${
+                    isLightMode 
+                      ? "border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-900" 
+                      : "border-white/10 text-slate-200 hover:bg-white/5 hover:text-white"
                   }`}
                 >
                   <span className="uppercase text-xs font-bold tracking-wider">
@@ -182,7 +152,11 @@ export default function ModernNavigation() {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 10 }}
-                      className="absolute top-full right-0 mt-2 bg-white rounded-lg shadow-xl py-2 min-w-[80px]"
+                      className={`absolute top-full right-0 mt-2 min-w-[84px] rounded-2xl border py-2 shadow-2xl ${
+                        isLightMode
+                          ? "border-slate-100 bg-white"
+                          : "border-white/10 bg-slate-950/95"
+                      }`}
                     >
                       {(['pt', 'en', 'es'] as const).map((lang) => (
                         <button
@@ -191,7 +165,11 @@ export default function ModernNavigation() {
                             setLanguage(lang);
                             setLangMenuOpen(false);
                           }}
-                          className="block w-full text-center px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-brand uppercase font-medium"
+                          className={`block w-full px-4 py-2 text-center text-sm font-medium uppercase transition-colors ${
+                            isLightMode
+                              ? "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                              : "text-slate-200 hover:bg-white/5 hover:text-white"
+                          }`}
                         >
                           {lang === 'pt' ? 'BR' : lang === 'en' ? 'US' : 'ES'}
                         </button>
@@ -210,15 +188,11 @@ export default function ModernNavigation() {
               >
                 <Link
                   to="/contato"
-                  className="group relative inline-flex items-center px-6 py-3 bg-brand text-white font-semibold rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all"
+                  className="group inline-flex items-center whitespace-nowrap rounded-full bg-brand px-5 py-3 text-sm font-semibold text-white shadow-[0_10px_30px_rgba(0,0,0,0.28)] transition-all duration-200 hover:bg-brand2"
                 >
-                  <motion.div
-                    className="absolute inset-0 bg-brand2 transition-all duration-300 transform -translate-x-full group-hover:translate-x-0"
-                    initial={false}
-                  />
                   <span className="relative z-10 flex items-center">
-                    {t('hero.cta.secondary')}
-                    <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                    {t('nav.cta')}
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
                   </span>
                 </Link>
               </motion.div>
@@ -231,8 +205,10 @@ export default function ModernNavigation() {
               variants={hoverScaleVariants}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label={isMenuOpen ? t('nav.closeMenu') : t('nav.openMenu')}
-              className={`lg:hidden p-2 rounded-lg transition-colors ${
-                isTransparent ? "text-white hover:bg-white/10" : "text-slate-600 hover:text-brand hover:bg-slate-100"
+              className={`lg:hidden rounded-full border p-2.5 transition-colors ${
+                isLightMode
+                  ? "border-slate-200 text-slate-700 hover:bg-slate-50"
+                  : "border-white/10 text-white hover:bg-white/10"
               }`}
             >
               <AnimatePresence mode="wait">
@@ -249,8 +225,6 @@ export default function ModernNavigation() {
             </motion.button>
           </div>
         </div>
-
-        {/* Glassmorphism Background - already handled by parent nav class but keeping for structure if needed */}
       </motion.nav>
 
       {/* Mobile Menu */}
@@ -261,7 +235,9 @@ export default function ModernNavigation() {
             animate="open"
             exit="closed"
             variants={mobileMenuVariants}
-            className="lg:hidden fixed inset-0 z-40 bg-slate-900/50 backdrop-blur-sm"
+            className={`lg:hidden fixed inset-0 z-40 backdrop-blur-sm ${
+              isLightMode ? "bg-slate-900/20" : "bg-slate-900/50"
+            }`}
             onClick={() => setIsMenuOpen(false)}
           >
             <motion.div
@@ -269,66 +245,101 @@ export default function ModernNavigation() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="absolute right-0 top-0 h-full w-80 bg-white shadow-2xl"
+              className={`absolute right-0 top-0 h-full w-80 border-l shadow-2xl ${
+                isLightMode
+                  ? "border-slate-200 bg-white text-slate-900"
+                  : "border-white/10 bg-slate-950 text-white"
+              }`}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="p-6">
+              <div className="flex h-full flex-col p-6">
                 <div className="flex items-center justify-between mb-8">
                   <Link to="/" className="flex items-center space-x-3" onClick={() => setIsMenuOpen(false)}>
-                    <img src="/images/dw-logo-black.webp" alt="DW Granitos" className="h-10" />
-                    <span className="font-bold text-slate-800">DW Granitos</span>
+                    <img 
+                      src={isLightMode ? "/images/dw-logo-black.webp" : "/images/dw-logo-white.webp"} 
+                      alt={COMPANY.legalName} 
+                      className="h-9 object-contain" 
+                      onError={(e) => {
+                         e.currentTarget.src = "/images/dw-logo-black.webp";
+                         e.currentTarget.style.filter = isLightMode ? "none" : "brightness(0) invert(1)";
+                      }}
+                    />
+                    <span className={`font-semibold ${isLightMode ? "text-slate-800" : "text-slate-100"}`}>
+                      {COMPANY.brandName}
+                    </span>
                   </Link>
                   <button
                     onClick={() => setIsMenuOpen(false)}
-                    className="p-2 rounded-lg text-slate-600 hover:text-brand hover:bg-slate-100 transition-colors"
+                    className={`rounded-full border p-2 transition-colors ${
+                      isLightMode
+                        ? "border-slate-200 text-slate-500 hover:bg-slate-100 hover:text-slate-900"
+                        : "border-white/10 text-slate-200 hover:bg-white/10 hover:text-white"
+                    }`}
                   >
                     <X className="h-6 w-6" />
                   </button>
                 </div>
 
                 <nav className="space-y-2">
-                  {navItems.map((item, index) => (
-                    <motion.div
-                      key={item.id}
-                      initial={{ x: 50, opacity: 0 }}
-                      animate={{ x: 0, opacity: 1 }}
-                      transition={{ delay: index * 0.1 }}
-                    >
-                      <Link
-                        to={item.href}
-                        onClick={() => handleNavClick(item.href)}
-                        className={`block px-4 py-3 text-lg font-medium rounded-lg transition-colors ${
-                          location.pathname === item.href
-                            ? "bg-brand text-white"
-                            : "text-slate-700 hover:bg-slate-100 hover:text-brand"
-                        }`}
+                  {navItems.map((item, index) => {
+                    const isActive =
+                      item.href === "/"
+                        ? location.pathname === "/"
+                        : location.pathname === item.href;
+                    
+                    return (
+                      <motion.div
+                        key={item.id}
+                        initial={{ x: 50, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{ delay: index * 0.1 }}
                       >
-                        {item.label}
-                      </Link>
-                    </motion.div>
-                  ))}
+                        <Link
+                          to={item.href}
+                          onClick={() => handleNavClick(item.href)}
+                          className={`block rounded-2xl border px-4 py-3 text-base font-medium transition-colors ${
+                            isActive
+                              ? isLightMode 
+                                ? "border-brand/20 bg-brand/5 text-brand"
+                                : "border-white/15 bg-white/10 text-white"
+                              : isLightMode
+                                ? "border-transparent text-slate-600 hover:bg-slate-50 hover:text-brand"
+                                : "border-transparent text-slate-200 hover:bg-white/5 hover:text-white"
+                          }`}
+                        >
+                          {item.label}
+                        </Link>
+                      </motion.div>
+                    );
+                  })}
                 </nav>
 
-                {/* Contact Info */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
-                  className="mt-8 pt-8 border-t border-slate-200"
+                  className={`mt-auto pt-8 border-t ${isLightMode ? "border-slate-100" : "border-white/10"}`}
                 >
-                  <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-4">
+                  <Link
+                    to="/contato"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="mb-6 inline-flex w-full items-center justify-center rounded-full bg-brand px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand2"
+                  >
+                    {t('nav.cta')}
+                  </Link>
+                  <h3 className={`mb-4 text-sm font-semibold uppercase tracking-wide ${isLightMode ? "text-slate-500" : "text-slate-400"}`}>
                     {t('nav.contact')}
                   </h3>
                   <div className="space-y-3">
-                    <a href="tel:+5528999057492" className="flex items-center space-x-3 text-slate-700 hover:text-brand transition-colors">
+                    <a href="tel:+552835242288" className={`flex items-center space-x-3 transition-colors ${isLightMode ? "text-slate-600 hover:text-brand" : "text-slate-200 hover:text-white"}`}>
                       <Phone className="h-4 w-4" />
-                      <span>(28) 99905-7492</span>
+                      <span>+55 28 3524-2288</span>
                     </a>
-                    <a href="mailto:contato@dwgranitos.com.br" className="flex items-center space-x-3 text-slate-700 hover:text-brand transition-colors">
+                    <a href={`mailto:${COMPANY.primaryEmails.commercial}`} className={`flex items-center space-x-3 transition-colors ${isLightMode ? "text-slate-600 hover:text-brand" : "text-slate-200 hover:text-white"}`}>
                       <Mail className="h-4 w-4" />
-                      <span>contato@dwgranitos.com.br</span>
+                      <span>{COMPANY.primaryEmails.commercial}</span>
                     </a>
-                    <div className="flex items-center space-x-3 text-slate-700">
+                    <div className={`flex items-center space-x-3 ${isLightMode ? "text-slate-500" : "text-slate-300"}`}>
                       <MapPin className="h-4 w-4" />
                       <span>Cachoeiro de Itapemirim - ES</span>
                     </div>

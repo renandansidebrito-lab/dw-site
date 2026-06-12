@@ -2,9 +2,28 @@ import { useState, useEffect } from "react";
 import { Mail, Phone, MapPin, Send, MessageCircle, Clock, CheckCircle, XCircle, X } from "lucide-react";
 import { useTranslation } from "@/contexts/i18nContext";
 import ScrollReveal from "@/components/animations/ScrollReveal";
+import Seo from "@/components/seo/Seo";
+import FAQSection from "@/components/sections/FAQSection";
+import { institutionalContent } from "@/data/institutionalContent";
+import { buildWhatsAppUrl } from "@/data/company";
 
 export default function Contact() {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
+  const content = institutionalContent[language];
+  const ui = {
+    faqTitle:
+      language === "en"
+        ? "Frequently asked questions about contact and quotations"
+        : language === "es"
+          ? "Preguntas frecuentes sobre contacto y presupuestos"
+          : "Perguntas frequentes sobre contato e orçamento",
+    faqSubtitle:
+      language === "en"
+        ? "Everything the client needs to start the commercial service more quickly."
+        : language === "es"
+          ? "Todo lo que el cliente necesita para iniciar la atención comercial con más agilidad."
+          : "Tudo o que o cliente precisa para iniciar o atendimento comercial com mais agilidade.",
+  };
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -14,7 +33,8 @@ export default function Contact() {
     subject: "",
     message: "",
     state: "",
-    files: [] as File[]
+    files: [] as File[],
+    consent: false
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [feedback, setFeedback] = useState<string>("");
@@ -32,6 +52,28 @@ export default function Contact() {
       return () => clearTimeout(timer);
     }
   }, [notification.show]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const material = params.get("material");
+    const application = params.get("aplicacao");
+
+    if (material) {
+      setFormData((prev) => ({
+        ...prev,
+        subject: `Orçamento de material: ${material}`,
+        message: `${content.contact.prefillMaterial} ${material}`,
+      }));
+    }
+
+    if (application) {
+      setFormData((prev) => ({
+        ...prev,
+        subject: `Orçamento para aplicação: ${application}`,
+        message: `${content.contact.prefillApplication} ${application}`,
+      }));
+    }
+  }, [content.contact.prefillApplication, content.contact.prefillMaterial]);
 
   const formatBR = (val: string) => {
     const d = val.replace(/\D/g, "");
@@ -52,7 +94,8 @@ export default function Contact() {
     return formatGeneric(value);
   };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
+    const { name, value, type } = e.target;
+    const checked = type === "checkbox" ? (e.target as HTMLInputElement).checked : undefined;
     if (name === "phone") {
       const formatted = formatByCode(formData.phoneCode, value);
       setFormData({ ...formData, phone: formatted });
@@ -60,7 +103,7 @@ export default function Contact() {
       const reformat = formatByCode(value, formData.phone);
       setFormData({ ...formData, phoneCode: value, phone: reformat });
     } else {
-      setFormData({ ...formData, [name]: value });
+      setFormData({ ...formData, [name]: type === "checkbox" ? checked : value });
     }
     if (errors[name]) setErrors({ ...errors, [name]: "" });
   };
@@ -75,10 +118,12 @@ export default function Contact() {
     const newErrors: Record<string, string> = {};
     if (!formData.name.trim()) newErrors.name = t('contact.validation.nameRequired');
     if (!formData.email.trim() || !validateEmail(formData.email)) newErrors.email = t('contact.validation.emailInvalid');
+    if (!formData.phone.trim()) newErrors.phone = content.contact.phoneRequired;
     if (!formData.country) newErrors.country = t('contact.validation.countryRequired');
     if (formData.country.toLowerCase() === 'brasil' && !formData.state) newErrors.state = t('contact.validation.stateRequired');
     if (!formData.subject.trim()) newErrors.subject = t('contact.validation.subjectRequired');
     if (!formData.message.trim()) newErrors.message = t('contact.validation.messageRequired');
+    if (!formData.consent) newErrors.consent = content.contact.consentRequired;
     return newErrors;
   };
 
@@ -86,6 +131,7 @@ export default function Contact() {
     e.preventDefault();
     const newErrors = validate();
     setErrors(newErrors);
+    
     if (Object.keys(newErrors).length > 0) {
       setFeedback(t('contact.feedback.missingFields'));
       const firstKey = Object.keys(newErrors)[0];
@@ -93,62 +139,28 @@ export default function Contact() {
       if (el) el.focus();
       return;
     }
-    setFeedback(t('contact.feedback.sending'));
+
+    // Pegar o número do primeiro intent comercial disponível ou fallback (apenas dígitos)
+    const defaultPhone = content.whatsappIntents[0]?.number.replace(/\D/g, "") || "5528999999999"; 
     
-    // Configuração de envio via API
-    try {
-      // Converter arquivos para Base64
-      const attachments = await Promise.all(formData.files.map(async (file) => {
-        return new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.readAsDataURL(file);
-          reader.onload = () => resolve({
-            filename: file.name,
-            content: (reader.result as string).split(',')[1],
-            contentType: file.type
-          });
-          reader.onerror = reject;
-        });
-      }));
+    // Montagem da mensagem amigável para o WhatsApp
+    let waMessage = `Olá, vim pelo site da DW Granitos.\n\n`;
+    waMessage += `*Nome:* ${formData.name}\n`;
+    waMessage += `*Telefone:* ${formData.phoneCode} ${formData.phone}\n`;
+    waMessage += `*E-mail:* ${formData.email}\n`;
+    waMessage += `*Local:* ${formData.country} ${formData.state ? `- ${formData.state}` : ''}\n`;
+    waMessage += `*Assunto:* ${formData.subject}\n\n`;
+    waMessage += `*Mensagem:*\n${formData.message}`;
 
-      const response = await fetch('/api/send-email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          phone: `${formData.phoneCode} ${formData.phone}`,
-          country: formData.country,
-          state: formData.state,
-          subject: formData.subject,
-          message: formData.message,
-          attachments
-        })
-      });
+    const encodedMessage = encodeURIComponent(waMessage);
+    const whatsappUrl = `https://wa.me/${defaultPhone}?text=${encodedMessage}`;
 
-      if (response.ok) {
-        setFeedback(t('contact.feedback.sent'));
-        setNotification({ show: true, type: 'success', message: t('contact.feedback.sent') });
-        setFormData({
-          name: "",
-          email: "",
-          phoneCode: "+55",
-          phone: "",
-          country: "Brasil",
-          subject: "",
-          message: "",
-          state: "",
-          files: []
-        });
-      } else {
-        throw new Error('Falha no envio');
-      }
-    } catch (error) {
-      console.error("Erro ao enviar email:", error);
-      const msg = t('contact.modal.fail.message');
-      setFeedback(msg);
-      setNotification({ show: true, type: 'error', message: msg });
-    }
+    // Abrir o WhatsApp Imediatamente para evitar bloqueio de pop-up pelo navegador
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    
+    // Fornecer feedback de sucesso mantendo os dados no form caso o usuário queira consultar
+    setNotification({ show: true, type: 'success', message: "Redirecionando para o WhatsApp..." });
+    setFeedback("Abrimos o WhatsApp com sua mensagem pronta. Confira e envie por lá.");
   };
 
   const contactInfo = [
@@ -178,51 +190,46 @@ export default function Contact() {
     }
   ];
 
+  const whatsappIntents = content.whatsappIntents;
+
   return (
     <div className="min-h-screen bg-white">
+      <Seo title={content.contact.seoTitle} description={content.contact.seoDescription} path="/contato" />
       {/* Hero Section */}
-      <section className="relative h-[60vh] min-h-[500px] flex items-center justify-center overflow-hidden">
-        {/* Background Image */}
-        <div className="absolute inset-0">
-          <img
-            src="/images/contact-hero.webp"
-            alt={t('contact.hero.title')}
-            className="w-full h-full object-cover"
-            onError={(e) => {
-              e.currentTarget.style.display = 'none';
-              e.currentTarget.parentElement!.style.backgroundColor = '#1e293b'; // slate-800
-            }}
-          />
-          <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-[2px]" />
-        </div>
+      <section className="relative pt-32 pb-16 md:pt-40 md:pb-24 overflow-hidden bg-slate-900">
+        {/* Fundo puramente em CSS para carregamento instantâneo */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-slate-800 via-slate-900 to-black"></div>
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03]"></div>
 
         {/* Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
-          <ScrollReveal>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight">{t('contact.hero.title')}</h1>
-            <p className="text-xl md:text-2xl text-slate-200 max-w-3xl mx-auto font-light leading-relaxed">{t('contact.hero.subtitle')}</p>
-          </ScrollReveal>
+          <div className="animate-fade-in-up">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight">Fale com a DW Granitos & Mármores</h1>
+            <p className="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto font-light leading-relaxed">
+              Envie suas medidas, projeto, fotos ou dúvidas. Nossa equipe irá orientar você na escolha do material, acabamento e melhor solução para o seu projeto.
+            </p>
+          </div>
         </div>
       </section>
 
       {/* Contact Info Grid */}
-      <section className="py-20 -mt-20 relative z-20 px-4">
+      <section className="bg-slate-50 px-4 py-12 md:py-16">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
             {contactInfo.map((info, index) => (
               <ScrollReveal key={index} delay={index * 0.1}>
-                <div className="bg-white rounded-xl shadow-xl p-8 h-full transform hover:-translate-y-1 transition-all duration-300 border border-slate-100">
-                  <div className="w-14 h-14 bg-brandLight/50 rounded-2xl flex items-center justify-center mb-6 text-brand">
-                    <info.icon className="h-7 w-7" />
+                <div className="h-full rounded-sm border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-md md:p-8 hover:-translate-y-1">
+                  <div className="w-12 h-12 bg-slate-50 border border-slate-100 rounded-sm flex items-center justify-center mb-6 text-brand">
+                    <info.icon className="h-6 w-6" />
                   </div>
-                  <h3 className="text-xl font-bold text-slate-800 mb-4">{info.title}</h3>
+                  <h3 className="text-lg font-bold text-slate-800 mb-3 tracking-tight">{info.title}</h3>
                   {info.type === 'emails' ? (
                     <div className="space-y-2">
                       {info.content.split('\n').map((email) => (
                         <a 
                           key={email} 
                           href={`mailto:${email}`} 
-                          className="block text-slate-600 hover:text-brand transition-colors text-sm"
+                          className="block text-slate-600 hover:text-brand transition-colors text-sm font-medium"
                         >
                           {email}
                         </a>
@@ -241,36 +248,31 @@ export default function Contact() {
       </section>
 
       {/* WhatsApp Section */}
-      <section className="py-16 bg-slate-50">
+      <section className="bg-slate-50 py-12 md:py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-slate-800 mb-4">{t('contact.whatsapp.title')}</h2>
-              <p className="text-slate-600">{t('contact.whatsapp.subtitle')}</p>
+            <div className="mb-10 text-center md:mb-12">
+              <h2 className="text-3xl font-bold text-slate-800 mb-4">{content.contact.whatsappTitle}</h2>
+              <p className="text-slate-600">{content.contact.whatsappSubtitle}</p>
             </div>
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { number: "99951-1643", full: "5528999511643" },
-              { number: "99905-7492", full: "5528999057492" },
-              { number: "99985-1446", full: "5528999851446" }
-            ].map((wa, idx) => (
-              <ScrollReveal key={wa.number} delay={idx * 0.1}>
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+            {whatsappIntents.map((wa, idx) => (
+              <ScrollReveal key={wa.id} delay={idx * 0.1}>
                 <a
-                  href={`https://wa.me/${wa.full}`}
+                  href={buildWhatsAppUrl(wa.number, wa.message)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center p-6 bg-white rounded-xl shadow-sm border border-slate-200 hover:border-green-400 hover:shadow-md transition-all duration-300"
+                  className="group block h-full rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition-all duration-300 hover:border-green-400 hover:shadow-md md:p-6"
                 >
-                  <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4 group-hover:scale-110 transition-transform">
+                  <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                     <MessageCircle className="h-6 w-6 text-green-600" />
                   </div>
                   <div>
-                    <div className="text-sm text-slate-500 font-medium">{t('contact.whatsapp.label')}</div>
-                    <div className="text-lg font-bold text-slate-800 group-hover:text-green-600 transition-colors">
-                      +55 28 {wa.number}
-                    </div>
+                    <div className="text-sm text-slate-500 font-medium">{wa.label}</div>
+                    <div className="text-lg font-bold text-slate-800 group-hover:text-green-600 transition-colors">{wa.description}</div>
+                    <p className="mt-2 text-sm text-slate-500">{wa.number}</p>
                   </div>
                 </a>
               </ScrollReveal>
@@ -280,20 +282,19 @@ export default function Contact() {
       </section>
 
       {/* Form Section */}
-      <section className="py-24 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <ScrollReveal>
-            <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-100">
-              <div className="bg-brand p-8 text-white text-center">
-                <h2 className="text-3xl font-bold mb-2">{t('contact.form.title')}</h2>
-                <p className="text-brandLight/90">{t('contact.form.subtitle')}</p>
-              </div>
-              
-              <div className="p-8 md:p-12">
-                <form onSubmit={handleSubmit} className="space-y-8">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <section className="bg-white py-16 md:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col lg:flex-row gap-12 xl:gap-20">
+            {/* Left Column: Form */}
+            <div className="w-full lg:w-3/5">
+              <div className="bg-white p-0">
+                <h2 className="text-3xl font-bold text-slate-800 mb-2">Envie sua mensagem</h2>
+                <p className="text-slate-500 mb-10">Preencha os campos abaixo e retornaremos o mais breve possível.</p>
+                
+                <form onSubmit={handleSubmit} className="space-y-6 md:space-y-8">
+                  <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
                     <div className="space-y-2">
-                      <label htmlFor="name" className="text-sm font-semibold text-slate-700">{t('contact.form.fullName.label')}</label>
+                      <label htmlFor="name" className="text-sm font-bold text-slate-700">{t('contact.form.fullName.label')}</label>
                       <input
                         type="text"
                         id="name"
@@ -302,8 +303,8 @@ export default function Contact() {
                         onChange={handleChange}
                         aria-invalid={!!errors.name}
                         aria-describedby={errors.name ? "name-error" : undefined}
-                        className={`w-full px-4 py-3 rounded-lg bg-slate-50 border focus:ring-2 focus:ring-brand/20 transition-all outline-none ${
-                          errors.name ? 'border-red-500 focus:border-red-500' : 'border-slate-200 focus:border-brand'
+                        className={`w-full px-4 py-3 rounded-sm bg-slate-50 border focus:ring-1 focus:ring-brand/50 transition-all outline-none ${
+                          errors.name ? 'border-red-500' : 'border-slate-200 focus:border-brand'
                         }`}
                         placeholder={t('contact.form.fullName.placeholder')}
                       />
@@ -311,52 +312,57 @@ export default function Contact() {
                     </div>
 
                     <div className="space-y-2">
-                      <label htmlFor="email" className="text-sm font-semibold text-slate-700">{t('contact.form.email.label')}</label>
+                      <label htmlFor="email" className="text-sm font-bold text-slate-700">{t('contact.form.email.label')}</label>
                       <input
                         type="email"
                         id="email"
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 rounded-lg bg-slate-50 border border-slate-200 focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all outline-none"
+                        className="w-full px-4 py-3 rounded-sm bg-slate-50 border border-slate-200 focus:border-brand focus:ring-1 focus:ring-brand/50 transition-all outline-none"
                         placeholder={t('contact.form.email.placeholder')}
                       />
                       {errors.email && <p className="text-xs text-red-500">{errors.email}</p>}
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
                     <div className="space-y-2">
-                      <label htmlFor="phone" className="text-sm font-semibold text-slate-700">{t('contact.form.phone.label')}</label>
+                      <label htmlFor="phone" className="text-sm font-bold text-slate-700">{t('contact.form.phone.label')}</label>
                       <div className="flex gap-2">
                         <input
                           type="text"
                           name="phoneCode"
                           value={formData.phoneCode}
                           onChange={handleChange}
-                          className="w-20 px-3 py-3 rounded-lg bg-slate-50 border border-slate-200 outline-none focus:border-brand text-center"
+                          className="w-20 px-3 py-3 rounded-sm bg-slate-50 border border-slate-200 outline-none focus:border-brand text-center"
                           placeholder="+55"
                         />
                         <input
                           type="tel"
                           name="phone"
+                          id="phone"
                           value={formData.phone}
                           onChange={handleChange}
-                          className="flex-1 px-4 py-3 rounded-lg bg-slate-50 border border-slate-200 focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all outline-none"
+                          className={`flex-1 px-4 py-3 rounded-sm bg-slate-50 border focus:ring-1 focus:ring-brand/50 transition-all outline-none ${
+                            errors.phone ? 'border-red-500' : 'border-slate-200 focus:border-brand'
+                          }`}
                           placeholder={t('contact.form.phone.placeholder')}
                         />
                       </div>
+                      {errors.phone && <p className="text-xs text-red-500">{errors.phone}</p>}
                     </div>
 
                     <div className="space-y-2">
-                      <label htmlFor="country" className="text-sm font-semibold text-slate-700">{t('contact.form.country.label')}</label>
+                      <label htmlFor="country" className="text-sm font-bold text-slate-700">{t('contact.form.country.label')}</label>
                       <input
                         type="text"
                         name="country"
+                        id="country"
                         value={formData.country}
                         onChange={handleChange}
-                        className={`w-full px-4 py-3 rounded-lg bg-slate-50 border focus:ring-2 focus:ring-brand/20 transition-all outline-none ${
-                          errors.country ? 'border-red-500 focus:border-red-500' : 'border-slate-200 focus:border-brand'
+                        className={`w-full px-4 py-3 rounded-sm bg-slate-50 border focus:ring-1 focus:ring-brand/50 transition-all outline-none ${
+                          errors.country ? 'border-red-500' : 'border-slate-200 focus:border-brand'
                         }`}
                         placeholder={t('contact.form.country.placeholder')}
                       />
@@ -365,13 +371,14 @@ export default function Contact() {
 
                     {formData.country.toLowerCase() === 'brasil' && (
                       <div className="space-y-2">
-                        <label htmlFor="state" className="text-sm font-semibold text-slate-700">{t('contact.form.state.label')}</label>
+                        <label htmlFor="state" className="text-sm font-bold text-slate-700">{t('contact.form.state.label')}</label>
                         <select
+                          id="state"
                           name="state"
                           value={formData.state}
                           onChange={handleChange}
-                          className={`w-full px-4 py-3 rounded-lg bg-slate-50 border focus:ring-2 focus:ring-brand/20 transition-all outline-none ${
-                            errors.state ? 'border-red-500 focus:border-red-500' : 'border-slate-200 focus:border-brand'
+                          className={`w-full px-4 py-3 rounded-sm bg-slate-50 border focus:ring-1 focus:ring-brand/50 transition-all outline-none ${
+                            errors.state ? 'border-red-500' : 'border-slate-200 focus:border-brand'
                           }`}
                         >
                           <option value="">{t('contact.form.state.placeholder')}</option>
@@ -385,8 +392,25 @@ export default function Contact() {
                   </div>
 
                   <div className="space-y-2">
-                    <label htmlFor="files" className="text-sm font-semibold text-slate-700">{t('contact.form.files.label')}</label>
-                    <div className="relative border-2 border-dashed border-slate-200 rounded-lg p-6 hover:bg-slate-50 transition-colors text-center cursor-pointer">
+                    <label htmlFor="subject" className="text-sm font-bold text-slate-700">{content.contact.subjectLabel}</label>
+                    <input
+                      type="text"
+                      id="subject"
+                      name="subject"
+                      value={formData.subject}
+                      onChange={handleChange}
+                      className={`w-full px-4 py-3 rounded-sm bg-slate-50 border focus:ring-1 focus:ring-brand/50 transition-all outline-none ${
+                        errors.subject ? 'border-red-500' : 'border-slate-200 focus:border-brand'
+                      }`}
+                      placeholder={content.contact.subjectPlaceholder}
+                    />
+                    {errors.subject && <p className="text-xs text-red-500">{errors.subject}</p>}
+                  </div>
+
+                  {/* Campo de Anexo mantido mas não vai pro WA, apenas caso haja API futura */}
+                  <div className="space-y-2">
+                    <label htmlFor="files" className="text-sm font-bold text-slate-700">{t('contact.form.files.label')} <span className="font-normal text-slate-400 ml-1">(Opcional)</span></label>
+                    <div className="relative border-2 border-dashed border-slate-200 rounded-sm p-6 hover:bg-slate-50 transition-colors text-center cursor-pointer">
                       <input
                         type="file"
                         id="files"
@@ -399,23 +423,10 @@ export default function Contact() {
                         <p className="text-xs mt-1">{t('contact.form.files.hint')}</p>
                       </div>
                     </div>
-                    {formData.files.length > 0 && (
-                      <div className="mt-3 space-y-2">
-                        <p className="text-xs font-semibold text-slate-700">{t('contact.form.files.list')}</p>
-                        <ul className="text-xs text-slate-600 bg-slate-50 rounded-lg p-2 border border-slate-100">
-                          {formData.files.map((file, index) => (
-                            <li key={index} className="flex items-center justify-between py-1 border-b border-slate-100 last:border-0">
-                              <span className="truncate max-w-[200px]">{file.name}</span>
-                              <span className="text-slate-400 text-[10px]">{(file.size / 1024 / 1024).toFixed(2)} MB</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
                   </div>
 
                   <div className="space-y-2">
-                    <label htmlFor="message" className="text-sm font-semibold text-slate-700">{t('contact.form.message.label')}</label>
+                    <label htmlFor="message" className="text-sm font-bold text-slate-700">{t('contact.form.message.label')}</label>
                     <textarea
                       name="message"
                       id="message"
@@ -424,35 +435,109 @@ export default function Contact() {
                       rows={5}
                       aria-invalid={!!errors.message}
                       aria-describedby={errors.message ? "message-error" : undefined}
-                      className={`w-full px-4 py-3 rounded-lg bg-slate-50 border focus:ring-2 focus:ring-brand/20 transition-all outline-none resize-none ${
-                        errors.message ? 'border-red-500 focus:border-red-500' : 'border-slate-200 focus:border-brand'
+                      className={`w-full px-4 py-3 rounded-sm bg-slate-50 border focus:ring-1 focus:ring-brand/50 transition-all outline-none resize-none ${
+                        errors.message ? 'border-red-500' : 'border-slate-200 focus:border-brand'
                       }`}
                       placeholder={t('contact.form.message.placeholder')}
                     />
                     {errors.message && <p id="message-error" className="text-xs text-red-500">{errors.message}</p>}
                   </div>
 
-                  <div className="text-center pt-4">
+                  <div className="space-y-2">
+                    <label className="flex items-start gap-3 rounded-sm border border-slate-200 bg-slate-50 p-4 cursor-pointer hover:border-slate-300">
+                      <input
+                        type="checkbox"
+                        id="consent"
+                        name="consent"
+                        checked={formData.consent}
+                        onChange={handleChange}
+                        className="mt-0.5 h-4 w-4 rounded-sm border-slate-300 text-brand focus:ring-brand cursor-pointer"
+                      />
+                      <span className="text-sm leading-relaxed text-slate-600">{content.contact.consentLabel}</span>
+                    </label>
+                    {errors.consent && <p className="text-xs text-red-500">{errors.consent}</p>}
+                  </div>
+
+                  <div className="pt-4">
                     <button
                       type="submit"
-                      className="inline-flex items-center px-10 py-4 bg-brand text-white font-bold rounded-full hover:bg-brand2 transform hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
+                      className="inline-flex items-center justify-center w-full md:w-auto px-10 py-4 bg-brand text-white font-bold rounded-sm hover:bg-brandDark transition-colors uppercase tracking-widest text-sm"
                     >
-                      <span>{t('contact.form.send')}</span>
-                      <Send className="ml-2 h-5 w-5" />
+                      <span>Enviar pelo WhatsApp</span>
+                      <MessageCircle className="ml-3 h-5 w-5" />
                     </button>
                     {feedback && (
-                      <p className="mt-4 text-sm text-slate-600 animate-pulse">{feedback}</p>
+                      <p className="mt-4 text-sm font-medium text-brand animate-pulse">{feedback}</p>
                     )}
                   </div>
                 </form>
               </div>
             </div>
-          </ScrollReveal>
+
+            {/* Right Column: Checklist & Info */}
+            <div className="w-full lg:w-2/5">
+              <div className="sticky top-28">
+                <div className="bg-slate-900 rounded-sm p-8 md:p-10 shadow-lg text-white">
+                  <h3 className="text-2xl font-bold mb-6">Checklist para Orçamento</h3>
+                  <p className="text-slate-300 mb-8 font-light text-sm leading-relaxed">
+                    Para agilizarmos seu atendimento, se possível, tenha em mãos as seguintes informações antes de falar com nosso comercial:
+                  </p>
+                  
+                  <ul className="space-y-4 mb-8">
+                    <li className="flex items-start gap-3">
+                      <div className="mt-1 w-5 h-5 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                        <div className="w-1.5 h-1.5 bg-brand rounded-full" />
+                      </div>
+                      <span className="text-slate-200 text-sm">Medidas aproximadas do ambiente</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <div className="mt-1 w-5 h-5 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                        <div className="w-1.5 h-1.5 bg-brand rounded-full" />
+                      </div>
+                      <span className="text-slate-200 text-sm">Nome do material desejado</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <div className="mt-1 w-5 h-5 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                        <div className="w-1.5 h-1.5 bg-brand rounded-full" />
+                      </div>
+                      <span className="text-slate-200 text-sm">Fotos do local ou planta do projeto</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <div className="mt-1 w-5 h-5 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                        <div className="w-1.5 h-1.5 bg-brand rounded-full" />
+                      </div>
+                      <span className="text-slate-200 text-sm">Detalhes como quantidade de cubas, furos e acabamento das bordas</span>
+                    </li>
+                  </ul>
+
+                  <div className="pt-8 border-t border-white/10">
+                    <h4 className="font-bold text-white mb-2">Atendimento Imediato</h4>
+                    <p className="text-slate-400 text-sm mb-4">Se preferir, clique no botão abaixo para falar agora mesmo com um consultor.</p>
+                    <a
+                      href={buildWhatsAppUrl(content.whatsappIntents[0]?.number, "Olá! Gostaria de falar com um consultor da DW Granitos.")}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center text-green-400 hover:text-green-300 font-bold transition-colors"
+                    >
+                      <MessageCircle className="mr-2 h-5 w-5" />
+                      Chamar no WhatsApp
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
+      <FAQSection
+        title={ui.faqTitle}
+        subtitle={ui.faqSubtitle}
+        items={content.faq.contact}
+      />
+
       {/* Map Section */}
-      <section className="h-[500px] relative bg-slate-200">
+      <section className="relative h-[380px] bg-slate-200 md:h-[440px]">
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3749.9!2d-41.0555197!3d-20.7651504!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xb96ff915e9163b%3A0x1a7a93d530a6f709!2sDW%20Granitos%20%26%20Marmores%20LTDA!5e0!3m2!1spt-BR!2sbr!4v1700000000000&maptype=satellite"
           width="100%"
@@ -461,10 +546,10 @@ export default function Contact() {
           allowFullScreen
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
-          title="DW Granitos - Localização"
+          title="DW Granitos & Mármores LTDA - Localização"
           className="transition-all duration-500"
         />
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 bg-white px-6 py-4 rounded-xl shadow-lg flex items-center gap-4 max-w-sm w-full mx-4">
+        <div className="absolute bottom-4 left-1/2 flex w-[calc(100%-2rem)] max-w-sm -translate-x-1/2 items-center gap-4 rounded-xl bg-white px-5 py-4 shadow-lg md:bottom-8 md:px-6">
           <div className="bg-brand/10 p-3 rounded-full text-brand">
             <MapPin className="h-6 w-6" />
           </div>

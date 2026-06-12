@@ -9,6 +9,7 @@ interface LayoutProps {
 }
 
 export default function Layout({ children }: LayoutProps) {
+  const showConstructionNotice = import.meta.env.VITE_SHOW_CONSTRUCTION_NOTICE === "true";
   const [showNotice, setShowNotice] = useState(false);
   const [showCookies, setShowCookies] = useState(false);
   const { t } = useTranslation();
@@ -16,15 +17,15 @@ export default function Layout({ children }: LayoutProps) {
   useEffect(() => {
     try {
       const seen = localStorage.getItem('dw_site_construction_notice');
-      if (!seen) setShowNotice(true);
+      if (showConstructionNotice && !seen) setShowNotice(true);
       const cookie = localStorage.getItem('dw_cookie_consent');
       if (!cookie) setShowCookies(true);
     } catch {
       void 0;
-      setShowNotice(true);
+      setShowNotice(showConstructionNotice);
       setShowCookies(true);
     }
-  }, []);
+  }, [showConstructionNotice]);
 
   const dismissNotice = () => {
     try { localStorage.setItem('dw_site_construction_notice', 'true'); } catch { void 0; }
@@ -58,12 +59,17 @@ export default function Layout({ children }: LayoutProps) {
       </main>
       <Footer />
       {showCookies && (
-        <div className="fixed bottom-4 left-4 right-4 z-40">
+        <div
+          data-cookie-banner="true"
+          className="fixed bottom-3 left-3 right-3 z-40 md:bottom-4 md:left-4 md:right-4"
+        >
           <div className="mx-auto max-w-7xl">
-            <div className="bg-white/95 backdrop-blur rounded-xl shadow-lg border border-slate-200 p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-              <p className="text-slate-700 text-sm">{t('cookies.message')}</p>
+            <div className="bg-white/95 backdrop-blur rounded-xl shadow-lg border border-slate-200 p-4 md:p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+              <p className="text-slate-700 text-sm leading-6 md:pr-4">{t('cookies.message')}</p>
               <div className="flex items-center gap-3">
-                <button onClick={acceptCookies} className="px-4 py-2 bg-brand text-white rounded-lg hover:bg-brand2">{t('cookies.accept')}</button>
+                <button onClick={acceptCookies} className="px-4 py-2 bg-brand text-white rounded-lg hover:bg-brand2">
+                  {t('cookies.accept')}
+                </button>
               </div>
             </div>
           </div>

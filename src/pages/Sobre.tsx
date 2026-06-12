@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Award, Users, MapPin, Calendar, Star, Shield, CheckCircle, ChevronDown } from "lucide-react";
 import { useTranslation } from "@/contexts/i18nContext";
@@ -13,11 +14,14 @@ import {
 import { Card, Button } from "@/components/ui";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 import AnimatedCounter from "@/components/animations/AnimatedCounter";
+import Seo from "@/components/seo/Seo";
+import { institutionalContent } from "@/data/institutionalContent";
 
 export default function Sobre() {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const { scrollYProgress } = useScroll();
   const [isVisible, setIsVisible] = useState(false);
+  const seo = institutionalContent[language].seo.about;
 
   // Parallax transforms
   const backgroundY = useTransform(scrollYProgress, [0, 1], [0, -200]);
@@ -83,6 +87,7 @@ export default function Sobre() {
 
   return (
     <div className="min-h-screen bg-slate-900 overflow-hidden">
+      <Seo title={seo.title} description={seo.description} path="/sobre" />
       {/* Hero Section with Parallax */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         {/* Background Parallax Layer */}
@@ -331,11 +336,11 @@ export default function Sobre() {
               {t('about.cta.subtitle')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="/contato">
+              <Link to="/contato">
                 <Button variant="primary" size="lg" className="bg-white text-brand hover:bg-slate-100 w-full sm:w-auto">
                   {t('about.cta.button')}
                 </Button>
-              </a>
+              </Link>
             </div>
           </ScrollReveal>
         </div>

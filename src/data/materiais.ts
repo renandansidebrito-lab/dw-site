@@ -7,9 +7,19 @@ export type Material = {
   aplicacoes: string[];
   imagem: string;
   descricao: string;
+  acabamento?: string;
+  alt?: string;
 };
 
-export const getMateriais = (t: (key: string) => string): Material[] => [
+const MATERIAL_PLACEHOLDER = "/images/placeholder-material.svg";
+const MISSING_MATERIAL_IMAGES = new Set([
+  "/images/materiais/marmore-branco.webp",
+  "/images/materiais/pedra-madeira-branco-are.webp",
+  "/images/materiais/pedra-moledo-branca.webp"
+]);
+
+export const getMateriais = (t: (key: string) => string): Material[] => {
+  const materials: Material[] = [
   {
     id: 1,
     nome: t('catalog.name.1'),
@@ -327,7 +337,7 @@ export const getMateriais = (t: (key: string) => string): Material[] => [
     cor: t('catalog.colors.beige'),
     origem: t('catalog.origin.imported'),
     aplicacoes: [t('catalog.app.internal_floors'), t('catalog.app.bathrooms'), t('catalog.app.cladding')],
-    imagem: "/images/materiais/crema-marfil.webp",
+    imagem: "/images/materiais/crema-marfil-extra.webp",
     descricao: t('catalog.desc.32')
   },
   {
@@ -740,4 +750,131 @@ export const getMateriais = (t: (key: string) => string): Material[] => [
     imagem: "/images/materiais/white-rose.webp",
     descricao: t('catalog.desc.73')
   },
-];
+  {
+    id: 74,
+    nome: t('catalog.name.74'),
+    tipo: "marmore",
+    cor: t('catalog.colors.white'),
+    origem: "ES",
+    aplicacoes: [t('catalog.app.floors'), t('catalog.app.cladding'), t('catalog.app.bathrooms')],
+    imagem: "/images/materiais/marmore-branco-espirito-santo.webp",
+    descricao: t('catalog.desc.74')
+  },
+  {
+    id: 75,
+    nome: t('catalog.name.75'),
+    tipo: "quartzito",
+    cor: t('catalog.colors.green'),
+    origem: "CE",
+    aplicacoes: [t('catalog.app.countertops'), t('catalog.app.luxury_cladding'), t('catalog.app.details')],
+    imagem: "/images/materiais/quartzito-botanic-green.webp",
+    descricao: t('catalog.desc.75')
+  },
+  {
+    id: 76,
+    nome: t('catalog.name.76'),
+    tipo: "marmore",
+    cor: t('catalog.colors.varied'),
+    origem: t('catalog.origin.imported'),
+    aplicacoes: [t('catalog.app.cladding'), t('catalog.app.bathrooms'), t('catalog.app.internal_floors')],
+    imagem: "/images/materiais/marmore-arabescato-orobico.webp",
+    descricao: t('catalog.desc.76')
+  },
+  {
+    id: 77,
+    nome: t('catalog.name.77'),
+    tipo: "ultracompacto",
+    cor: t('catalog.colors.beige'),
+    origem: t('catalog.origin.industrialized'),
+    aplicacoes: [t('catalog.app.countertops'), t('catalog.app.facades'), t('catalog.app.floors')],
+    imagem: "/images/materiais/laminatto-cashmere.webp",
+    descricao: t('catalog.desc.77')
+  },
+  {
+    id: 78,
+    nome: t('catalog.name.78'),
+    tipo: "outros",
+    cor: t('catalog.colors.white'),
+    origem: t('catalog.origin.national'),
+    aplicacoes: [t('catalog.app.facades'), t('catalog.app.external'), t('catalog.app.walls')],
+    imagem: "/images/materiais/pedra-madeira-branco-are.webp",
+    descricao: t('catalog.desc.78')
+  },
+  {
+    id: 79,
+    nome: t('catalog.name.79'),
+    tipo: "outros",
+    cor: t('catalog.colors.white'),
+    origem: t('catalog.origin.national'),
+    aplicacoes: [t('catalog.app.facades'), t('catalog.app.external'), t('catalog.app.walls')],
+    imagem: "/images/materiais/pedra-moledo-branca.webp",
+    descricao: t('catalog.desc.79')
+  },
+  {
+    id: 80,
+    nome: t('catalog.name.80'),
+    tipo: "quartzito",
+    cor: t('catalog.colors.blue'),
+    origem: "BA",
+    aplicacoes: [t('catalog.app.countertops'), t('catalog.app.luxury_cladding'), t('catalog.app.floors')],
+    imagem: "/images/materiais/quartzito-azul-macaubas.webp",
+    descricao: t('catalog.desc.80')
+  },
+  {
+    id: 81,
+    nome: t('catalog.name.81'),
+    tipo: "granito",
+    cor: t('catalog.colors.white'),
+    origem: t('catalog.origin.national'),
+    aplicacoes: [t('catalog.app.countertops'), t('catalog.app.floors'), t('catalog.app.stairs')],
+    imagem: "/images/materiais/granito-ouro-branco.webp",
+    descricao: t('catalog.desc.81')
+  },
+  {
+    id: 82,
+    nome: t('catalog.name.82'),
+    tipo: "marmore",
+    cor: t('catalog.colors.white'),
+    origem: t('catalog.origin.imported'),
+    aplicacoes: [t('catalog.app.floors'), t('catalog.app.bathrooms'), t('catalog.app.cladding')],
+    imagem: "/images/materiais/marmore-matarazzo.webp",
+    descricao: t('catalog.desc.82')
+  },
+  {
+    id: 83,
+    nome: t('catalog.name.83'),
+    tipo: "granito",
+    cor: t('catalog.colors.white'),
+    origem: t('catalog.origin.national'),
+    aplicacoes: [t('catalog.app.floors'), t('catalog.app.countertops'), t('catalog.app.cladding')],
+    imagem: "/images/materiais/granito-branco-polar.webp",
+    descricao: t('catalog.desc.83')
+  },
+  {
+    id: 84,
+    nome: t('catalog.name.84'),
+    tipo: "marmore",
+    cor: t('catalog.colors.white'),
+    origem: t('catalog.origin.imported'),
+    aplicacoes: [t('catalog.app.floors'), t('catalog.app.cladding'), t('catalog.app.bathrooms')],
+    imagem: "/images/materiais/marmore-valentino.webp",
+    descricao: t('catalog.desc.84')
+  },
+  {
+    id: 85,
+    nome: t('catalog.name.85'),
+    tipo: "granito",
+    cor: t('catalog.colors.gray'),
+    origem: "ES",
+    aplicacoes: [t('catalog.app.floors'), t('catalog.app.stairs'), t('catalog.app.commercial')],
+    imagem: "/images/materiais/granito-cinza-castelo.webp",
+    descricao: t('catalog.desc.85')
+  },
+  ];
+
+  return materials.map((material) => ({
+    ...material,
+    imagem: MISSING_MATERIAL_IMAGES.has(material.imagem) ? MATERIAL_PLACEHOLDER : material.imagem,
+    alt: material.alt ?? material.nome,
+  }));
+};

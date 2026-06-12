@@ -1,14 +1,18 @@
 import { ArrowRight, Star, Layers, Ruler, ShieldCheck, CheckCircle, Truck } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { getMateriais } from "@/data/materiais";
 import { useTranslation } from "@/contexts/i18nContext";
 import ScrollReveal from "@/components/animations/ScrollReveal";
+import Seo from "@/components/seo/Seo";
+import { institutionalContent } from "@/data/institutionalContent";
 
 export default function Chapas() {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
+  const seo = institutionalContent[language].seo.chapas;
   const materiaisExemplo = getMateriais(t);
   const [previewIndices, setPreviewIndices] = useState<number[]>(() => {
-    const count = 4;
+    const count = 5;
     const max = materiaisExemplo.length;
     const set = new Set<number>();
     while (set.size < Math.min(count, max)) {
@@ -21,7 +25,7 @@ export default function Chapas() {
     const interval = setInterval(() => {
       if (materiaisExemplo.length === 0) return;
       setPreviewIndices(prev => {
-        const pos = Math.floor(Math.random() * Math.min(4, prev.length));
+        const pos = Math.floor(Math.random() * Math.min(5, prev.length));
         const currentSet = new Set(prev);
         let candidate = Math.floor(Math.random() * materiaisExemplo.length);
         let guard = 0;
@@ -46,6 +50,7 @@ export default function Chapas() {
 
   return (
     <div className="min-h-screen bg-slate-50">
+      <Seo title={seo.title} description={seo.description} path="/chapas" />
       {/* Hero Section */}
       <section className="relative bg-slate-900 text-white pt-40 pb-32 overflow-hidden">
         <div className="absolute inset-0 z-0 opacity-40">
@@ -91,62 +96,162 @@ export default function Chapas() {
         </div>
       </section>
 
-      {/* Catalog Preview */}
-      <section className="py-20 bg-white">
+      {/* Types of Materials */}
+      <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-12">
+          <div className="text-center mb-12">
             <ScrollReveal>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">Tipos de Materiais</h2>
+              <p className="text-lg text-slate-600 max-w-2xl mx-auto">Trabalhamos com uma seleção criteriosa de rochas para atender diferentes necessidades do seu projeto.</p>
+            </ScrollReveal>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { title: "Granitos", desc: "Alta resistência e durabilidade, ideais para áreas de intenso tráfego e bancadas." },
+              { title: "Mármores", desc: "Elegância clássica e veios únicos, perfeitos para ambientes internos e nobres." },
+              { title: "Quartzitos", desc: "Beleza de mármore com resistência de granito. Uma escolha premium e versátil." },
+              { title: "Exóticos", desc: "Padrões exclusivos e cores raras para projetos que buscam exclusividade absoluta." }
+            ].map((item, idx) => (
+              <ScrollReveal key={idx} delay={idx * 0.1}>
+                <div className="p-6 bg-slate-50 rounded-2xl border border-slate-100 text-center hover:shadow-lg transition-shadow h-full">
+                  <h3 className="text-xl font-bold text-slate-800 mb-2">{item.title}</h3>
+                  <p className="text-sm text-slate-600">{item.desc}</p>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Types of Finishes */}
+      <section className="py-16 bg-slate-50 border-t border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <ScrollReveal>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">Acabamentos Disponíveis</h2>
+              <p className="text-lg text-slate-600 max-w-2xl mx-auto">Oferecemos diferentes tratamentos de superfície para valorizar a rocha e adequá-la perfeitamente ao uso pretendido.</p>
+            </ScrollReveal>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { title: "Polido", desc: "Superfície lisa e brilhante que destaca a cor e os veios da pedra.", use: "Áreas internas, bancadas e pisos secos." },
+              { title: "Levigado", desc: "Superfície lisa, mas sem brilho (fosca). Mantém a cor natural.", use: "Áreas internas e externas cobertas." },
+              { title: "Escovado", desc: "Textura levemente rugosa e acetinada, muito agradável ao toque.", use: "Áreas externas, bordas de piscina e pisos." },
+              { title: "Flameado", desc: "Aspecto rústico e antiderrapante, obtido por tratamento térmico.", use: "Áreas externas descobertas e rampas." },
+              { title: "Resinagem", desc: "Tratamento para fechamento de microporos e reforço estrutural.", use: "Aplicado na fábrica em materiais para maior resistência." }
+            ].map((item, idx) => (
+              <ScrollReveal key={idx} delay={idx * 0.1}>
+                <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-md transition-shadow h-full flex flex-col">
+                  <h3 className="text-lg font-bold text-brand mb-2">{item.title}</h3>
+                  <p className="text-sm text-slate-600 mb-4 flex-grow">{item.desc}</p>
+                  <div className="text-xs font-medium text-slate-500 bg-slate-50 px-3 py-2 rounded-lg mt-auto">
+                    <span className="font-bold text-slate-700">Indicação:</span> {item.use}
+                  </div>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How to choose */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-slate-900 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden text-center md:text-left">
+            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
+            <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
               <div>
-                <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">{t('chapas.featured.title')}</h2>
-                <p className="text-lg text-slate-600 max-w-xl">
-                  {t('chapas.featured.subtitle')}
+                <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Como escolher a chapa ideal?</h2>
+                <p className="text-slate-300 mb-6 leading-relaxed">
+                  A escolha da pedra natural ideal depende muito de onde ela será aplicada. Diferentes ambientes exigem características específicas de resistência, porosidade e acabamento.
+                </p>
+                <div className="flex flex-wrap gap-2 justify-center md:justify-start">
+                  <span className="px-3 py-1 bg-white/10 text-white rounded-full text-sm">Bancadas</span>
+                  <span className="px-3 py-1 bg-white/10 text-white rounded-full text-sm">Pisos</span>
+                  <span className="px-3 py-1 bg-white/10 text-white rounded-full text-sm">Fachadas</span>
+                  <span className="px-3 py-1 bg-white/10 text-white rounded-full text-sm">Escadas</span>
+                  <span className="px-3 py-1 bg-white/10 text-white rounded-full text-sm">Áreas Internas e Externas</span>
+                </div>
+              </div>
+              <div className="bg-white/5 rounded-2xl p-6 border border-white/10 backdrop-blur-sm">
+                <h3 className="text-xl font-bold text-white mb-3">Dúvidas na escolha?</h3>
+                <p className="text-sm text-slate-300 mb-6">Nossa equipe comercial é especializada em orientar a melhor escolha de material e acabamento para a sua obra.</p>
+                <Link to="/contato" className="inline-flex items-center justify-center w-full px-6 py-3 bg-brand text-white font-bold rounded-xl hover:bg-brand2 transition-colors">
+                  Falar com o Comercial <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Catalog Preview */}
+      <section className="pt-32 pb-20 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-6">
+            <ScrollReveal>
+              <div className="max-w-2xl">
+                <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">Materiais em Destaque</h2>
+                <p className="text-lg text-slate-600">
+                  Confira algumas opções selecionadas do nosso catálogo de granitos, mármores e quartzitos para chapas e projetos sob medida.
                 </p>
               </div>
             </ScrollReveal>
             
             <ScrollReveal delay={0.2}>
-              <a href="/catalogo" className="hidden md:inline-flex items-center text-brand font-bold hover:text-brand2 transition-colors mt-6 md:mt-0">
-                {t('chapas.featured.viewCatalog')} <ArrowRight className="ml-2 h-5 w-5" />
-              </a>
+              <Link to="/catalogo" className="inline-flex items-center px-6 py-3 bg-white border border-slate-200 text-slate-800 font-bold rounded-xl hover:bg-slate-100 transition-colors shadow-sm">
+                Ver catálogo completo <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
             </ScrollReveal>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 md:gap-6">
             {previewIndices.map((idx, i) => {
               const m = materiaisExemplo[idx];
               if (!m) return null;
+              
+              const isLarge = i === 0;
+              
               return (
-                <ScrollReveal key={`${idx}-${i}`} delay={i * 0.1}>
-                  <div className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer">
-                    <div className="h-64 overflow-hidden">
+                <ScrollReveal 
+                  key={`${idx}-${i}`} 
+                  delay={i * 0.1}
+                  className={`group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-slate-100 transition-all duration-500 cursor-pointer ${
+                    isLarge ? 'lg:col-span-2 lg:row-span-2 h-[350px] lg:h-[520px]' : 
+                    'lg:col-span-1 h-[240px] lg:h-[248px]'
+                  }`}
+                >
+                  <Link to={`/contato?material=${encodeURIComponent(m.nome)}`} className="block w-full h-full">
+                    <div className="absolute inset-0">
                       <img
                         src={m.imagem}
                         alt={m.nome}
-                        className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                        className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
                         onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
                       />
-                      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/30 to-transparent opacity-90 transition-opacity duration-300" />
                     </div>
                     
-                    <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90 via-black/60 to-transparent">
-                      <span className="inline-block px-2 py-1 mb-2 text-xs font-bold text-white bg-brand rounded-md">
-                        {m.tipo}
-                      </span>
-                      <h3 className="text-xl font-bold text-white mb-1 group-hover:text-brandLight transition-colors">{m.nome}</h3>
-                      <p className="text-white/80 text-sm line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">
-                        {m.descricao}
-                      </p>
+                    <div className="absolute inset-0 p-5 md:p-6 flex flex-col justify-end">
+                      <div className="mb-auto flex">
+                        <span className="inline-block px-3 py-1 text-xs font-bold text-slate-900 bg-white/90 backdrop-blur-sm rounded-full shadow-sm">
+                          {m.tipo}
+                        </span>
+                      </div>
+                      
+                      <div>
+                        <h3 className={`font-bold text-white mb-1 group-hover:text-brandLight transition-colors ${isLarge ? 'text-2xl md:text-4xl mb-2' : 'text-lg md:text-xl'}`}>
+                          {m.nome}
+                        </h3>
+                        <div className="flex items-center text-white/90 text-sm font-medium transition-all duration-300 mt-1">
+                          Solicitar orçamento <ArrowRight className="ml-1 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  </Link>
                 </ScrollReveal>
               );
             })}
-          </div>
-          
-          <div className="mt-8 text-center md:hidden">
-            <a href="/catalogo" className="inline-flex items-center text-brand font-bold hover:text-brand2 transition-colors">
-              {t('chapas.featured.viewCatalog')} <ArrowRight className="ml-2 h-5 w-5" />
-            </a>
           </div>
         </div>
       </section>
@@ -211,18 +316,18 @@ export default function Chapas() {
               {t('chapas.cta.subtitle')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="/catalogo"
+              <Link
+                to="/catalogo"
                 className="inline-flex items-center justify-center px-8 py-4 bg-white text-brand font-bold rounded-full hover:bg-slate-50 transition-all shadow-lg hover:shadow-xl"
               >
-                {t('chapas.cta.primary')}
-              </a>
-              <a
-                href="/contato"
+                Consultar chapas disponíveis
+              </Link>
+              <Link
+                to="/contato"
                 className="inline-flex items-center justify-center px-8 py-4 bg-brand2 text-white font-bold rounded-full hover:bg-brand2/90 transition-all shadow-lg border border-white/20"
               >
-                {t('chapas.cta.secondary')}
-              </a>
+                Solicitar fotos de materiais
+              </Link>
             </div>
           </ScrollReveal>
         </div>

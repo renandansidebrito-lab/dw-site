@@ -1,6 +1,7 @@
 import { MapPin, Phone, Mail, Clock, Instagram, Facebook, MessageCircle } from "lucide-react";
 import { useTranslation } from "@/contexts/i18nContext";
 import { Link } from "react-router-dom";
+import { COMPANY } from "@/data/company";
 
 export default function Footer() {
   const { t } = useTranslation();
@@ -8,6 +9,7 @@ export default function Footer() {
   // Navigation links in same order as header
   const navigationLinks = [
     { name: t('nav.home'), path: '/' },
+    { name: t('nav.about'), path: '/sobre' },
     { name: t('nav.serraria'), path: '/serraria' },
     { name: t('nav.chapas'), path: '/chapas' },
     { name: t('nav.recortado'), path: '/recortado' },
@@ -16,9 +18,9 @@ export default function Footer() {
   ];
 
   const contactInfo = [
-    { icon: Phone, text: "+55 28 3524-2288", href: "tel:+552835242288" },
-    { icon: Phone, text: "+55 28 3524-1688", href: "tel:+552835241688" },
-    { icon: Mail, text: "vendas@dwgranitos.com.br", href: "mailto:vendas@dwgranitos.com.br" }
+    { icon: Phone, text: COMPANY.phones[0], href: "tel:+552835242288" },
+    { icon: Phone, text: COMPANY.phones[1], href: "tel:+552835241688" },
+    { icon: Mail, text: COMPANY.primaryEmails.sales, href: `mailto:${COMPANY.primaryEmails.sales}` }
   ];
 
   const socialLinks = [
@@ -30,13 +32,13 @@ export default function Footer() {
     },
     { 
       icon: Facebook, 
-      href: "https://facebook.com/dwgranitos", 
+      href: COMPANY.social.facebook, 
       color: "bg-blue-600",
       name: "Facebook"
     },
     { 
       icon: MessageCircle, 
-      href: "https://wa.me/5528999851446", 
+      href: "https://wa.me/5528999238885", 
       color: "bg-green-600",
       name: "WhatsApp"
     }
@@ -54,7 +56,7 @@ export default function Footer() {
         {/* Top Section: Brand & Newsletter */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-16 border-b border-white/10 pb-12">
           <div className="mb-8 md:mb-0 text-center md:text-left">
-            <img src="/images/dw-logo-white.webp" alt="DW Granitos" className="h-20 w-auto mb-4 mx-auto md:mx-0 brightness-0 invert" />
+            <img src="/images/dw-logo-white.webp" alt={COMPANY.legalName} className="h-20 w-auto mb-4 mx-auto md:mx-0 brightness-0 invert" />
             <p className="text-slate-400 max-w-md">{t('footer.tagline')}</p>
           </div>
           <div className="flex gap-4">
