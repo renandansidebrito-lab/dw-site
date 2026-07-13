@@ -1,15 +1,14 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { ArrowRight, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { useTranslation } from '@/contexts/i18nContext';
 import { useUIStore } from '@/stores/uiStore';
-import { cn } from '@/components/ui';
+import { cn } from '@/lib/utils';
 import { 
   fadeInUp, 
   slideInLeft, 
   mobileMenuVariants,
-  backdropVariants,
-  hoverScale 
+  backdropVariants
 } from '@/utils/animations';
 
 export function ModernHeader() {

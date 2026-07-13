@@ -1,19 +1,22 @@
 import { ArrowRight, Star, Layers, Ruler, ShieldCheck, CheckCircle, Truck } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { getMateriais } from "@/data/materiais";
 import { useTranslation } from "@/contexts/i18nContext";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 import Seo from "@/components/seo/Seo";
 import { institutionalContent } from "@/data/institutionalContent";
+import { chapasUi } from "@/data/pageUi";
 
 export default function Chapas() {
   const { t, language } = useTranslation();
   const seo = institutionalContent[language].seo.chapas;
-  const materiaisExemplo = getMateriais(t);
+  const ui = chapasUi[language];
+  const materiaisExemplo = useMemo(() => getMateriais(t), [t]);
+  const materiaisCount = materiaisExemplo.length;
   const [previewIndices, setPreviewIndices] = useState<number[]>(() => {
     const count = 5;
-    const max = materiaisExemplo.length;
+    const max = materiaisCount;
     const set = new Set<number>();
     while (set.size < Math.min(count, max)) {
       set.add(Math.floor(Math.random() * max));
@@ -23,14 +26,14 @@ export default function Chapas() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (materiaisExemplo.length === 0) return;
+      if (materiaisCount === 0) return;
       setPreviewIndices(prev => {
         const pos = Math.floor(Math.random() * Math.min(5, prev.length));
         const currentSet = new Set(prev);
-        let candidate = Math.floor(Math.random() * materiaisExemplo.length);
+        let candidate = Math.floor(Math.random() * materiaisCount);
         let guard = 0;
         while (currentSet.has(candidate) && guard < 100) {
-          candidate = Math.floor(Math.random() * materiaisExemplo.length);
+          candidate = Math.floor(Math.random() * materiaisCount);
           guard++;
         }
         const next = [...prev];
@@ -39,7 +42,7 @@ export default function Chapas() {
       });
     }, 4000);
     return () => clearInterval(interval);
-  }, []);
+  }, [materiaisCount]);
 
   const services = [
     { icon: Layers, title: t('chapas.services.curadoria.title'), text: t('chapas.services.curadoria.text') },
@@ -47,6 +50,15 @@ export default function Chapas() {
     { icon: Star, title: t('chapas.services.acabamentos.title'), text: t('chapas.services.acabamentos.text') },
     { icon: Ruler, title: t('chapas.services.dimensoes.title'), text: t('chapas.services.dimensoes.text') },
   ];
+  const materialTypeLabels: Record<string, string> = {
+    marmore: t("catalog.marble"),
+    granito: t("catalog.granite"),
+    quartzito: t("catalog.types.quartzite"),
+    quartzo: t("catalog.types.quartz"),
+    ultracompacto: t("catalog.types.ultracompact"),
+    supernano: t("catalog.types.supernano"),
+    outros: t("catalog.types.others"),
+  };
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -57,7 +69,7 @@ export default function Chapas() {
            <img 
             src="/images/setores/chapas.webp" 
             className="w-full h-full object-cover" 
-            alt="Chapas Background"
+            alt={ui.heroAlt}
             loading="eager"
             onError={(e) => {
               e.currentTarget.style.display = 'none';
@@ -101,17 +113,12 @@ export default function Chapas() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <ScrollReveal>
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">Tipos de Materiais</h2>
-              <p className="text-lg text-slate-600 max-w-2xl mx-auto">Trabalhamos com uma seleção criteriosa de rochas para atender diferentes necessidades do seu projeto.</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">{ui.materialsTitle}</h2>
+              <p className="text-lg text-slate-600 max-w-2xl mx-auto">{ui.materialsSubtitle}</p>
             </ScrollReveal>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { title: "Granitos", desc: "Alta resistência e durabilidade, ideais para áreas de intenso tráfego e bancadas." },
-              { title: "Mármores", desc: "Elegância clássica e veios únicos, perfeitos para ambientes internos e nobres." },
-              { title: "Quartzitos", desc: "Beleza de mármore com resistência de granito. Uma escolha premium e versátil." },
-              { title: "Exóticos", desc: "Padrões exclusivos e cores raras para projetos que buscam exclusividade absoluta." }
-            ].map((item, idx) => (
+            {ui.materialTypes.map((item, idx) => (
               <ScrollReveal key={idx} delay={idx * 0.1}>
                 <div className="p-6 bg-slate-50 rounded-2xl border border-slate-100 text-center hover:shadow-lg transition-shadow h-full">
                   <h3 className="text-xl font-bold text-slate-800 mb-2">{item.title}</h3>
@@ -128,24 +135,18 @@ export default function Chapas() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <ScrollReveal>
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">Acabamentos Disponíveis</h2>
-              <p className="text-lg text-slate-600 max-w-2xl mx-auto">Oferecemos diferentes tratamentos de superfície para valorizar a rocha e adequá-la perfeitamente ao uso pretendido.</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">{ui.finishesTitle}</h2>
+              <p className="text-lg text-slate-600 max-w-2xl mx-auto">{ui.finishesSubtitle}</p>
             </ScrollReveal>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              { title: "Polido", desc: "Superfície lisa e brilhante que destaca a cor e os veios da pedra.", use: "Áreas internas, bancadas e pisos secos." },
-              { title: "Levigado", desc: "Superfície lisa, mas sem brilho (fosca). Mantém a cor natural.", use: "Áreas internas e externas cobertas." },
-              { title: "Escovado", desc: "Textura levemente rugosa e acetinada, muito agradável ao toque.", use: "Áreas externas, bordas de piscina e pisos." },
-              { title: "Flameado", desc: "Aspecto rústico e antiderrapante, obtido por tratamento térmico.", use: "Áreas externas descobertas e rampas." },
-              { title: "Resinagem", desc: "Tratamento para fechamento de microporos e reforço estrutural.", use: "Aplicado na fábrica em materiais para maior resistência." }
-            ].map((item, idx) => (
+            {ui.finishes.map((item, idx) => (
               <ScrollReveal key={idx} delay={idx * 0.1}>
                 <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-md transition-shadow h-full flex flex-col">
                   <h3 className="text-lg font-bold text-brand mb-2">{item.title}</h3>
                   <p className="text-sm text-slate-600 mb-4 flex-grow">{item.desc}</p>
                   <div className="text-xs font-medium text-slate-500 bg-slate-50 px-3 py-2 rounded-lg mt-auto">
-                    <span className="font-bold text-slate-700">Indicação:</span> {item.use}
+                    <span className="font-bold text-slate-700">{ui.indication}:</span> {item.use}
                   </div>
                 </div>
               </ScrollReveal>
@@ -161,23 +162,21 @@ export default function Chapas() {
             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
             <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
               <div>
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Como escolher a chapa ideal?</h2>
+                <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">{ui.choiceTitle}</h2>
                 <p className="text-slate-300 mb-6 leading-relaxed">
-                  A escolha da pedra natural ideal depende muito de onde ela será aplicada. Diferentes ambientes exigem características específicas de resistência, porosidade e acabamento.
+                  {ui.choiceText}
                 </p>
                 <div className="flex flex-wrap gap-2 justify-center md:justify-start">
-                  <span className="px-3 py-1 bg-white/10 text-white rounded-full text-sm">Bancadas</span>
-                  <span className="px-3 py-1 bg-white/10 text-white rounded-full text-sm">Pisos</span>
-                  <span className="px-3 py-1 bg-white/10 text-white rounded-full text-sm">Fachadas</span>
-                  <span className="px-3 py-1 bg-white/10 text-white rounded-full text-sm">Escadas</span>
-                  <span className="px-3 py-1 bg-white/10 text-white rounded-full text-sm">Áreas Internas e Externas</span>
+                  {ui.applications.map((application) => (
+                    <span key={application} className="px-3 py-1 bg-white/10 text-white rounded-full text-sm">{application}</span>
+                  ))}
                 </div>
               </div>
               <div className="bg-white/5 rounded-2xl p-6 border border-white/10 backdrop-blur-sm">
-                <h3 className="text-xl font-bold text-white mb-3">Dúvidas na escolha?</h3>
-                <p className="text-sm text-slate-300 mb-6">Nossa equipe comercial é especializada em orientar a melhor escolha de material e acabamento para a sua obra.</p>
+                <h3 className="text-xl font-bold text-white mb-3">{ui.helpTitle}</h3>
+                <p className="text-sm text-slate-300 mb-6">{ui.helpText}</p>
                 <Link to="/contato" className="inline-flex items-center justify-center w-full px-6 py-3 bg-brand text-white font-bold rounded-xl hover:bg-brand2 transition-colors">
-                  Falar com o Comercial <ArrowRight className="ml-2 h-4 w-4" />
+                  {ui.talkSales} <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </div>
             </div>
@@ -191,16 +190,16 @@ export default function Chapas() {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-6">
             <ScrollReveal>
               <div className="max-w-2xl">
-                <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">Materiais em Destaque</h2>
+                <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">{ui.featuredTitle}</h2>
                 <p className="text-lg text-slate-600">
-                  Confira algumas opções selecionadas do nosso catálogo de granitos, mármores e quartzitos para chapas e projetos sob medida.
+                  {ui.featuredText}
                 </p>
               </div>
             </ScrollReveal>
             
             <ScrollReveal delay={0.2}>
               <Link to="/catalogo" className="inline-flex items-center px-6 py-3 bg-white border border-slate-200 text-slate-800 font-bold rounded-xl hover:bg-slate-100 transition-colors shadow-sm">
-                Ver catálogo completo <ArrowRight className="ml-2 h-5 w-5" />
+                {ui.viewCatalog} <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </ScrollReveal>
           </div>
@@ -235,7 +234,7 @@ export default function Chapas() {
                     <div className="absolute inset-0 p-5 md:p-6 flex flex-col justify-end">
                       <div className="mb-auto flex">
                         <span className="inline-block px-3 py-1 text-xs font-bold text-slate-900 bg-white/90 backdrop-blur-sm rounded-full shadow-sm">
-                          {m.tipo}
+                          {materialTypeLabels[m.tipo] ?? m.tipo}
                         </span>
                       </div>
                       
@@ -244,7 +243,7 @@ export default function Chapas() {
                           {m.nome}
                         </h3>
                         <div className="flex items-center text-white/90 text-sm font-medium transition-all duration-300 mt-1">
-                          Solicitar orçamento <ArrowRight className="ml-1 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                          {ui.requestQuote} <ArrowRight className="ml-1 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                         </div>
                       </div>
                     </div>
@@ -265,7 +264,7 @@ export default function Chapas() {
                 <div className="absolute -inset-4 bg-gradient-to-tr from-brand to-brand2 rounded-2xl opacity-20 blur-lg" />
                 <img
                   src="/images/chapas/qualidade.webp"
-                  alt="Processo de Qualidade"
+                  alt={ui.qualityAlt}
                   loading="lazy"
                   className="relative rounded-2xl shadow-2xl w-full object-cover h-[500px]"
                   onError={(e) => {
@@ -320,13 +319,13 @@ export default function Chapas() {
                 to="/catalogo"
                 className="inline-flex items-center justify-center px-8 py-4 bg-white text-brand font-bold rounded-full hover:bg-slate-50 transition-all shadow-lg hover:shadow-xl"
               >
-                Consultar chapas disponíveis
+                {ui.availableSlabs}
               </Link>
               <Link
                 to="/contato"
                 className="inline-flex items-center justify-center px-8 py-4 bg-brand2 text-white font-bold rounded-full hover:bg-brand2/90 transition-all shadow-lg border border-white/20"
               >
-                Solicitar fotos de materiais
+                {ui.requestPhotos}
               </Link>
             </div>
           </ScrollReveal>

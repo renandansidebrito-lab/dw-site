@@ -1,11 +1,7 @@
 import { motion } from 'framer-motion';
-import { ReactNode } from 'react';
-import { cn } from '@/components/ui';
 import { 
   fadeInUp, 
-  bounceIn, 
-  hoverLift,
-  hoverScale 
+  bounceIn
 } from '@/utils/animations';
 
 interface ModernHeroProps {

@@ -1,16 +1,7 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, Award, Users, MapPin, Calendar, Star, Shield, CheckCircle, ChevronDown } from "lucide-react";
+import { Award, Users, Star, Shield, ChevronDown } from "lucide-react";
 import { useTranslation } from "@/contexts/i18nContext";
-import { 
-  fadeInUp, 
-  scaleIn, 
-  slideInLeft, 
-  slideInRight,
-  staggerContainer,
-  scrollReveal 
-} from "@/utils/animations";
 import { Card, Button } from "@/components/ui";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 import AnimatedCounter from "@/components/animations/AnimatedCounter";
@@ -20,17 +11,12 @@ import { institutionalContent } from "@/data/institutionalContent";
 export default function Sobre() {
   const { t, language } = useTranslation();
   const { scrollYProgress } = useScroll();
-  const [isVisible, setIsVisible] = useState(false);
   const seo = institutionalContent[language].seo.about;
 
   // Parallax transforms
   const backgroundY = useTransform(scrollYProgress, [0, 1], [0, -200]);
   const foregroundY = useTransform(scrollYProgress, [0, 1], [0, -100]);
   const scaleProgress = useTransform(scrollYProgress, [0, 0.5], [1, 1.2]);
-
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
 
   const stats = [
     { number: 5000, suffix: "+", label: t('home.stats.projects') },

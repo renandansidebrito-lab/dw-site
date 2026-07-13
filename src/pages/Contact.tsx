@@ -1,15 +1,17 @@
 import { useState, useEffect } from "react";
-import { Mail, Phone, MapPin, Send, MessageCircle, Clock, CheckCircle, XCircle, X } from "lucide-react";
+import { Mail, Phone, MapPin, MessageCircle, Clock, CheckCircle, XCircle, X } from "lucide-react";
 import { useTranslation } from "@/contexts/i18nContext";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 import Seo from "@/components/seo/Seo";
 import FAQSection from "@/components/sections/FAQSection";
 import { institutionalContent } from "@/data/institutionalContent";
 import { buildWhatsAppUrl } from "@/data/company";
+import { contactUi } from "@/data/pageUi";
 
 export default function Contact() {
   const { t, language } = useTranslation();
   const content = institutionalContent[language];
+  const pageUi = contactUi[language];
   const ui = {
     faqTitle:
       language === "en"
@@ -23,6 +25,16 @@ export default function Contact() {
         : language === "es"
           ? "Todo lo que el cliente necesita para iniciar la atención comercial con más agilidad."
           : "Tudo o que o cliente precisa para iniciar o atendimento comercial com mais agilidade.",
+    attachmentHint:
+      language === "en"
+        ? "After WhatsApp opens, you can attach plans, measurements and photos directly to the conversation."
+        : language === "es"
+          ? "Después de abrir WhatsApp, puede adjuntar planos, medidas y fotos directamente en la conversación."
+          : "Após abrir o WhatsApp, você poderá anexar plantas, medidas e fotos diretamente na conversa.",
+    closeNotification:
+      language === "en" ? "Close notification" : language === "es" ? "Cerrar notificación" : "Fechar notificação",
+    countryCodeLabel:
+      language === "en" ? "Country calling code" : language === "es" ? "Código telefónico del país" : "Código do país",
   };
   const [formData, setFormData] = useState({
     name: "",
@@ -33,7 +45,6 @@ export default function Contact() {
     subject: "",
     message: "",
     state: "",
-    files: [] as File[],
     consent: false
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -61,7 +72,7 @@ export default function Contact() {
     if (material) {
       setFormData((prev) => ({
         ...prev,
-        subject: `Orçamento de material: ${material}`,
+        subject: `${pageUi.materialSubject}: ${material}`,
         message: `${content.contact.prefillMaterial} ${material}`,
       }));
     }
@@ -69,11 +80,11 @@ export default function Contact() {
     if (application) {
       setFormData((prev) => ({
         ...prev,
-        subject: `Orçamento para aplicação: ${application}`,
+        subject: `${pageUi.applicationSubject}: ${application}`,
         message: `${content.contact.prefillApplication} ${application}`,
       }));
     }
-  }, [content.contact.prefillApplication, content.contact.prefillMaterial]);
+  }, [content.contact.prefillApplication, content.contact.prefillMaterial, pageUi.applicationSubject, pageUi.materialSubject]);
 
   const formatBR = (val: string) => {
     const d = val.replace(/\D/g, "");
@@ -108,11 +119,6 @@ export default function Contact() {
     if (errors[name]) setErrors({ ...errors, [name]: "" });
   };
 
-  const handleFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files ? Array.from(e.target.files) : [];
-    setFormData({ ...formData, files });
-  };
-
   const validateEmail = (email: string) => /.+@.+\..+/.test(email);
   const validate = () => {
     const newErrors: Record<string, string> = {};
@@ -144,13 +150,13 @@ export default function Contact() {
     const defaultPhone = content.whatsappIntents[0]?.number.replace(/\D/g, "") || "5528999999999"; 
     
     // Montagem da mensagem amigável para o WhatsApp
-    let waMessage = `Olá, vim pelo site da DW Granitos.\n\n`;
-    waMessage += `*Nome:* ${formData.name}\n`;
-    waMessage += `*Telefone:* ${formData.phoneCode} ${formData.phone}\n`;
-    waMessage += `*E-mail:* ${formData.email}\n`;
-    waMessage += `*Local:* ${formData.country} ${formData.state ? `- ${formData.state}` : ''}\n`;
-    waMessage += `*Assunto:* ${formData.subject}\n\n`;
-    waMessage += `*Mensagem:*\n${formData.message}`;
+    let waMessage = `${pageUi.greeting}\n\n`;
+    waMessage += `*${pageUi.fields.name}:* ${formData.name}\n`;
+    waMessage += `*${pageUi.fields.phone}:* ${formData.phoneCode} ${formData.phone}\n`;
+    waMessage += `*${pageUi.fields.email}:* ${formData.email}\n`;
+    waMessage += `*${pageUi.fields.location}:* ${formData.country} ${formData.state ? `- ${formData.state}` : ''}\n`;
+    waMessage += `*${pageUi.fields.subject}:* ${formData.subject}\n\n`;
+    waMessage += `*${pageUi.fields.message}:*\n${formData.message}`;
 
     const encodedMessage = encodeURIComponent(waMessage);
     const whatsappUrl = `https://wa.me/${defaultPhone}?text=${encodedMessage}`;
@@ -159,8 +165,8 @@ export default function Contact() {
     window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
     
     // Fornecer feedback de sucesso mantendo os dados no form caso o usuário queira consultar
-    setNotification({ show: true, type: 'success', message: "Redirecionando para o WhatsApp..." });
-    setFeedback("Abrimos o WhatsApp com sua mensagem pronta. Confira e envie por lá.");
+    setNotification({ show: true, type: 'success', message: pageUi.redirecting });
+    setFeedback(pageUi.opened);
   };
 
   const contactInfo = [
@@ -204,9 +210,9 @@ export default function Contact() {
         {/* Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
           <div className="animate-fade-in-up">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight">Fale com a DW Granitos & Mármores</h1>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight">{pageUi.heroTitle}</h1>
             <p className="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto font-light leading-relaxed">
-              Envie suas medidas, projeto, fotos ou dúvidas. Nossa equipe irá orientar você na escolha do material, acabamento e melhor solução para o seu projeto.
+              {pageUi.heroText}
             </p>
           </div>
         </div>
@@ -288,8 +294,8 @@ export default function Contact() {
             {/* Left Column: Form */}
             <div className="w-full lg:w-3/5">
               <div className="bg-white p-0">
-                <h2 className="text-3xl font-bold text-slate-800 mb-2">Envie sua mensagem</h2>
-                <p className="text-slate-500 mb-10">Preencha os campos abaixo e retornaremos o mais breve possível.</p>
+                <h2 className="text-3xl font-bold text-slate-800 mb-2">{pageUi.formTitle}</h2>
+                <p className="text-slate-500 mb-10">{pageUi.formText}</p>
                 
                 <form onSubmit={handleSubmit} className="space-y-6 md:space-y-8">
                   <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
@@ -319,10 +325,14 @@ export default function Contact() {
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 rounded-sm bg-slate-50 border border-slate-200 focus:border-brand focus:ring-1 focus:ring-brand/50 transition-all outline-none"
+                        aria-invalid={!!errors.email}
+                        aria-describedby={errors.email ? "email-error" : undefined}
+                        className={`w-full px-4 py-3 rounded-sm bg-slate-50 border focus:ring-1 focus:ring-brand/50 transition-all outline-none ${
+                          errors.email ? 'border-red-500' : 'border-slate-200 focus:border-brand'
+                        }`}
                         placeholder={t('contact.form.email.placeholder')}
                       />
-                      {errors.email && <p className="text-xs text-red-500">{errors.email}</p>}
+                      {errors.email && <p id="email-error" className="text-xs text-red-500">{errors.email}</p>}
                     </div>
                   </div>
 
@@ -330,8 +340,10 @@ export default function Contact() {
                     <div className="space-y-2">
                       <label htmlFor="phone" className="text-sm font-bold text-slate-700">{t('contact.form.phone.label')}</label>
                       <div className="flex gap-2">
+                        <label htmlFor="phoneCode" className="sr-only">{ui.countryCodeLabel}</label>
                         <input
                           type="text"
+                          id="phoneCode"
                           name="phoneCode"
                           value={formData.phoneCode}
                           onChange={handleChange}
@@ -344,13 +356,15 @@ export default function Contact() {
                           id="phone"
                           value={formData.phone}
                           onChange={handleChange}
+                          aria-invalid={!!errors.phone}
+                          aria-describedby={errors.phone ? "phone-error" : undefined}
                           className={`flex-1 px-4 py-3 rounded-sm bg-slate-50 border focus:ring-1 focus:ring-brand/50 transition-all outline-none ${
                             errors.phone ? 'border-red-500' : 'border-slate-200 focus:border-brand'
                           }`}
                           placeholder={t('contact.form.phone.placeholder')}
                         />
                       </div>
-                      {errors.phone && <p className="text-xs text-red-500">{errors.phone}</p>}
+                      {errors.phone && <p id="phone-error" className="text-xs text-red-500">{errors.phone}</p>}
                     </div>
 
                     <div className="space-y-2">
@@ -361,12 +375,14 @@ export default function Contact() {
                         id="country"
                         value={formData.country}
                         onChange={handleChange}
+                        aria-invalid={!!errors.country}
+                        aria-describedby={errors.country ? "country-error" : undefined}
                         className={`w-full px-4 py-3 rounded-sm bg-slate-50 border focus:ring-1 focus:ring-brand/50 transition-all outline-none ${
                           errors.country ? 'border-red-500' : 'border-slate-200 focus:border-brand'
                         }`}
                         placeholder={t('contact.form.country.placeholder')}
                       />
-                      {errors.country && <p className="text-xs text-red-500">{errors.country}</p>}
+                      {errors.country && <p id="country-error" className="text-xs text-red-500">{errors.country}</p>}
                     </div>
 
                     {formData.country.toLowerCase() === 'brasil' && (
@@ -377,6 +393,8 @@ export default function Contact() {
                           name="state"
                           value={formData.state}
                           onChange={handleChange}
+                          aria-invalid={!!errors.state}
+                          aria-describedby={errors.state ? "state-error" : undefined}
                           className={`w-full px-4 py-3 rounded-sm bg-slate-50 border focus:ring-1 focus:ring-brand/50 transition-all outline-none ${
                             errors.state ? 'border-red-500' : 'border-slate-200 focus:border-brand'
                           }`}
@@ -386,7 +404,7 @@ export default function Contact() {
                             <option key={uf} value={uf}>{uf}</option>
                           ))}
                         </select>
-                        {errors.state && <p className="text-xs text-red-500">{errors.state}</p>}
+                        {errors.state && <p id="state-error" className="text-xs text-red-500">{errors.state}</p>}
                       </div>
                     )}
                   </div>
@@ -399,30 +417,19 @@ export default function Contact() {
                       name="subject"
                       value={formData.subject}
                       onChange={handleChange}
+                      aria-invalid={!!errors.subject}
+                      aria-describedby={errors.subject ? "subject-error" : undefined}
                       className={`w-full px-4 py-3 rounded-sm bg-slate-50 border focus:ring-1 focus:ring-brand/50 transition-all outline-none ${
                         errors.subject ? 'border-red-500' : 'border-slate-200 focus:border-brand'
                       }`}
                       placeholder={content.contact.subjectPlaceholder}
                     />
-                    {errors.subject && <p className="text-xs text-red-500">{errors.subject}</p>}
+                    {errors.subject && <p id="subject-error" className="text-xs text-red-500">{errors.subject}</p>}
                   </div>
 
-                  {/* Campo de Anexo mantido mas não vai pro WA, apenas caso haja API futura */}
-                  <div className="space-y-2">
-                    <label htmlFor="files" className="text-sm font-bold text-slate-700">{t('contact.form.files.label')} <span className="font-normal text-slate-400 ml-1">(Opcional)</span></label>
-                    <div className="relative border-2 border-dashed border-slate-200 rounded-sm p-6 hover:bg-slate-50 transition-colors text-center cursor-pointer">
-                      <input
-                        type="file"
-                        id="files"
-                        multiple
-                        onChange={handleFiles}
-                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                      />
-                      <div className="text-slate-500">
-                        <p className="text-sm">{t('contact.form.files.dropzone')}</p>
-                        <p className="text-xs mt-1">{t('contact.form.files.hint')}</p>
-                      </div>
-                    </div>
+                  <div className="flex items-start gap-3 rounded-sm border border-green-200 bg-green-50 p-4 text-sm leading-relaxed text-green-900">
+                    <MessageCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-green-600" />
+                    <p>{ui.attachmentHint}</p>
                   </div>
 
                   <div className="space-y-2">
@@ -444,18 +451,20 @@ export default function Contact() {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="flex items-start gap-3 rounded-sm border border-slate-200 bg-slate-50 p-4 cursor-pointer hover:border-slate-300">
+                    <label htmlFor="consent" className="flex items-start gap-3 rounded-sm border border-slate-200 bg-slate-50 p-4 cursor-pointer hover:border-slate-300">
                       <input
                         type="checkbox"
                         id="consent"
                         name="consent"
                         checked={formData.consent}
                         onChange={handleChange}
+                        aria-invalid={!!errors.consent}
+                        aria-describedby={errors.consent ? "consent-error" : undefined}
                         className="mt-0.5 h-4 w-4 rounded-sm border-slate-300 text-brand focus:ring-brand cursor-pointer"
                       />
                       <span className="text-sm leading-relaxed text-slate-600">{content.contact.consentLabel}</span>
                     </label>
-                    {errors.consent && <p className="text-xs text-red-500">{errors.consent}</p>}
+                    {errors.consent && <p id="consent-error" className="text-xs text-red-500">{errors.consent}</p>}
                   </div>
 
                   <div className="pt-4">
@@ -463,11 +472,11 @@ export default function Contact() {
                       type="submit"
                       className="inline-flex items-center justify-center w-full md:w-auto px-10 py-4 bg-brand text-white font-bold rounded-sm hover:bg-brandDark transition-colors uppercase tracking-widest text-sm"
                     >
-                      <span>Enviar pelo WhatsApp</span>
+                      <span>{pageUi.submit}</span>
                       <MessageCircle className="ml-3 h-5 w-5" />
                     </button>
                     {feedback && (
-                      <p className="mt-4 text-sm font-medium text-brand animate-pulse">{feedback}</p>
+                      <p role="status" aria-live="polite" className="mt-4 text-sm font-medium text-brand">{feedback}</p>
                     )}
                   </div>
                 </form>
@@ -478,9 +487,9 @@ export default function Contact() {
             <div className="w-full lg:w-2/5">
               <div className="sticky top-28">
                 <div className="bg-slate-900 rounded-sm p-8 md:p-10 shadow-lg text-white">
-                  <h3 className="text-2xl font-bold mb-6">Checklist para Orçamento</h3>
+                  <h3 className="text-2xl font-bold mb-6">{pageUi.checklistTitle}</h3>
                   <p className="text-slate-300 mb-8 font-light text-sm leading-relaxed">
-                    Para agilizarmos seu atendimento, se possível, tenha em mãos as seguintes informações antes de falar com nosso comercial:
+                    {pageUi.checklistText}
                   </p>
                   
                   <ul className="space-y-4 mb-8">
@@ -488,39 +497,39 @@ export default function Contact() {
                       <div className="mt-1 w-5 h-5 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
                         <div className="w-1.5 h-1.5 bg-brand rounded-full" />
                       </div>
-                      <span className="text-slate-200 text-sm">Medidas aproximadas do ambiente</span>
+                      <span className="text-slate-200 text-sm">{pageUi.checklistItems[0]}</span>
                     </li>
                     <li className="flex items-start gap-3">
                       <div className="mt-1 w-5 h-5 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
                         <div className="w-1.5 h-1.5 bg-brand rounded-full" />
                       </div>
-                      <span className="text-slate-200 text-sm">Nome do material desejado</span>
+                      <span className="text-slate-200 text-sm">{pageUi.checklistItems[1]}</span>
                     </li>
                     <li className="flex items-start gap-3">
                       <div className="mt-1 w-5 h-5 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
                         <div className="w-1.5 h-1.5 bg-brand rounded-full" />
                       </div>
-                      <span className="text-slate-200 text-sm">Fotos do local ou planta do projeto</span>
+                      <span className="text-slate-200 text-sm">{pageUi.checklistItems[2]}</span>
                     </li>
                     <li className="flex items-start gap-3">
                       <div className="mt-1 w-5 h-5 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
                         <div className="w-1.5 h-1.5 bg-brand rounded-full" />
                       </div>
-                      <span className="text-slate-200 text-sm">Detalhes como quantidade de cubas, furos e acabamento das bordas</span>
+                      <span className="text-slate-200 text-sm">{pageUi.checklistItems[3]}</span>
                     </li>
                   </ul>
 
                   <div className="pt-8 border-t border-white/10">
-                    <h4 className="font-bold text-white mb-2">Atendimento Imediato</h4>
-                    <p className="text-slate-400 text-sm mb-4">Se preferir, clique no botão abaixo para falar agora mesmo com um consultor.</p>
+                    <h4 className="font-bold text-white mb-2">{pageUi.immediateTitle}</h4>
+                    <p className="text-slate-400 text-sm mb-4">{pageUi.immediateText}</p>
                     <a
-                      href={buildWhatsAppUrl(content.whatsappIntents[0]?.number, "Olá! Gostaria de falar com um consultor da DW Granitos.")}
+                      href={buildWhatsAppUrl(content.whatsappIntents[0]?.number, pageUi.consultantMessage)}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center text-green-400 hover:text-green-300 font-bold transition-colors"
                     >
                       <MessageCircle className="mr-2 h-5 w-5" />
-                      Chamar no WhatsApp
+                      {pageUi.callWhatsApp}
                     </a>
                   </div>
                 </div>
@@ -546,7 +555,7 @@ export default function Contact() {
           allowFullScreen
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
-          title="DW Granitos & Mármores LTDA - Localização"
+          title={pageUi.mapTitle}
           className="transition-all duration-500"
         />
         <div className="absolute bottom-4 left-1/2 flex w-[calc(100%-2rem)] max-w-sm -translate-x-1/2 items-center gap-4 rounded-xl bg-white px-5 py-4 shadow-lg md:bottom-8 md:px-6">
@@ -562,12 +571,12 @@ export default function Contact() {
 
       {/* Toast Notification */}
       {notification.show && (
-        <div className={`fixed bottom-4 right-4 p-4 rounded-lg shadow-2xl flex items-center gap-3 z-50 animate-slide-in ${
+        <div role="status" aria-live="polite" className={`fixed bottom-4 right-4 p-4 rounded-lg shadow-2xl flex items-center gap-3 z-50 animate-slide-in ${
           notification.type === 'success' ? 'bg-green-50 text-green-800 border border-green-200' : 'bg-red-50 text-red-800 border border-red-200'
         }`}>
           {notification.type === 'success' ? <CheckCircle className="h-5 w-5" /> : <XCircle className="h-5 w-5" />}
           <p className="font-medium">{notification.message}</p>
-          <button onClick={() => setNotification(prev => ({ ...prev, show: false }))} className="ml-2 opacity-50 hover:opacity-100">
+          <button aria-label={ui.closeNotification} onClick={() => setNotification(prev => ({ ...prev, show: false }))} className="ml-2 opacity-50 hover:opacity-100">
             <X className="h-4 w-4" />
           </button>
         </div>

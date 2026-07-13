@@ -423,9 +423,6 @@ export const institutionalContent: Record<Language, LocalizedInstitutionalConten
 
 const ptServiceCards = institutionalContent.pt.services.cards;
 const ptApplicationCards = institutionalContent.pt.applications.cards;
-const ptFaqServices = institutionalContent.pt.faq.services;
-const ptFaqMaterials = institutionalContent.pt.faq.materials;
-const ptFaqContact = institutionalContent.pt.faq.contact;
 
 institutionalContent.en.services.cards = ptServiceCards.map((item, index) => ({
   ...item,
@@ -599,9 +596,41 @@ institutionalContent.es.applications.cards = ptApplicationCards.map((item, index
   ][index],
 }));
 
-institutionalContent.en.faq.services = ptFaqServices;
-institutionalContent.en.faq.materials = ptFaqMaterials;
-institutionalContent.en.faq.contact = ptFaqContact;
-institutionalContent.es.faq.services = ptFaqServices;
-institutionalContent.es.faq.materials = ptFaqMaterials;
-institutionalContent.es.faq.contact = ptFaqContact;
+institutionalContent.en.faq.services = [
+  { question: "What is the difference between granite, marble and quartzite?", answer: "Granite generally offers high strength, marble provides a classic appearance, and quartzite combines sophistication with performance. The best choice depends on the application and desired look." },
+  { question: "Does DW Granitos make custom countertops?", answer: "Yes. We produce countertops and custom pieces based on measurements, project files and the selected material." },
+  { question: "Can I send measurements or a project for a quote?", answer: "Yes. You can send plans, sketches, measurements or references through the form or WhatsApp." },
+  { question: "Does the company supply slabs and custom-cut pieces?", answer: "Yes. DW supplies slabs and also produces custom-cut and specialty pieces." },
+  { question: "Which finishes are available?", answer: "Finishes vary by material and application. Our team recommends the best option during the sales consultation." },
+  { question: "Does DW serve clients outside Cachoeiro de Itapemirim?", answer: "Yes. We serve clients in other cities and states, as well as projects across South America." },
+  { question: "How can I request a quote?", answer: "Contact us through the form or WhatsApp, or send your project for a sales review." },
+];
+institutionalContent.en.faq.materials = [
+  { question: "How do I choose the best countertop material?", answer: "The choice depends on use, appearance and environment. Our team helps compare light, dark, classic and specialty materials." },
+  { question: "Can I check available slabs before requesting a quote?", answer: "Yes. The catalog supports the initial selection, and our sales team confirms the options best suited to availability and application." },
+  { question: "Do the materials include recommended applications?", answer: "Yes. Each gallery item highlights recommended uses to make specification easier." },
+];
+institutionalContent.en.faq.contact = [
+  { question: "Can I attach a project or measurements to the form?", answer: "WhatsApp opens with your message ready, and you can then attach project files, measurements and photos directly to the conversation." },
+  { question: "Does WhatsApp route inquiries to different departments?", answer: "Yes. You can choose sales, finance, slabs, custom-cut pieces or project submission." },
+  { question: "Can I send a quote request outside business hours?", answer: "Yes. Messages can be sent at any time and will be answered during business hours." },
+];
+institutionalContent.es.faq.services = [
+  { question: "¿Cuál es la diferencia entre granito, mármol y cuarcita?", answer: "El granito suele ofrecer alta resistencia, el mármol aporta una estética clásica y la cuarcita combina sofisticación y desempeño. La mejor opción depende de la aplicación y del aspecto deseado." },
+  { question: "¿DW Granitos fabrica encimeras a medida?", answer: "Sí. Producimos encimeras y piezas a medida según las dimensiones, el proyecto y el material seleccionado." },
+  { question: "¿Puedo enviar medidas o un proyecto para solicitar presupuesto?", answer: "Sí. Puede enviar planos, bocetos, medidas o referencias mediante el formulario o WhatsApp." },
+  { question: "¿La empresa suministra láminas y piezas recortadas?", answer: "Sí. DW suministra láminas y también produce piezas recortadas y especiales." },
+  { question: "¿Qué acabados están disponibles?", answer: "Los acabados varían según el material y la aplicación. Nuestro equipo recomienda la mejor opción durante la atención comercial." },
+  { question: "¿DW atiende fuera de Cachoeiro de Itapemirim?", answer: "Sí. Atendemos clientes de otras ciudades y estados, además de proyectos en América del Sur." },
+  { question: "¿Cómo puedo solicitar un presupuesto?", answer: "Contáctenos mediante el formulario o WhatsApp, o envíe su proyecto para análisis comercial." },
+];
+institutionalContent.es.faq.materials = [
+  { question: "¿Cómo elegir el mejor material para una encimera?", answer: "La elección depende del uso, la estética y el ambiente. Nuestro equipo ayuda a comparar materiales claros, oscuros, clásicos y especiales." },
+  { question: "¿Puedo consultar las láminas disponibles antes del presupuesto?", answer: "Sí. El catálogo facilita la selección inicial y nuestro equipo comercial confirma las opciones más adecuadas según disponibilidad y aplicación." },
+  { question: "¿Los materiales incluyen aplicaciones recomendadas?", answer: "Sí. Cada elemento de la galería destaca los usos recomendados para facilitar la especificación." },
+];
+institutionalContent.es.faq.contact = [
+  { question: "¿Puedo adjuntar un proyecto o medidas en el formulario?", answer: "WhatsApp se abre con su mensaje listo y luego puede adjuntar planos, medidas y fotos directamente en la conversación." },
+  { question: "¿WhatsApp dirige las consultas a distintos sectores?", answer: "Sí. Puede elegir ventas, finanzas, láminas, piezas recortadas o envío de proyectos." },
+  { question: "¿Puedo enviar una solicitud de presupuesto fuera del horario comercial?", answer: "Sí. Los mensajes pueden enviarse en cualquier momento y serán respondidos durante el horario comercial." },
+];

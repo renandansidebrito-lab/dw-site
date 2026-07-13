@@ -15,6 +15,7 @@ const Catalogo = lazy(() => import("@/pages/Catalogo"));
 const Sobre = lazy(() => import("@/pages/Sobre"));
 const Privacidade = lazy(() => import("@/pages/Privacidade"));
 const Termos = lazy(() => import("@/pages/Termos"));
+const NotFound = lazy(() => import("@/pages/NotFound"));
 
 // Loading fallback component
 const PageLoader = () => (
@@ -41,6 +42,7 @@ export default function App() {
               <Route path="/catalogo" element={<Catalogo />} />
               <Route path="/privacidade" element={<Privacidade />} />
               <Route path="/termos" element={<Termos />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
         </Layout>

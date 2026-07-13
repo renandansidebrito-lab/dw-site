@@ -4,6 +4,7 @@ import { useTranslation } from "@/contexts/i18nContext";
 import ModernHero from "@/components/ModernHero";
 import Seo from "@/components/seo/Seo";
 import { institutionalContent } from "@/data/institutionalContent";
+import LazyVideo from "@/components/common/LazyVideo";
 
 export default function Home() {
   const { t, language } = useTranslation();
@@ -59,7 +60,9 @@ export default function Home() {
             </div>
             <div className="">
               <div className="text-4xl md:text-5xl font-bold mb-2 flex justify-center"><CheckCircle className="w-10 h-10 md:w-12 md:h-12" /></div>
-              <div className="text-white/80 text-sm uppercase tracking-wide">Controle de qualidade<br/>em todas as etapas</div>
+              <div className="text-white/80 text-sm uppercase tracking-wide">
+                {language === "en" ? <>Quality control<br/>at every stage</> : language === "es" ? <>Control de calidad<br/>en todas las etapas</> : <>Controle de qualidade<br/>em todas as etapas</>}
+              </div>
             </div>
           </div>
         </div>
@@ -630,6 +633,7 @@ export default function Home() {
               <img 
                 src="/images/setores/chapas.webp" 
                 alt="Logística de chapas e expedição da DW Granitos & Mármores" 
+                loading="lazy"
                 className="w-full h-full object-cover grayscale"
               />
             </div>
@@ -670,13 +674,12 @@ export default function Home() {
                   <div className="grid grid-cols-2 gap-4 h-full">
                     {/* Item 1 - Vídeo Principal */}
                     <div className="col-span-2 aspect-video rounded-2xl overflow-hidden relative shadow-lg group bg-slate-900">
-                      <video 
+                      <LazyVideo
                         src="/images/logistica/carregamento-1.mp4" 
-                        preload="metadata"
-                        autoPlay
                         muted
                         loop
                         playsInline
+                        aria-label={t('delivery.media.caption')}
                         className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4 pointer-events-none">
@@ -686,13 +689,12 @@ export default function Home() {
                     
                     {/* Item 2 - Vídeo Secundário */}
                     <div className="aspect-square rounded-2xl overflow-hidden relative shadow-lg group bg-slate-900">
-                      <video 
+                      <LazyVideo
                         src="/images/logistica/carregamento-2.mp4" 
-                        preload="metadata"
-                        autoPlay
                         muted
                         loop
                         playsInline
+                        aria-label={t('delivery.media.caption')}
                         className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
                       />
                     </div>
@@ -895,7 +897,7 @@ export default function Home() {
             to="/contato"
             className="inline-flex items-center px-8 py-3 bg-white text-brand font-semibold rounded-lg hover:bg-slate-100 transition-colors"
           >
-            {t('hero.cta.secondary')}
+            {t('nav.cta')}
             <ArrowRight className="ml-2 h-5 w-5" />
           </Link>
         </div>
