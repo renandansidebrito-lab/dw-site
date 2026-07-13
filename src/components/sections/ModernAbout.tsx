@@ -1,7 +1,5 @@
 import { motion } from 'framer-motion';
-import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import { cn } from '@/components/ui';
 import { 
   fadeInUp, 
   hoverLift,
@@ -27,9 +25,6 @@ export function ModernAbout({
   title,
   subtitle,
   description,
-  experience,
-  clients,
-  sectors,
   imageSrc,
   stats
 }: ModernAboutProps) {

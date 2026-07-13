@@ -4,10 +4,13 @@ import { useTranslation } from "@/contexts/i18nContext";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 import Seo from "@/components/seo/Seo";
 import { institutionalContent } from "@/data/institutionalContent";
+import LazyVideo from "@/components/common/LazyVideo";
+import { recortadoUi } from "@/data/pageUi";
 
 export default function Recortado() {
   const { t, language } = useTranslation();
   const seo = institutionalContent[language].seo.recortado;
+  const ui = recortadoUi[language];
   const fallbackImage = "/images/placeholder-material.svg";
 
   const services = [
@@ -140,8 +143,8 @@ export default function Recortado() {
       video: "/images/recortado/tampa_de_mesa.mp4"
     },
     {
-      title: "Pia Personalizada",
-      description: "Corte e acabamento refinado",
+      title: ui.customSinkTitle,
+      description: ui.customSinkDescription,
       precision: "2cm",
       image: fallbackImage,
       video: "/images/recortado/tampa_de_pia_personalizado.mp4"
@@ -157,7 +160,7 @@ export default function Recortado() {
            <img 
             src="/images/setores/recortado.webp" 
             className="w-full h-full object-cover opacity-30" 
-            alt="Produção de recortados em rochas ornamentais"
+            alt={ui.heroAlt}
             onError={(e) => {
               e.currentTarget.style.display = "none";
             }}
@@ -232,12 +235,12 @@ export default function Recortado() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <ScrollReveal>
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">O que produzimos em Recortados?</h2>
-              <p className="text-lg text-slate-600 max-w-2xl mx-auto">Peças sob medida para transformar o seu projeto arquitetônico em realidade, com acabamento impecável.</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">{ui.producedTitle}</h2>
+              <p className="text-lg text-slate-600 max-w-2xl mx-auto">{ui.producedText}</p>
             </ScrollReveal>
           </div>
           <div className="flex flex-wrap justify-center gap-4">
-            {["Bancadas", "Balcões", "Soleiras", "Peitoris", "Lavatórios", "Escadas", "Peças sob medida"].map((item, idx) => (
+            {ui.products.map((item, idx) => (
               <ScrollReveal key={idx} delay={idx * 0.05}>
                 <div className="px-6 py-3 bg-slate-50 border border-slate-200 rounded-sm text-slate-700 font-medium shadow-sm hover:border-brand/50 hover:bg-brand/5 hover:text-brandDark transition-colors cursor-default">
                   {item}
@@ -253,22 +256,15 @@ export default function Recortado() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <ScrollReveal>
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">Principais Aplicações</h2>
-              <p className="text-lg text-slate-600 max-w-2xl mx-auto">Nossos recortes são indicados para os mais diversos ambientes e necessidades.</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">{ui.applicationsTitle}</h2>
+              <p className="text-lg text-slate-600 max-w-2xl mx-auto">{ui.applicationsText}</p>
             </ScrollReveal>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
-            {[
-              { title: "Cozinha" },
-              { title: "Banheiro" },
-              { title: "Área Gourmet" },
-              { title: "Comercial" },
-              { title: "Escadas" },
-              { title: "Soleiras/Peitoris" }
-            ].map((app, idx) => (
+            {ui.applications.map((title, idx) => (
               <ScrollReveal key={idx} delay={idx * 0.1}>
                 <div className="bg-white p-6 md:p-8 rounded-sm border border-slate-100 text-center shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
-                  <h3 className="font-bold text-slate-800 tracking-tight">{app.title}</h3>
+                  <h3 className="font-bold text-slate-800 tracking-tight">{title}</h3>
                 </div>
               </ScrollReveal>
             ))}
@@ -283,25 +279,21 @@ export default function Recortado() {
             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-5"></div>
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
               <div>
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">O que enviar para orçamento?</h2>
+                <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">{ui.quoteTitle}</h2>
                 <p className="text-slate-300 mb-8 leading-relaxed text-lg font-light">
-                  Para que nossa equipe comercial retorne o seu orçamento de forma mais ágil e precisa, tenha em mãos os seguintes itens:
+                  {ui.quoteText}
                 </p>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-slate-200">
-                  <li className="flex items-center"><div className="w-1.5 h-1.5 bg-brand rounded-full mr-3"></div> Medidas aproximadas</li>
-                  <li className="flex items-center"><div className="w-1.5 h-1.5 bg-brand rounded-full mr-3"></div> Tipo de material desejado</li>
-                  <li className="flex items-center"><div className="w-1.5 h-1.5 bg-brand rounded-full mr-3"></div> Projeto, desenho ou rascunho</li>
-                  <li className="flex items-center"><div className="w-1.5 h-1.5 bg-brand rounded-full mr-3"></div> Fotos do local</li>
-                  <li className="flex items-center"><div className="w-1.5 h-1.5 bg-brand rounded-full mr-3"></div> Quantidade de cubas/furos</li>
-                  <li className="flex items-center"><div className="w-1.5 h-1.5 bg-brand rounded-full mr-3"></div> Espelhos, saias ou guarnições</li>
-                  <li className="flex items-center"><div className="w-1.5 h-1.5 bg-brand rounded-full mr-3"></div> Cidade/local de entrega</li>
+                  {ui.quoteItems.map((item) => (
+                    <li key={item} className="flex items-center"><div className="w-1.5 h-1.5 bg-brand rounded-full mr-3"></div>{item}</li>
+                  ))}
                 </ul>
               </div>
               <div className="bg-white/5 rounded-sm p-8 md:p-10 border border-white/10 backdrop-blur-sm flex flex-col justify-center shadow-lg">
-                <h3 className="text-2xl font-bold text-white mb-3">Tudo pronto?</h3>
-                <p className="text-slate-300 mb-8 font-light">Envie suas medidas agora mesmo pelo WhatsApp ou através do nosso formulário de contato.</p>
+                <h3 className="text-2xl font-bold text-white mb-3">{ui.readyTitle}</h3>
+                <p className="text-slate-300 mb-8 font-light">{ui.readyText}</p>
                 <Link to="/contato" className="inline-flex items-center justify-center w-full px-6 py-4 bg-brand text-white font-bold rounded-sm hover:bg-brandDark transition-colors shadow-lg shadow-brand/20 uppercase tracking-widest text-sm">
-                  Solicitar orçamento <ArrowRight className="ml-2 h-4 w-4" />
+                  {ui.requestQuote} <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </div>
             </div>
@@ -329,22 +321,15 @@ export default function Recortado() {
                 <div className="group rounded-sm overflow-hidden cursor-pointer shadow-sm hover:shadow-lg transition-shadow bg-slate-900">
                   <div className="relative h-[280px] md:h-[300px] overflow-hidden">
                     {(example as any).video ? (
-                      <video
+                      <LazyVideo
                         src={(example as any).video}
-                        preload="auto"
-                        autoPlay
                         loop
                         playsInline
                         muted
+                        poster={(example as any).image !== fallbackImage ? (example as any).image : undefined}
+                        aria-label={example.title}
                         className="absolute inset-0 w-full h-full object-cover transform group-hover:scale-[1.03] transition-transform duration-700 ease-out"
                         style={{ pointerEvents: 'none' }}
-                        ref={(el) => {
-                          if (el) {
-                            el.defaultMuted = true;
-                            el.muted = true;
-                            el.play().catch(() => {});
-                          }
-                        }}
                       />
                     ) : (
                       <img

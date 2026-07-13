@@ -1,4 +1,4 @@
-import { MapPin, Phone, Mail, Clock, Instagram, Facebook, MessageCircle } from "lucide-react";
+import { MapPin, Phone, Mail, Instagram, Facebook, MessageCircle } from "lucide-react";
 import { useTranslation } from "@/contexts/i18nContext";
 import { Link } from "react-router-dom";
 import { COMPANY } from "@/data/company";

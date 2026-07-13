@@ -10,6 +10,7 @@ type SeoProps = {
   image?: string;
   type?: "website" | "article";
   structuredData?: Record<string, unknown> | Record<string, unknown>[];
+  noIndex?: boolean;
 };
 
 const DEFAULT_IMAGE = `${COMPANY.siteUrl}${COMPANY.ogImagePath}`;
@@ -51,6 +52,7 @@ export default function Seo({
   image = DEFAULT_IMAGE,
   type = "website",
   structuredData,
+  noIndex = false,
 }: SeoProps) {
   const location = useLocation();
   const { language } = useTranslation();
@@ -66,6 +68,7 @@ export default function Seo({
 
     upsertMeta('meta[name="description"]', { name: "description" }, description);
     upsertMeta('meta[name="author"]', { name: "author" }, COMPANY.legalName);
+    upsertMeta('meta[name="robots"]', { name: "robots" }, noIndex ? "noindex, nofollow" : "index, follow");
     upsertMeta('meta[property="og:title"]', { property: "og:title" }, fullTitle);
     upsertMeta('meta[property="og:description"]', { property: "og:description" }, description);
     upsertMeta('meta[property="og:type"]', { property: "og:type" }, type);
@@ -120,7 +123,7 @@ export default function Seo({
       : [defaultStructuredData];
 
     script.textContent = JSON.stringify(payload);
-  }, [description, image, language, location.pathname, path, structuredData, title, type]);
+  }, [description, image, language, location.pathname, noIndex, path, structuredData, title, type]);
 
   return null;
 }

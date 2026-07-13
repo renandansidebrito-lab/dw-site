@@ -42,6 +42,23 @@ export default function ModernNavigation() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (!isMenuOpen) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setIsMenuOpen(false);
+    };
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isMenuOpen, setIsMenuOpen]);
+
   const handleNavClick = (href: string) => {
     setIsMenuOpen(false);
     if (href.startsWith("#")) {
@@ -251,6 +268,9 @@ export default function ModernNavigation() {
                   : "border-white/10 bg-slate-950 text-white"
               }`}
               onClick={(e) => e.stopPropagation()}
+              role="dialog"
+              aria-modal="true"
+              aria-label={t('nav.openMenu')}
             >
               <div className="flex h-full flex-col p-6">
                 <div className="flex items-center justify-between mb-8">
@@ -270,6 +290,7 @@ export default function ModernNavigation() {
                   </Link>
                   <button
                     onClick={() => setIsMenuOpen(false)}
+                    aria-label={t('nav.closeMenu')}
                     className={`rounded-full border p-2 transition-colors ${
                       isLightMode
                         ? "border-slate-200 text-slate-500 hover:bg-slate-100 hover:text-slate-900"
@@ -313,6 +334,34 @@ export default function ModernNavigation() {
                     );
                   })}
                 </nav>
+
+                <div className={`mt-6 border-t pt-5 ${isLightMode ? "border-slate-100" : "border-white/10"}`}>
+                  <p className={`mb-3 text-xs font-semibold uppercase tracking-wider ${isLightMode ? "text-slate-500" : "text-slate-400"}`}>
+                    {t('nav.language')}
+                  </p>
+                  <div className="grid grid-cols-3 gap-2">
+                    {(['pt', 'en', 'es'] as const).map((lang) => (
+                      <button
+                        key={lang}
+                        type="button"
+                        onClick={() => {
+                          setLanguage(lang);
+                          setIsMenuOpen(false);
+                        }}
+                        aria-pressed={language === lang}
+                        className={`rounded-full border px-3 py-2 text-xs font-bold uppercase transition-colors ${
+                          language === lang
+                            ? "border-brand bg-brand text-white"
+                            : isLightMode
+                              ? "border-slate-200 text-slate-600 hover:border-brand hover:text-brand"
+                              : "border-white/10 text-slate-200 hover:border-white/30"
+                        }`}
+                      >
+                        {lang === 'pt' ? 'BR' : lang === 'en' ? 'US' : 'ES'}
+                      </button>
+                    ))}
+                  </div>
+                </div>
 
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}

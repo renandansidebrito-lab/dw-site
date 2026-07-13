@@ -3,6 +3,7 @@ import { AlertTriangle } from "lucide-react";
 import ModernNavigation from "@/components/ModernNavigation";
 import Footer from "./Footer";
 import { useTranslation } from "@/contexts/i18nContext";
+import { Link } from "react-router-dom";
 
 interface LayoutProps {
   children: ReactNode;
@@ -63,11 +64,16 @@ export default function Layout({ children }: LayoutProps) {
           data-cookie-banner="true"
           className="fixed bottom-3 left-3 right-3 z-40 md:bottom-4 md:left-4 md:right-4"
         >
-          <div className="mx-auto max-w-7xl">
-            <div className="bg-white/95 backdrop-blur rounded-xl shadow-lg border border-slate-200 p-4 md:p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-              <p className="text-slate-700 text-sm leading-6 md:pr-4">{t('cookies.message')}</p>
+          <div className="mx-auto max-w-4xl">
+            <div className="flex flex-col gap-3 rounded-xl border border-slate-200 bg-white/95 p-3 shadow-lg backdrop-blur md:flex-row md:items-center md:justify-between md:px-4">
+              <p className="text-sm leading-5 text-slate-700 md:pr-4">
+                {t('cookies.message')}{' '}
+                <Link to="/privacidade" className="font-semibold text-brand underline-offset-2 hover:underline">
+                  {t('footer.privacy')}
+                </Link>
+              </p>
               <div className="flex items-center gap-3">
-                <button onClick={acceptCookies} className="px-4 py-2 bg-brand text-white rounded-lg hover:bg-brand2">
+                <button onClick={acceptCookies} className="whitespace-nowrap rounded-lg bg-brand px-4 py-2 text-white hover:bg-brand2">
                   {t('cookies.accept')}
                 </button>
               </div>
